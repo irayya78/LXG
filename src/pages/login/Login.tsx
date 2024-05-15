@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import { IonContent, IonInput, IonButton, IonPage, IonItem, IonLabel, IonCheckbox, IonText, IonAlert, IonLoading } from '@ionic/react';
 import { useHistory } from 'react-router-dom';
 
-import './Login.css';
+import './login.css';
 
 
 
