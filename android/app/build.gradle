@@ -2,7 +2,7 @@ apply plugin: 'com.android.application'
 
 android {
     namespace "com.legalxgen.app"
-    compileSdkVersion rootProject.ext.compileSdkVersion
+    compileSdkVersion 34
     defaultConfig {
         applicationId "com.legalxgen.app"
         minSdkVersion rootProject.ext.minSdkVersion

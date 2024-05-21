@@ -1,5 +1,5 @@
 import React from 'react';
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText } from '@ionic/react';
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonAvatar, IonButton } from '@ionic/react';
 
 const ExpensePage: React.FC = () => {
     // Demo expense data
@@ -18,6 +18,13 @@ const ExpensePage: React.FC = () => {
                 <IonToolbar color="primary">
                    
                     <IonTitle>Expense</IonTitle>
+                    <IonButtons slot="end">
+       <IonButton routerLink="/my-profile">
+    <IonAvatar>
+      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+    </IonAvatar>
+     </IonButton>
+</IonButtons>
                 </IonToolbar>
             </IonHeader>
             <IonContent className="ion-padding">

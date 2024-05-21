@@ -1,7 +1,8 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonIcon } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonIcon, IonButton, IonButtons, IonAvatar, IonRefresherContent } from '@ionic/react';
 import { Line, Pie } from 'react-chartjs-2';
-import { chevronForwardOutline } from 'ionicons/icons';
+import { chevronForwardOutline, personCircle } from 'ionicons/icons';
+import Layout from '../../components/layouts/Layout';
 
 const DashboardPage: React.FC = () => {
   // Sample data for the Line chart
@@ -47,9 +48,18 @@ const DashboardPage: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Dashboard</IonTitle> 
+          <IonButtons slot="end">
+       <IonButton routerLink="/my-profile">
+    <IonAvatar>
+      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+    </IonAvatar>
+     </IonButton>
+</IonButtons>
+
         </IonToolbar>
       </IonHeader>
       <IonContent>
+       
         <div className="ion-padding">
           <h2 style={{textAlign:'center'}}>Welcome to Legalxgen</h2>
           <p></p>

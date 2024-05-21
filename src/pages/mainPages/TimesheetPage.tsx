@@ -1,6 +1,6 @@
 // TimesheetPage.tsx
 import React from 'react';
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 
 const TimesheetPage: React.FC = () => {
   // Demo time entries
@@ -37,6 +37,13 @@ const TimesheetPage: React.FC = () => {
         <IonToolbar color="primary">
           
           <IonTitle>Timesheet</IonTitle>
+          <IonButtons slot="end">
+       <IonButton routerLink="/my-profile">
+    <IonAvatar>
+      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+    </IonAvatar>
+     </IonButton>
+</IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent className="ion-padding">

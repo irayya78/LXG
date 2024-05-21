@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonListHeader, IonBackButton, IonButtons } from '@ionic/react';
+import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonListHeader, IonBackButton, IonButtons, IonAvatar, IonButton } from '@ionic/react';
 
 const MatterPage: React.FC = () => {
   // Your demo data for the list
@@ -32,20 +32,24 @@ const MatterPage: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           
-          <IonTitle>Matter-Details</IonTitle>
+          <IonTitle>Matters</IonTitle>
+          <IonButtons slot="end">
+       <IonButton routerLink="/my-profile">
+    <IonAvatar>
+      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+    </IonAvatar>
+     </IonButton>
+</IonButtons>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
-        {/* List component */}
+      <IonContent className="ion-padding">
+        {/* Timesheet entries */}
         <IonList>
-          <IonListHeader>
-            <IonLabel>Matter List</IonLabel>
-          </IonListHeader>
-          {items.map((item) => (
-            <IonItem key={item.id} button onClick={() => handleItemClick(item)}>
+          {items.map(entry => (
+            <IonItem key={entry.id}>
               <IonLabel>
-                <h2>{item.name}</h2>
-                <IonText color="medium">{item.description}</IonText>
+                <h2>{entry.name}</h2>
+                <h3>{entry.description}</h3>
               </IonLabel>
             </IonItem>
           ))}

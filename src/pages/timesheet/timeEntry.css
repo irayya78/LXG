@@ -1,0 +1,39 @@
+
+.custom-toolbar {
+    background: rgba(0, 129, 255, 1);
+  }
+  
+
+ion-list#listTimeEntry ion-label{
+  color:#696969 !important;
+  font-size: small !important;
+}
+
+ion-list#listTimeEntry ion-input, ino-textarea, inon-select, ion-datetime, textarea{
+  color: black !important;
+  font-size: small !important;
+}
+
+
+ion-list#listTimeEntry textarea::placeholder ,input::placeholder {
+  font-size: small  !important;
+}
+
+ion-footer ion-button{
+  width: 48%  !important;
+}
+
+.validationError{
+  color: orangered;
+}
+
+.validationSuccess{
+  color: green;
+}
+
+.left-30{
+  margin-left: 30px !important;
+}
+
+
+

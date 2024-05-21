@@ -1,0 +1,34 @@
+.fab-button {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .fab-button::after {
+    content: attr(data-label);
+    position: absolute;
+    top: 50%;
+    right: 60px; /* Adjust this value to position the label to the left */
+    transform: translateY(-50%);
+    background-color: #ffffff;
+    color: #000000;
+    padding: 5px 10px;
+    border-radius: 4px;
+    white-space: nowrap;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+    font-size: 10px;
+    display: none; /* Hide by default */
+  }
+  
+  .fab-button:hover::after {
+    display: block; /* Show on hover */
+  }
+  
+  /* Adjust the hover effect for touch devices */
+  @media (hover: none) {
+    .fab-button::after {
+      display: block;
+    }
+  }
+  
