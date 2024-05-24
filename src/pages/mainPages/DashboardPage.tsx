@@ -1,10 +1,22 @@
 import React, { useState } from 'react';
-import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonCard, IonCardContent, IonIcon, IonButton, IonButtons, IonAvatar, IonRefresherContent } from '@ionic/react';
+import {
+  IonContent,
+  IonHeader,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+  IonCard,
+  IonCardContent,
+  IonAvatar,
+  IonButton,
+  IonButtons,
+} from '@ionic/react';
 import { Line, Pie } from 'react-chartjs-2';
-import { chevronForwardOutline, personCircle } from 'ionicons/icons';
-import Layout from '../../components/layouts/Layout';
+import { useSessionManager } from '../../sessionManager/SessionManager';
 
 const DashboardPage: React.FC = () => {
+  const session = useSessionManager();
+
   // Sample data for the Line chart
   const lineChartData = {
     labels: ['January', 'February', 'March', 'April', 'May', 'June', 'July'],
@@ -32,11 +44,11 @@ const DashboardPage: React.FC = () => {
           'rgb(255, 205, 86)',
           'rgb(75, 192, 192)',
           'rgb(153, 102, 255)',
-          'rgb(255, 159, 64)'
+          'rgb(255, 159, 64)',
         ],
-        hoverOffset: 4
-      }
-    ]
+        hoverOffset: 4,
+      },
+    ],
   };
 
   // Define state variables to track which chart is currently displayed
@@ -47,24 +59,25 @@ const DashboardPage: React.FC = () => {
     <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
-          <IonTitle>Dashboard</IonTitle> 
+          <IonTitle>Dashboard</IonTitle>
           <IonButtons slot="end">
-       <IonButton routerLink="/my-profile">
-    <IonAvatar>
-      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
-    </IonAvatar>
-     </IonButton>
-</IonButtons>
-
+            <IonButton routerLink="/my-profile">
+              <IonAvatar>
+                {/* Display profile picture if available in the session */}
+                {session.user && session.user.ProfilePicture && (
+                  <img src={session.user.ProfilePicture} alt="Profile" />
+                )}
+              </IonAvatar>
+            </IonButton>
+          </IonButtons>
         </IonToolbar>
       </IonHeader>
       <IonContent>
-       
         <div className="ion-padding">
-          <h2 style={{textAlign:'center'}}>Welcome to Legalxgen</h2>
+          <h2 style={{ textAlign: 'center' }}>Welcome {session.user?.FirstName}</h2>
           <p></p>
         </div>
-        
+
         {/* Four Cards with Different Charts */}
         <IonCard onClick={() => setShowLineChart(!showLineChart)}>
           <IonCardContent>
@@ -80,8 +93,7 @@ const DashboardPage: React.FC = () => {
           </IonCardContent>
         </IonCard>
 
-        {/* Similar Cards for Bar and Doughnut charts */}
-
+       
       </IonContent>
     </IonPage>
   );

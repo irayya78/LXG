@@ -1,11 +1,8 @@
-// src/api/axiosInstance.ts
 import axios from 'axios';
-import { apiHelper } from './apiHelper';
-
-const { getServiceUrl } = apiHelper();
+import getApiBaseUrl from '../apiHelper/apiHelper';
 
 const axiosInstance = axios.create({
-  baseURL: getServiceUrl(),
+  baseURL: getApiBaseUrl(),
   headers: {
     'Content-Type': 'application/json',
   },

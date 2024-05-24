@@ -1,7 +1,10 @@
 import React from 'react';
 import { IonBackButton, IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonAvatar, IonButton } from '@ionic/react';
-
+import { useManageUser } from '../../hooks/useManageUser';
+import { UserSessionDetails } from '../../types/types';
+import { useSessionManager } from '../../sessionManager/SessionManager';
 const ExpensePage: React.FC = () => {
+    const session =useSessionManager();
     // Demo expense data
     const expenses = [
         { id: 1, date: '2024-05-01', amount: 100, description: 'Expense 1' },
@@ -21,7 +24,7 @@ const ExpensePage: React.FC = () => {
                     <IonButtons slot="end">
        <IonButton routerLink="/my-profile">
     <IonAvatar>
-      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+      <img src ={session.user?.ProfilePicture}alt="Profile" />
     </IonAvatar>
      </IonButton>
 </IonButtons>

@@ -1,8 +1,10 @@
 // TimesheetPage.tsx
 import React from 'react';
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
+import { useSessionManager } from '../../sessionManager/SessionManager';
 
 const TimesheetPage: React.FC = () => {
+  const session =useSessionManager();
   // Demo time entries
   const timeEntries = [
     { 
@@ -40,7 +42,7 @@ const TimesheetPage: React.FC = () => {
           <IonButtons slot="end">
        <IonButton routerLink="/my-profile">
     <IonAvatar>
-      <img src="https://hotpot.ai/images/site/ai/photoshoot/corporate_headshot/style_gallery/39.jpg" alt="Profile" />
+    <img src ={session.user?.ProfilePicture}alt="Profile" />
     </IonAvatar>
      </IonButton>
 </IonButtons>

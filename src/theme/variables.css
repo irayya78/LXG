@@ -233,4 +233,46 @@ http://ionicframework.com/docs/theming/ */
 
     --ion-card-background: #1e1e1e;
   }
+  /* Dark Mode */
+.dark {
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+  --ion-item-background: #1e1e1e;
+  --ion-item-text-color: #ffffff;
+  --ion-card-background-color: #1e1e1e;
+  --ion-border-color: #2f2f2f;
+}
+/* Light Mode */
+:root {
+  --ion-background-color: #ffffff;
+  --ion-text-color: #000000;
+  --ion-item-background: #f0f0f0;
+  --ion-card-background: #ffffff;
+  /* Add more light mode variables as needed */
+}
+
+/* Dark Mode */
+body.dark {
+  --ion-background-color: #121212;
+  --ion-text-color: #ffffff;
+  --ion-item-background: #2c2c2c;
+  --ion-card-background: #1e1e1e;
+  /* Add more dark mode variables as needed */
+}
+/* styles.css or a global stylesheet */
+body {
+  background-color: white;
+}
+
+ion-content {
+  --background: white;
+}
+/* Ensure the whole app background is white */
+
+/* Ensure the whole app background is white */
+body, ion-content, ion-refresher {
+  background-color: white !important;
+  --background: white !important;
+}
+
 }
