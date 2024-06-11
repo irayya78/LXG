@@ -84,7 +84,7 @@ const LoginPage: React.FC = () => {
               </IonButton>
 
               <IonItem lines="none" className="login-links">
-                <Link slot="start" color="primary" to={'/forget-password'}>
+                <Link slot="start" color="primary" to={'/forgot-password'}>
                   Forgot Password?
                 </Link>
                

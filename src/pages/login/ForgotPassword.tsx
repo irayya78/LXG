@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonText, IonTitle, IonToolbar, IonAlert, IonLoading } from '@ionic/react';
 import { chevronForwardOutline } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
-import './forgetPassword.css';
+import './forgotPassword.css';
 import { UserModel } from '../../types/types';
 import { useHistory } from 'react-router-dom';
 
@@ -68,14 +68,14 @@ const ForgotPasswordPage: React.FC = () => {
         <IonLoading
           isOpen={showLoader}
        
-        />
+        /> 
         {/* Alert for user not found */}
         <IonAlert
           isOpen={showAlert}
           onDidDismiss={() => setShowAlert(false)}
           header={'User Not Found'}
           message={'No user found with the provided email address.'}
-          buttons={['OK']}
+          buttons={['OK']} 
         />
       </IonContent>
     </IonPage>

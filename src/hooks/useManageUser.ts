@@ -8,7 +8,12 @@ export const useManageUser = () => {
   const navigation = useIonRouter();
   const { setUserSession } = useSessionManager();
   const _STORAGE_IMAGE_PATH: string = "https://legalxgen.blob.core.windows.net/userimages/";
-  const _GENERIC_IMAGE_PATH: string = "";
+
+  // Function to generate generic image URL with initials
+  const getGenericImageUrl = (name: string) => {
+    const initial = name.charAt(0).toUpperCase();
+    return `https://ui-avatars.com/api/?name=${initial}&background=F5F5F5&color=000`;
+  };
 
   // LOGIN USERname and Password API And Creating Session as well!
   const handleLogin = async (
@@ -24,9 +29,10 @@ export const useManageUser = () => {
       const data = response.data;
       console.log(data);
 
-      const { userId, customerId, firstName, lastName, email, cellPhone, designation, customer, disableMobileAppAccess, profilePicture } = data;
-      const profilePicUrl: string = response.data.profilePicId != null && response.data.profilePicId > 0 ?
-        _STORAGE_IMAGE_PATH + response.data.profilePic.guid : _GENERIC_IMAGE_PATH;
+      const { userId, customerId, firstName, lastName, email, cellPhone, designation, customer, disableMobileAppAccess, profilePicId, profilePic } = data;
+      const profilePicUrl: string = profilePicId != null && profilePicId > 0 && profilePic?.guid
+        ? _STORAGE_IMAGE_PATH + profilePic.guid
+        : getGenericImageUrl(firstName);
 
       if (userId && customerId && firstName && lastName && email) {
         const userObj: UserSessionDetails = {

@@ -34,10 +34,6 @@ export interface UserModel{
   return {Email:"",EmailOTP:"",FirstName:"",FullName:"", LastName:"", Password:"", UserId: 0}
 }
  
-export interface DropDownItem{
-  Value: number,
-  Text: string,
-}
 
 export interface MatterModel{
   MatterId: number,
@@ -53,3 +49,60 @@ export interface MatterModel{
   SubPracticeAreas:DropDownItem[],
   BusinessUnits:DropDownItem[],
 }
+
+export interface DropDownItem{
+  Value: number,
+  Text: string,
+}
+export interface ExpenseModel{
+  ExpenseId : number,
+  Date: string,
+  ExpenseCategory: string,
+  CategoryId : number,
+  Description:string,
+  Amount:number,
+  AmountToDisplay:any,
+  MatterId:number,
+  MatterCode: string,
+  MatterTitle: string,
+  Client: string,
+  ClientId: number,
+  PaymentId:number,
+  CustomerId:Number,
+  CreatedBy: Number,
+  CreatedByName: string,
+  ExpenseCategories:DropDownItem[],
+  ApprovalStatusId: Number,
+  FileToUpload: any,
+  FileAsBase64: string,
+  FileName: string,
+  InvoiceId: number,
+  ExpenseDocuments: ExpenseDocumentModel[],
+  ApprovalStatus: ExpenseApprovalStatus,
+  ActionBy: UserModel,
+  Comments: string
+  BillableToClient :boolean
+  
+}
+export interface ExpenseStatusModel {
+  iosIcon: string;
+  mdIcon: string;
+  color: string;
+  icon:string;
+}
+export interface ExpenseDocumentModel{
+  DocumentId: Number,
+  DocumentName: string
+}
+export interface ExpenseApprovalStatus{
+  StatusId: Number,
+  StatusName: string
+}
+
+export interface DataAccessCheckModal {
+  OperationAllowed: boolean,
+  Message: string
+}
+
+
+ 

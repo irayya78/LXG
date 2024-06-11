@@ -9,7 +9,7 @@
     content: attr(data-label);
     position: absolute;
     top: 50%;
-    right: 60px; /* Adjust this value to position the label to the left */
+    right: 60px;
     transform: translateY(-50%);
     background-color: #ffffff;
     color: #000000;

@@ -2,6 +2,7 @@
 import React from 'react';
 import { IonAvatar, IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonItem, IonLabel, IonList, IonPage, IonText, IonTitle, IonToolbar } from '@ionic/react';
 import { useSessionManager } from '../../sessionManager/SessionManager';
+import FabMenu from '../../components/layouts/FabIcon';
 
 const TimesheetPage: React.FC = () => {
   const session =useSessionManager();
@@ -63,6 +64,9 @@ const TimesheetPage: React.FC = () => {
             </IonItem>
           ))}
         </IonList>
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
+                 <FabMenu />
+       </div>
       </IonContent>
     </IonPage>
   );

@@ -3,7 +3,8 @@ import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, I
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { MatterModel } from '../../types/types';
 import { useMatterManagement } from '../../hooks/useMatterManagement';
-import CommonPullToRefresh from '../../components/PullToRefresh';
+import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
+import FabMenu from '../../components/layouts/FabIcon';
 
 const MatterPage: React.FC = () => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
@@ -11,9 +12,10 @@ const MatterPage: React.FC = () => {
   const { getRecentMatters } = useMatterManagement();
   const session = useSessionManager();
 
-  const fetchData = async () => {
+  const getMatters = async () => {
     setIsLoading(true); // Start loading
     try {
+      //The api call for matters
       const matter = await getRecentMatters();
       setMatters(matter);
     } catch (error) {
@@ -24,12 +26,12 @@ const MatterPage: React.FC = () => {
   };
 
   useEffect(() => {
-    fetchData();
+    getMatters();
   }, []);
 
   return (
     <IonPage>
-      <IonHeader>
+      <IonHeader  color="primary">
         <IonToolbar color="primary">
           <IonTitle class="ion-text-center">Matters</IonTitle>
           <IonButtons slot="end">
@@ -43,7 +45,7 @@ const MatterPage: React.FC = () => {
           </IonButtons>
         </IonToolbar>
       </IonHeader>
-      <CommonPullToRefresh onRefresh={fetchData}>
+      <CommonPullToRefresh onRefresh={getMatters}>
         <IonList>
           {matters.map((matter: MatterModel) => (
             <IonItem key={matter.MatterId}>
@@ -69,6 +71,9 @@ const MatterPage: React.FC = () => {
           duration={0}
         />
       </CommonPullToRefresh>
+      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
+                 <FabMenu />
+       </div>
     </IonPage>
   );
 };

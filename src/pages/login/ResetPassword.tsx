@@ -1,6 +1,6 @@
 import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, IonAlert } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import './forgetPassword.css';
+import './forgotPassword.css';
 import { alertCircle, chevronBackOutline, eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { useIonRouter } from '@ionic/react';
 import { useManageUser } from '../../hooks/useManageUser';

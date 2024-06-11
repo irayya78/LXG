@@ -7,13 +7,13 @@ import ExpensePage from '../../pages/mainPages/ExpensePage';
 import MatterPage from '../../pages/mainPages/MatterPage';
 import TimesheetPage from '../../pages/mainPages/TimesheetPage';
 import TimeEntries from '../../pages/timesheet/TimeEntry';
-import NewExpense from '../../pages/expense/NewExpense';
-import NewMatter from '../../pages/matter/NewMatter';
 import './layout.css';
+import NewExpense from '../../pages/expense/ExpenseForm';
+import ViewExpense from '../../pages/expense/ViewExpense';
+import ApplyLeave from '../../pages/Leave/ApplyLeave';
 
 const Layout: React.FC = () => {
-  const location = useLocation();
-  const hiddenFabRoutes = ['/layout',  '/login', '/my-profile'];
+
 
   return (
     <>
@@ -25,7 +25,9 @@ const Layout: React.FC = () => {
           <Route path="/layout/matter" component={MatterPage} exact />
           <Route path="/layout/timesheet/create" component={TimeEntries} exact />
           <Route path="/layout/expense/create" component={NewExpense} exact />
-          <Route path="/layout/matter/create" component={NewMatter} exact />
+          <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
+          <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
+          <Route path="/layout/matter/create" component={ApplyLeave} exact />
           <Redirect exact from="/layout" to="/layout/dashboard" />
         </IonRouterOutlet>
 
@@ -49,26 +51,8 @@ const Layout: React.FC = () => {
         </IonTabBar>
       </IonTabs>
 
-      {!hiddenFabRoutes.includes(location.pathname) && (
-        <div style={{ position: 'fixed', bottom: '80px', right: '20px', zIndex: 999, marginBottom: '8px' }}>
-          <IonFab vertical="bottom" horizontal="end" slot="fixed">
-            <IonFabButton>
-              <IonIcon icon={add} />
-            </IonFabButton>
-            <IonFabList side="top">
-              <IonFabButton routerLink="/layout/timesheet/create" className="fab-button fab-timesheet" data-label="New Timesheet">
-                <IonIcon icon={calendarOutline} color="secondary" />
-              </IonFabButton>
-              <IonFabButton routerLink="/layout/expense/create" className="fab-button fab-expense" data-label="New Expense">
-                <IonIcon icon={cardOutline} color="success" />
-              </IonFabButton>
-              <IonFabButton routerLink="/layout/matter/create" className="fab-button fab-matter" data-label="New Matter">
-                <IonIcon icon={briefcaseOutline} color="primary" />
-              </IonFabButton>
-            </IonFabList>
-          </IonFab>
-        </div>
-      )}
+     
+
     </>
   );
 };

@@ -17,9 +17,10 @@ import '@ionic/react/css/flex-utils.css';
 import '@ionic/react/css/display.css';
 import 'chartjs-adapter-date-fns';
 import { Chart, registerables } from 'chart.js/auto'; // Import from 'chart.js/auto' for Chart.js version 3
-import ForgotPasswordPage from './pages/login/ForgetPassword';
+import ForgotPasswordPage from './pages/login/ForgotPassword';
 import ResetPassword from './pages/login/ResetPassword';
 Chart.register(...registerables);
+
 
 setupIonicReact();
 
@@ -30,7 +31,7 @@ const App: React.FC = () => (
         <Route path="/login" component={LoginPage} exact />
         <Route path="/layout" component={Layout} />
         <Route path="/my-profile" component={MyProfile} exact />
-        <Route path="/forget-password" component={ForgotPasswordPage}exact/>
+        <Route path="/forgot-password" component={ForgotPasswordPage}exact/>
         <Route path="/reset-password" component={ResetPassword}exact/>
         <Redirect exact from="/" to="/login" />
       </IonRouterOutlet>

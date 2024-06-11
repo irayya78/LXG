@@ -13,6 +13,7 @@ import {
 } from '@ionic/react';
 import { Line, Pie } from 'react-chartjs-2';
 import { useSessionManager } from '../../sessionManager/SessionManager';
+import FabMenu from '../../components/layouts/FabIcon';
 
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
@@ -92,8 +93,9 @@ const DashboardPage: React.FC = () => {
             {showPieChart && <Pie data={pieChartData} />}
           </IonCardContent>
         </IonCard>
-
-       
+        <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
+          <FabMenu />
+        </div>
       </IonContent>
     </IonPage>
   );
