@@ -12,13 +12,23 @@ export interface UserSessionDetails {
     CaptureActivity: boolean,
     AllowFutureDateForExpenseSubmission: boolean,
     AllowFutureDateForTimeEntry: boolean,
-    TimeSheetLockSelectedDay: Number,
+    TimeSheetLockSelectedDay: number,
     BackDatedExpenseEntryAllowedDays:Number,
     CustomerLogoFileName: string,
-    BackDateTimesheetUpdateAllowedDays: Number,
+    BackDateTimesheetUpdateAllowedDays: number,
     DisableMobileAppAccess: boolean,
+    DisplayExpenseApprover:boolean,
+    TimerTimeInterval:Number
+    
+   
   }
 
+  export interface LoginModel {
+    username: string;
+    password: string;
+    rememberMe: boolean;
+    darkMode: boolean;
+  }
   
 export interface UserModel{
   UserId: number,
@@ -54,6 +64,31 @@ export interface DropDownItem{
   Value: number,
   Text: string,
 }
+export interface TimesheetModel{
+  TrackingId : number,
+  TrackingDate: string,
+  MatterId : number,
+  MatterCode:string,
+  MatterTitle:string,
+  ContactName:string,
+  ContactId:number,
+  TrackedTime: string,
+  BillableHour: string,
+  NonBillableHour: string,
+  Description: string,
+  IsBillable: boolean,
+  UserId: number,
+  CustomerId:number,
+  TimeTrackingActivityId: number,
+  MatterActivityId : number,
+  FromTime: string,
+  ToTime: string,
+  BillableTime: number,
+  NonBillableTime:number,
+  InvoiceId: number,
+  TimeTrackingActivityName: string,
+  MatterActivityName: string
+}
 export interface ExpenseModel{
   ExpenseId : number,
   Date: string,
@@ -82,6 +117,8 @@ export interface ExpenseModel{
   ActionBy: UserModel,
   Comments: string
   BillableToClient :boolean
+  ApproverId:number
+  
   
 }
 export interface ExpenseStatusModel {

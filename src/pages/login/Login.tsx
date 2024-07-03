@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import {
   IonContent,
   IonInput,
@@ -17,21 +17,30 @@ import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
 import './login.css';
 import { Link } from 'react-router-dom';
+import { useSessionManager } from '../../sessionManager/SessionManager';
+
 
 const LoginPage: React.FC = () => {
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
-  const [rememberMe, setRememberMe] = useState(false);
+  const { loginInfo, setLoginInfo } = useSessionManager();
+  const [username, setUsername] = useState(loginInfo?.username || '');
+  const [password, setPassword] = useState(loginInfo?.password || '');
+  const [rememberMe, setRememberMe] = useState(loginInfo?.rememberMe || false);
   const [isLoading, setIsLoading] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-
+ const [darkMode]=useState(false);
   const { handleLogin } = useManageUser();
 
   const isLoginDisabled = !username || !password;
 
   const onLoginClick = async () => {
+    if (rememberMe) {
+      setLoginInfo({ username, password, rememberMe,darkMode });
+    } else {
+      setLoginInfo(null);
+    }
+
     await handleLogin(username, password, setIsLoading, setShowAlert, setAlertMessage);
   };
 
@@ -82,13 +91,13 @@ const LoginPage: React.FC = () => {
               <IonButton expand="full" shape="round" onClick={onLoginClick} disabled={isLoginDisabled}>
                 Login
               </IonButton>
-
+              <div className='login-links'>
               <IonItem lines="none" className="login-links">
                 <Link slot="start" color="primary" to={'/forgot-password'}>
                   Forgot Password?
                 </Link>
-               
               </IonItem>
+              </div>
             </IonCardContent>
           </IonCard>
         </div>

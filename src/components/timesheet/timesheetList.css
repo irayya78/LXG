@@ -1,0 +1,38 @@
+.timesheet-item{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#time-list{
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.small-font{
+    font-size:smaller !important;
+    color: darkgray;
+}
+
+.time-text{
+    font-size: small !important;
+    color: blue;
+    font-weight: 600;
+    margin-inline-start: 5px;
+}
+
+
+.action-item{
+    font-size: small !important;
+}
+.btninlinemarg{margin-inline-start: 0px;}
+.total-time{ font-size: small; text-align: right;}
+.Billable-nonbillable-hrs{font-size: x-small; color: gray; text-align: right;}
+.Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 5px 0px 0px;}
+.Billable-nonbillable-hrs span:last-child{color:red; padding:0px 0px 0px 5px;}
+/*.matter-Code-font{font-size: x-small; color:#000;}*/
+.matter-Code-font {
+    font-weight: bold;
+    font-size: small
+  }
+.work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }

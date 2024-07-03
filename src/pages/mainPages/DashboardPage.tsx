@@ -14,6 +14,7 @@ import {
 import { Line, Pie } from 'react-chartjs-2';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import FabMenu from '../../components/layouts/FabIcon';
+import MyProfileHeader from '../../components/MyProfileHeader';
 
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
@@ -51,6 +52,18 @@ const DashboardPage: React.FC = () => {
       },
     ],
   };
+  const getGreeting = () => {
+    const currentHour = new Date().getHours();
+    if (currentHour < 12) {
+      return 'Good Morning';
+    } else if (currentHour < 18) {
+      return 'Good Afternoon';
+    } else {
+      return 'Good Evening';
+    }
+  };
+
+  const greeting = getGreeting();
 
   // Define state variables to track which chart is currently displayed
   const [showLineChart, setShowLineChart] = useState(false);
@@ -61,21 +74,12 @@ const DashboardPage: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonTitle>Dashboard</IonTitle>
-          <IonButtons slot="end">
-            <IonButton routerLink="/my-profile">
-              <IonAvatar>
-                {/* Display profile picture if available in the session */}
-                {session.user && session.user.ProfilePicture && (
-                  <img src={session.user.ProfilePicture} alt="Profile" />
-                )}
-              </IonAvatar>
-            </IonButton>
-          </IonButtons>
+          <MyProfileHeader/>
         </IonToolbar>
       </IonHeader>
       <IonContent>
         <div className="ion-padding">
-          <h2 style={{ textAlign: 'center' }}>Welcome {session.user?.FirstName}</h2>
+        <h2 style={{ textAlign: 'center' }}>{greeting}, {session.user?.FirstName}</h2>
           <p></p>
         </div>
 

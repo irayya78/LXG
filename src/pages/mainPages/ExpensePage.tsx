@@ -1,21 +1,24 @@
 import React, { useEffect, useState } from 'react';
 import { 
   IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonAvatar, IonButton, IonLoading, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonAlert, 
-  useIonRouter
+  useIonRouter,
+  useIonViewDidEnter
 } from '@ionic/react';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import { chevronForwardOutline, pencil, trashOutline } from 'ionicons/icons';
-import { messageManager } from '../../components/MassageMangaer';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
+import { useLocation } from 'react-router';
+import { messageManager } from '../../components/MassageManager';
+import MyProfileHeader from '../../components/MyProfileHeader';
 
 const ExpensePage: React.FC = () => {
     const navigation = useIonRouter();
+    const location = useLocation();
     const { getExpenses, deleteExpense,canEditOrDeleteExpense } = useExpenseManagement();
-    const session = useSessionManager();
     const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
     const [isLoading, setIsLoading] = useState(true);
     const [showAlert, setShowAlert] = useState(false);
@@ -41,11 +44,15 @@ const ExpensePage: React.FC = () => {
       };
    
       
-      
+      useIonViewDidEnter(() => {
+        (async () => {
+        await getExpense();
+        })();
+      });
 
-    useEffect(() => {
-        getExpense();
-    }, []);
+    //   useEffect(() => {
+    //     getExpense();
+    // }, []);
 
     //Navigation to VIEW-Expense Page 
     const viewExpense = (ExpenseId: number): void => {
@@ -98,13 +105,7 @@ const ExpensePage: React.FC = () => {
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonTitle>Expenses</IonTitle>
-                    <IonButtons slot="end">
-                        <IonButton routerLink="/my-profile">
-                            <IonAvatar>
-                                <img src={session.user?.ProfilePicture} alt="Profile" />
-                            </IonAvatar>
-                        </IonButton>
-                    </IonButtons>
+                    <MyProfileHeader/>
                 </IonToolbar>
             </IonHeader>
             <IonContent>
@@ -112,22 +113,23 @@ const ExpensePage: React.FC = () => {
                     <IonList id="time-list">
                         {expenses && expenses.map((expense: ExpenseModel) => (
                             <IonItemSliding key={expense.ExpenseId.toString()}>
-                                <IonItem key={expense.ExpenseId?.toString()}>
+                                   <IonItem key={expense.ExpenseId?.toString()} button  onClick={() => viewExpense(expense.ExpenseId)}>
                                     <IonLabel>
-                                        <p className="work-done-desc">
+                                    <span className="matter-Code-font">
+                                       
+                                    {expense.MatterCode} | {expense.MatterTitle}
+                                        </span>
+                                        <br/>
+                                        <span className="work-done-desc">
                                             {expense.Date} - {expense.ExpenseCategory}
-                                        </p>
-                                        <h3>
-                                            <span className="matter-Code-font">{expense.MatterCode} -</span> {expense.MatterTitle}
-                                        </h3>
+                                        </span>
+                                       
                                         <h2 className="small-font">{expense.Client}</h2>
                                     </IonLabel>
                                     <IonText className="time-text" slot="end">
                                         <p className="total-time">{(expense.AmountToDisplay)}</p>
                                     </IonText>
-                                    <IonButton className="btninlinemarg" color="dark" shape="round" fill="clear" onClick={() => viewExpense(expense.ExpenseId)} slot="end">
-                                        <IonIcon className="action-item" icon={chevronForwardOutline} slot="end"></IonIcon>
-                                    </IonButton>
+                                   
                                 </IonItem>
                                 <IonItemOptions side="end">
                                     <IonItemOption onClick={() => showDeleteConfirm(expense)} color="danger">

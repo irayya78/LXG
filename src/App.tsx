@@ -19,6 +19,7 @@ import 'chartjs-adapter-date-fns';
 import { Chart, registerables } from 'chart.js/auto'; // Import from 'chart.js/auto' for Chart.js version 3
 import ForgotPasswordPage from './pages/login/ForgotPassword';
 import ResetPassword from './pages/login/ResetPassword';
+
 Chart.register(...registerables);
 
 

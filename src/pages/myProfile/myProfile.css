@@ -40,4 +40,34 @@
     width: 100%;
     margin-top: 20px;
   }
+  .dark-theme {
+    --ion-background-color: #121212; /* Dark background color */
+    --ion-text-color: #ffffff; /* Light text color */
+  }
   
+  .profile-container.dark-theme {
+    background-color: #121212;
+    color: #ffffff;
+  }
+  /* myProfile.css */
+.dark-theme {
+  --ion-background-color: #121212; /* Dark background color */
+  --ion-text-color: #ffffff; /* Light text color */
+}
+
+.dark-theme ion-icon {
+  color: #ffffff; /* Light color for icons */
+}
+
+.dark-theme ion-label {
+  color: #ffffff; /* Light color for labels */
+}
+
+.profile-container.dark-theme {
+  background-color: #121212;
+  color: #ffffff;
+}
+/* .profile-pic{
+  height: 60px;
+  width: 60px;
+} */

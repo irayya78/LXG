@@ -6,11 +6,11 @@ import DashboardPage from '../../pages/mainPages/DashboardPage';
 import ExpensePage from '../../pages/mainPages/ExpensePage';
 import MatterPage from '../../pages/mainPages/MatterPage';
 import TimesheetPage from '../../pages/mainPages/TimesheetPage';
-import TimeEntries from '../../pages/timesheet/TimeEntry';
+import TimeEntries from '../../pages/timesheet/TimeEntryForm';
 import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
-import ApplyLeave from '../../pages/Leave/ApplyLeave';
+import ApplyLeave from '../../pages/leave/ApplyLeave';
 
 const Layout: React.FC = () => {
 
@@ -21,9 +21,12 @@ const Layout: React.FC = () => {
         <IonRouterOutlet>
           <Route path="/layout/dashboard" component={DashboardPage} exact />
           <Route path="/layout/timesheet" component={TimesheetPage} exact />
+          <Route path="/layout/timesheet/:date" component={TimesheetPage} exact />
           <Route path="/layout/expense" component={ExpensePage} exact />
           <Route path="/layout/matter" component={MatterPage} exact />
           <Route path="/layout/timesheet/create" component={TimeEntries} exact />
+          <Route path="/layout/timesheet/create/:date" component={TimeEntries} exact />
+          <Route path="/layout/timesheet/update/:trackingId" component={TimeEntries} exact />
           <Route path="/layout/expense/create" component={NewExpense} exact />
           <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />

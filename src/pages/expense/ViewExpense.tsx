@@ -5,17 +5,13 @@ import { IonAlert, IonBackButton, IonButton, IonButtons,
   IonToolbar, 
   useIonRouter, 
   useIonViewDidEnter  } from '@ionic/react';
-
 import React, {  useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-
-
 import {attachOutline,  pencilOutline, trashOutline } from 'ionicons/icons';
-
-import { messageManager } from '../../components/MassageMangaer';
+import { messageManager } from '../../components/MassageManager';
 import { ExpenseDocumentModel, ExpenseModel } from '../../types/types';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
-
+import './viewExpense.css';
 
 interface ViewExpenseParams extends RouteComponentProps<{expenseId: string; }> {}
 
@@ -37,6 +33,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
     const fetchExpense = async () => {
       setBusy(true);
       const exp: ExpenseModel = await getExpense(Number(match.params.expenseId));
+    
       setExpense(exp);
       setBusy(false);
     };
@@ -119,13 +116,14 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
                   <IonLabel>{expense.ExpenseCategory}</IonLabel>                
               </IonItem>
               <IonItem>
-                  <IonLabel position="fixed">Amount</IonLabel>
-                  <IonLabel>{expense.Amount}</IonLabel>                
-              </IonItem>
+            <IonLabel position="fixed">Amount</IonLabel>
+            <IonText className='light-green'>{expense.AmountToDisplay}</IonText>
+          </IonItem>
+
              
               <IonItem>
                   <IonLabel position="fixed">Description</IonLabel>
-                  <IonText className="small-font">{expense.Description}</IonText>
+                  <IonLabel className="small-font">{expense.Description}</IonLabel>
               </IonItem>
 
               <IonItem>
@@ -147,6 +145,12 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
                       <IonLabel>{expense.ActionBy.FullName}</IonLabel>
                   </IonItem> : null
               }
+                   <IonItem>
+                          <IonLabel position="fixed">Billable To Client</IonLabel>            
+                          <IonText style={{ color: expense.BillableToClient}}>
+                            {expense.BillableToClient ? "Yes" : "No"}
+                         </IonText>
+                         </IonItem>
 
              <IonItem>
                       <IonLabel position="fixed">Payment Status</IonLabel>

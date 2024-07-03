@@ -13,10 +13,10 @@ const FabMenu: React.FC = () => {
         <IonFabButton routerLink="/layout/matter/create" className="fab-button fab-matter" data-label="Apply Leave">
           <IonIcon icon={briefcaseOutline} color="primary" />
         </IonFabButton>
-        <IonFabButton routerLink="/layout/expense/create" className="fab-button fab-expense" data-label="New Expense">
+        <IonFabButton routerLink="/layout/expense/create" className="fab-button fab-expense" data-label="Add Expense">
           <IonIcon icon={cardOutline} color="success" />
         </IonFabButton>
-        <IonFabButton routerLink="/layout/timesheet/create" className="fab-button fab-timesheet" data-label="New Timesheet">
+        <IonFabButton routerLink="/layout/timesheet/create" className="fab-button fab-timesheet" data-label="Add Timesheet">
           <IonIcon icon={calendarOutline} color="secondary" />
         </IonFabButton>
       </IonFabList>

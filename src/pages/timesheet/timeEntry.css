@@ -1,39 +1,79 @@
-
-.custom-toolbar {
-    background: rgba(0, 129, 255, 1);
-  }
-  
-
-ion-list#listTimeEntry ion-label{
-  color:#696969 !important;
-  font-size: small !important;
-}
-
-ion-list#listTimeEntry ion-input, ino-textarea, inon-select, ion-datetime, textarea{
-  color: black !important;
-  font-size: small !important;
-}
-
-
-ion-list#listTimeEntry textarea::placeholder ,input::placeholder {
-  font-size: small  !important;
-}
-
-ion-footer ion-button{
-  width: 48%  !important;
-}
-
-.validationError{
-  color: orangered;
-}
-
-.validationSuccess{
-  color: green;
-}
-
-.left-30{
-  margin-left: 30px !important;
+/* TimeEntryForm.css
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
 }
 
 
+.ion-modal-wrapper {
+  background: transparent;
+} */
 
+/* .form-container {
+  padding: 16px;
+}
+
+.ion-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 16px;
+}
+
+.ion-label {
+  flex: 1;
+}
+
+.ion-input,
+.ion-select,
+.ion-toggle,
+.ion-textarea {
+  flex: 2;
+  margin-left: 16px;
+}
+
+.ion-textarea {
+  width: 100%;
+} */
+
+
+.modal-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  text-align: center;
+}
+
+.modal-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.ion-modal-wrapper {
+  background: transparent;
+}
+
+.modal-close-button {
+  margin-top: auto;
+}

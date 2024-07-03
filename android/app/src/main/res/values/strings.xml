@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='utf-8'?>
 <resources>
-    <string name="app_name">Legalxgen mobile</string>
-    <string name="title_activity_main">Legalxgen mobile</string>
+    <string name="app_name">LXG</string>
+    <string name="title_activity_main">LXG</string>
     <string name="package_name">com.legalxgen.app</string>
     <string name="custom_url_scheme">com.legalxgen.app</string>
 </resources>

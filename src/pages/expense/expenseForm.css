@@ -4,23 +4,10 @@
     align-items: center;
     margin-top: 20px;
     margin-bottom: 20px;
+ 
   }
   
-  .camera-button {
-    width: 60px;
-    height: 60px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    --background: #3880ff;
-    --ripple-color: #fff;
-  }
   
-  .camera-button ion-icon {
-    font-size: 24px;
-    color: white;
-  }
   
   .photos-container {
     display: flex;
@@ -62,6 +49,10 @@
   
   .remove-button:hover {
     background-color: rgba(255, 0, 0, 1);
+  }
+  
+  .light-green {
+    color: lightgreen; 
   }
   
   

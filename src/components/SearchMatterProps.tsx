@@ -15,15 +15,22 @@ const MatterList: React.FC<MatterListProps> = ({ matters, matterClick }) => {
 
   return (
     <IonList id="matterList">
-      {matters && matters.map((matter: MatterModel) => (
-        <IonItem onClick={(e) => selectMatter(e, matter)} key={matter.MatterId} text-wrap>
-          <IonLabel>
-            <h3 className="matterCodeAndTitle"><span>#</span> {matter.MatterCode } | {matter.MatterTitle} - <IonIcon icon={briefcaseOutline} /> {matter.MatterTitle}</h3>
-            <h4><IonIcon icon={personOutline} /> {matter.ClientName}</h4>
+    {matters &&
+      matters.map((matter: MatterModel) => (
+        <IonItem onClick={(e) => selectMatter(e, matter)} key={matter.MatterId} lines="none">
+          <IonLabel className="ion-text-wrap">
+            <h3 className="matterCodeAndTitle">
+              <span  className="">{matter.MatterCode}</span> <br />
+              <span className="matterTitle">{matter.MatterTitle}</span>   <IonIcon icon={briefcaseOutline} /><br />
+              <small className="matter-Code-font">
+               {matter.ClientName}  <IonIcon icon={personOutline} />
+              </small>
+            </h3>
           </IonLabel>
         </IonItem>
       ))}
-    </IonList>
+  </IonList>
+  
   );
 };
 

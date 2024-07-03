@@ -1,0 +1,66 @@
+
+ion-segment{
+    margin: 0px;
+    font-size: xx-small;
+}
+
+ion-segment-button{
+    font-size: x-small;
+    padding: px 0px;
+    min-width: 30px;
+    font-weight: bold;
+    text-align: -webkit-center;
+    
+}
+
+ion-segment-button span{
+    font-size: xx-small;
+    font-weight: normal;
+    
+}
+.segment-button-checked span.activeData {
+    width: 20px;
+    height: 10px;
+    border-radius: 10px;
+    background-color: #32cd32; /* light green */
+    color: white;
+    display: block;
+  }
+
+ion-grid{
+    padding: 0px;
+    margin: 0px;
+}
+
+ion-col{
+    padding: 0px;
+    margin: 0px;
+}
+
+ion-col ion-button{
+    font-size: x-small;
+    padding: 0px;
+    margin: 0px;
+}
+
+ion-row{
+    
+    padding: 0px;
+    margin: 0px;
+}
+
+ion-buttons ion-button{
+    border-color: silver;
+}
+
+.no-timesheet-text{
+    color: silver;
+    font-size: small;
+}
+div.item-native{padding-left:0px;}
+.nopadding{padding:0px;}
+.nobottomborder div.item-inner{border-style:none!important;}
+.nobottomborder { --inner-border-width:0px!important; font-size:x-small; --min-height:30px; vertical-align: middle!important;}
+.nobottomborder .list-md{background-color: transparent!important;}
+.greyback{background: #f4f5f8;}
+

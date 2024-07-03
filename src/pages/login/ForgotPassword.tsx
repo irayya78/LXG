@@ -43,7 +43,7 @@ const ForgotPasswordPage: React.FC = () => {
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonBackButton />
+            <IonBackButton/>
           </IonButtons>
           <IonTitle>Forget Password</IonTitle>
         </IonToolbar>

@@ -1,13 +1,13 @@
 import React, { useState } from 'react';
-import { IonBackButton, IonButtons, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter, IonAvatar, IonCard, IonCardContent, IonToggle, IonList, IonListHeader } from '@ionic/react';
+import { IonBackButton, IonButtons, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter, IonAvatar, IonCard, IonCardContent, IonToggle, IonList, IonListHeader, IonFooter } from '@ionic/react';
 import { logOutOutline, personOutline, mailOutline, callOutline, pricetagOutline, moonOutline, sunnyOutline } from 'ionicons/icons';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import './myProfile.css'
+import Footer from '../../components/layouts/Footer';
 const MyProfile: React.FC = () => {
   const navigation = useIonRouter();
   const { user, clearUserSession } = useSessionManager();
   const [darkMode, setDarkMode] = useState(false);
-  const [rememberLogin, setRememberLogin] = useState(false);
 
   const Logout = () => {
     clearUserSession();
@@ -17,21 +17,17 @@ const MyProfile: React.FC = () => {
 
   const toggleDarkMode = () => {
     setDarkMode(!darkMode);
+
     document.body.classList.toggle('dark', darkMode);
 
   };
 
-  const toggleRememberLogin = () => {
-    setRememberLogin(!rememberLogin);
-    // Implement any remember login logic here
-  };
-
   return (
-    <IonPage>
+    <IonPage >
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonBackButton defaultHref="/layout" />
+            <IonBackButton/>
           </IonButtons>
           <IonTitle>My Profile</IonTitle>
         </IonToolbar>
@@ -68,11 +64,6 @@ const MyProfile: React.FC = () => {
                 <IonLabel>Dark Mode</IonLabel>
                 <IonToggle checked={darkMode} onIonChange={toggleDarkMode} />
               </IonItem>
-              <IonItem lines="none">
-                <IonIcon icon={logOutOutline} slot="start" />
-                <IonLabel>Remember Login</IonLabel>
-                <IonToggle checked={rememberLogin} onIonChange={toggleRememberLogin} />
-              </IonItem>
             </IonCardContent>
           </IonCard>
           <div className="logout-button">
@@ -83,6 +74,7 @@ const MyProfile: React.FC = () => {
           </div>
         </div>
       </IonContent>
+     <Footer/>
     </IonPage>
   );
 };

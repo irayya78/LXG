@@ -1,3 +1,4 @@
+import { UserModel } from './../types/types';
 import { useSessionManager } from '../sessionManager/SessionManager';
 import axiosInstance from '../apiHelper/axiosInstance';
 import { DataAccessCheckModal, ExpenseDocumentModel, ExpenseModel, getBlankUserObject } from '../types/types';
@@ -41,11 +42,22 @@ const useExpenseManagement = () => {
         console.log('raw single',exp)
         return exp
     }
-    const saveExpense = async  (model: FormData) : Promise<boolean> => {
     
-        await axiosInstance.post("SaveExpense", model, {})
-        return true
-    }
+   
+      
+    const saveExpense = async (model: FormData): Promise<boolean> => {
+        try {
+            await axiosInstance.post("SaveExpense", model, {
+                headers: {
+                    'Content-Type': 'multipart/form-data' 
+                }
+            });
+          return true;
+        } catch (error) {
+          console.error('Error saving expense:', error);
+          return false;
+        }
+      };
     
     const deleteExpense = async  (expenseId: Number): Promise<boolean>  => {
 
@@ -103,7 +115,8 @@ const useExpenseManagement = () => {
                 ActionBy: expense.approvedByUser !== null ? {UserId:expense.approvedByUser.userId , FirstName:expense.approvedByUser.firstName, FullName:expense.approvedByUser.associateName, LastName:expense.approvedByUser.lastName, Password: "", EmailOTP:"", Email:"" } : getBlankUserObject(),
                 ApprovalStatus: expense.expenseApprovalStatus !== null ?  {StatusId:expense.expenseApprovalStatus.approvalStatusId, StatusName:expense.expenseApprovalStatus.approvalStatus} :  {StatusId:0,StatusName:""},
                 Comments: expense.rejectionComment !== null ? expense.rejectionComment  : "",
-                BillableToClient:expense.billableToClient
+                BillableToClient:expense.billableToClient,
+                ApproverId:expense.approverId
             }    
         }
       
@@ -151,14 +164,35 @@ const useExpenseManagement = () => {
             ActionBy: getBlankUserObject(),
             ApprovalStatus: { StatusId: 0, StatusName: "" },
             Comments: "",
-            BillableToClient: false
+            BillableToClient: false,
+            ApproverId:0
         } 
  
          return expObj
      }
 
+     //For searching users
+     const searchUsers = async  (searchField: string): Promise<UserModel[]>  => {
+
+        const resp = await axiosInstance.get("/SearchUsers/" + session.user?.CustomerId +"/" + searchField)
+        console.log('userList:-'+JSON.stringify(resp))
+        if (resp.data != null && resp.data.length > 0) {
+            const users: UserModel[] = resp.data.map((element: any) => ({
+              UserId: Number(element.value),
+              FullName: element.text,
+              Email: element.tertieryText,
+             
+            }));
+        
+            return users;
+          } else {
+            return [];
+          }
+           
+    };
+    
     return {
-        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense
+        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers
     };
 };
 

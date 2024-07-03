@@ -53,5 +53,7 @@
 .login-links {
   display: flex;
 
-  margin-top: 10px;
+ justify-content: center;
+ align-items: center;
+ text-align: center;
 }

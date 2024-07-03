@@ -2,7 +2,7 @@ import { useIonRouter } from '@ionic/react';
 import axiosInstance from '../apiHelper/axiosInstance';
 import { getBlankUserObject, UserModel, UserSessionDetails } from '../types/types';
 import { useSessionManager } from '../sessionManager/SessionManager';
-import axios from 'axios';
+
 
 export const useManageUser = () => {
   const navigation = useIonRouter();
@@ -34,7 +34,7 @@ export const useManageUser = () => {
         ? _STORAGE_IMAGE_PATH + profilePic.guid
         : getGenericImageUrl(firstName);
 
-      if (userId && customerId && firstName && lastName && email) {
+      if (userId && customerId && firstName && email) {
         const userObj: UserSessionDetails = {
           UserId: Number(userId),
           CustomerId: customerId,
@@ -53,6 +53,9 @@ export const useManageUser = () => {
           CustomerLogoFileName: customer?.document ? customer.document.guid : '',
           BackDateTimesheetUpdateAllowedDays: customer?.backDateTimesheetUpdateAllowedDays || 0,
           DisableMobileAppAccess: disableMobileAppAccess || false,
+          DisplayExpenseApprover:customer?.displayExpenseApprover||false,
+          TimerTimeInterval:customer?.timerTimeInterval||null
+          
         };
 
         // Set the session values
@@ -102,6 +105,8 @@ export const useManageUser = () => {
     const response = await axiosInstance.post("/ResetPassword", user);
     return response.data;
   };
+ 
+
 
   return { handleLogin, isValidUser, resetPassword };
 };
