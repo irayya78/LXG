@@ -56,7 +56,7 @@ const DashboardPage: React.FC = () => {
     const currentHour = new Date().getHours();
     if (currentHour < 12) {
       return 'Good Morning';
-    } else if (currentHour < 18) {
+    } else if (currentHour < 16) {
       return 'Good Afternoon';
     } else {
       return 'Good Evening';
@@ -65,9 +65,7 @@ const DashboardPage: React.FC = () => {
 
   const greeting = getGreeting();
 
-  // Define state variables to track which chart is currently displayed
-  const [showLineChart, setShowLineChart] = useState(false);
-  const [showPieChart, setShowPieChart] = useState(false);
+
 
   return (
     <IonPage>
@@ -76,7 +74,7 @@ const DashboardPage: React.FC = () => {
           <IonTitle>Dashboard</IonTitle>
           <MyProfileHeader/>
         </IonToolbar>
-      </IonHeader>
+       </IonHeader>
       <IonContent>
         <div className="ion-padding">
         <h2 style={{ textAlign: 'center' }}>{greeting}, {session.user?.FirstName}</h2>
@@ -84,17 +82,17 @@ const DashboardPage: React.FC = () => {
         </div>
 
         {/* Four Cards with Different Charts */}
-        <IonCard onClick={() => setShowLineChart(!showLineChart)}>
+        <IonCard>
           <IonCardContent>
             <h2>Expense Per Month</h2>
-            {showLineChart && <Line data={lineChartData} />}
+             <Line data={lineChartData} />
           </IonCardContent>
         </IonCard>
 
-        <IonCard onClick={() => setShowPieChart(!showPieChart)}>
+        <IonCard >
           <IonCardContent>
             <h2>Timesheet Report</h2>
-            {showPieChart && <Pie data={pieChartData} />}
+             <Pie data={pieChartData} />
           </IonCardContent>
         </IonCard>
         <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>

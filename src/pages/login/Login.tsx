@@ -18,10 +18,12 @@ import { useManageUser } from '../../hooks/useManageUser';
 import './login.css';
 import { Link } from 'react-router-dom';
 import { useSessionManager } from '../../sessionManager/SessionManager';
+import { messageManager } from '../../components/MassageManager';
 
 
 const LoginPage: React.FC = () => {
   const { loginInfo, setLoginInfo } = useSessionManager();
+  const {showAlertMessage,showToastMessage}=messageManager(); 
   const [username, setUsername] = useState(loginInfo?.username || '');
   const [password, setPassword] = useState(loginInfo?.password || '');
   const [rememberMe, setRememberMe] = useState(loginInfo?.rememberMe || false);
@@ -59,7 +61,7 @@ const LoginPage: React.FC = () => {
                 <IonInput
                   type="text"
                   value={username}
-                  onIonChange={(e) => setUsername(e.detail.value!)}
+                  onIonInput={(e) => setUsername(e.detail.value!)}
                   clearInput
                   required
                 />
@@ -70,8 +72,8 @@ const LoginPage: React.FC = () => {
                 <IonInput
                   type={showPassword ? 'text' : 'password'}
                   value={password}
-                  onIonChange={(e) => setPassword(e.detail.value!)}
-                  clearInput
+                  onIonInput={(e) => setPassword(e.detail.value!)}
+                  //clearInput
                   required
                 />
                 <IonButton fill="clear" slot="end" onClick={() => setShowPassword(!showPassword)}>

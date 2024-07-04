@@ -162,8 +162,9 @@ const newTimeEntry =async () =>{
 }
 
 //For details View
-const onViewTimesheet =async(timesheet: TimesheetModel)=>{
+const onViewTimesheet =(timesheet: TimesheetModel)=>{
 
+  navigation.push(`/layout/timesheet/view-timesheet/${timesheet.TrackingId}`)
   
 }
 
@@ -205,7 +206,6 @@ const onDeleteTimesheet =async()=>{
         setTimeEntriesList(prevTimesheet =>
           prevTimesheet.filter(timesheet => timesheet.TrackingId !== timesheetToDelete)
         );
-        navigation.push('/layout/timesheet','back','push');
     } catch (error) {
         console.error('Error deleting expense:', error);
     } finally {

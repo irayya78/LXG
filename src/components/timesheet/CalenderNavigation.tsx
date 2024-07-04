@@ -18,16 +18,16 @@ const CalendarNavigation: React.FC<{
 
   return (
     <IonSegment  value={props.selectedDay} onIonChange={(e) => onDateClick(e)}>
-      <IonSegmentButton value="Prev"><IonIcon icon={chevronBackCircleOutline} /></IonSegmentButton>
-      {props.calendarItems && props.calendarItems.map((cal: any) => (
-        <IonSegmentButton value={cal.Date} key={cal.Date}>
-          {cal.DayNameShort}
-          <br />
-          <span className="activeData">{cal.JustDatePart}</span>
-        </IonSegmentButton>
-      ))}
-      <IonSegmentButton value="Next"><IonIcon icon={chevronForwardCircleOutline} /></IonSegmentButton>
-    </IonSegment>
+    <IonSegmentButton value="Prev"><IonIcon icon={chevronBackCircleOutline} /></IonSegmentButton>
+    {props.calendarItems && props.calendarItems.map((cal: any) => (
+      <IonSegmentButton value={cal.Date} key={cal.Date}>
+           <span className='dayName' >{cal.DayNameShort}</span> 
+       
+        <span className="dayName">{cal.JustDatePart}</span>
+      </IonSegmentButton>
+    ))}
+    <IonSegmentButton value="Next"><IonIcon icon={chevronForwardCircleOutline} /></IonSegmentButton>
+  </IonSegment>
   );
 };
 

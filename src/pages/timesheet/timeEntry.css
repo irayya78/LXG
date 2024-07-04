@@ -77,3 +77,17 @@
 .modal-close-button {
   margin-top: auto;
 }
+
+.custom-loader {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100%;
+  color: var(--ion-color-primary);
+}
+
+.rabbit-icon {
+  font-size: 3rem; /* Adjust size as needed */
+  margin-bottom: 1rem;
+}

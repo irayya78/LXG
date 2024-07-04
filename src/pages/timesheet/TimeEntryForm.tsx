@@ -53,7 +53,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
   const [tasksOnMatter, setTasksOnMatter] = useState<DropDownItem[]>([]);
   const [task, setTask] = useState<string>("");
-  const [isBillable, setBillable] = useState<boolean>(false);
+  const [isBillable, setBillable] = useState<boolean>(true);
   const [fromTime, setFromTime] = useState<string>('00:00');
   const [toTime, setToTime] = useState<string>('00:00');
   const [totalHours, setTotalHours] = useState<string>('00:00');
@@ -348,7 +348,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       isValid= false
   }
     if(matterId  === 0){
-     // showToastMessage("Select a Matter")
+     //  showToastMessage("Select a Matter")
        isValid= false
    }
   
@@ -382,7 +382,13 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   }
 
 
+const handelTotalTimeChange=(totalHours:string)=>{
 
+  setTotalHours(totalHours);
+  if(isBillable)
+  setBillableHours(totalHours)
+
+}
   return (
     <IonPage>
     <IonHeader>
@@ -419,6 +425,15 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
             placeholder="Select Date"
             type="date"
             onIonChange={(e) => setTrackingDate(e.target.value as string)}
+          />
+        </IonItem>
+
+        <IonItem>
+          <IonLabel position="stacked">Billable?</IonLabel>
+          <IonToggle
+            checked={isBillable}
+            onIonChange={(e) => handelBillableChange(e.detail.checked)}
+            color="primary"
           />
         </IonItem>
 
@@ -470,14 +485,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
           />
         </IonItem>
 
-        <IonItem>
-          <IonLabel position="stacked">Billable?</IonLabel>
-          <IonToggle
-            checked={isBillable}
-            onIonChange={(e) => handelBillableChange(e.detail.checked)}
-            color="primary"
-          />
-        </IonItem>
+       
 
         {isCaptureFromTimeToTime && (
           <>
@@ -503,17 +511,18 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
           </>
         )}
 
-        {isBillable && (
+     
           <IonItem>
             <IonLabel position="stacked">Billable Time</IonLabel>
             <IonInput
               value={billableHours}
               placeholder="Select Billable Time"
               onIonFocus={() => activeTimePicker('billableHours')}
+              disabled={!isBillable}
               readonly
             />
           </IonItem>
-        )}
+     
         
         <IonItem>
           <IonLabel position="stacked">Description</IonLabel>
@@ -550,7 +559,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
           isOpen={showTotalHoursPicker}
           value={totalHours}
           minuteValues={minuteInterval as string}
-          onIonChange={(e) => setTotalHours(e.detail.value! as string)}
+          onIonChange={(e) => handelTotalTimeChange(e.detail.value! as string) }
           onClose={() => setShowTotalHoursPicker(false)}
           hoursFormate="h23"
           presentation="time"
