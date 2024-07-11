@@ -168,12 +168,12 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       }
       
       await inView();
-      setIsLoading(false)
+      
       
     })()
       .then(() => { })
       .catch((error) => console.error(error));
-     
+      setIsLoading(false)
   });
 
   //when will Leave Reset the States
@@ -267,7 +267,8 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
         NonBillableTime:0,
         InvoiceId:0,
         MatterActivityName: "",
-        TimeTrackingActivityName:""
+        TimeTrackingActivityName:"",
+        ParentId:0
     }
 
     const isSuccess = await saveTimesheet(timesheetObj)

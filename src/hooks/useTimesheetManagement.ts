@@ -17,7 +17,18 @@ const saveTimesheet = async  (model:  any) : Promise<boolean> => {
     const response = await axiosInstance.post("SaveTimesheet", model, {})
     return response.data.isSuccess
 };
-
+    
+const saveTagedTimesheet = async (data: { trackingId: number, userIds: number[] }): Promise<boolean> => {
+    console.log(data.trackingId+"sending",data.userIds);
+      const response = await axiosInstance.post("SaveTagTimeEntry",{
+        trackingId:data.trackingId,
+        userIds:data.userIds,
+        CustomerId:session.user?.CustomerId,
+        UserId:session.user?.UserId
+      });
+      return response.data.isSuccess; 
+    
+  };
 
 const deleteTimesheet = async (trackingId: Number) : Promise<boolean> => {
 
@@ -114,7 +125,8 @@ const getTimesheetByDate = async  (selectedDate: string): Promise< any[]>  => {
                 NonBillableTime:element.nonBillableTime,
                 InvoiceId:element.invoiceId,
                 MatterActivityName: "",
-                TimeTrackingActivityName: ""
+                TimeTrackingActivityName: "",
+                ParentId:element.parentId
             }
 
             tsReturn.push( tempTS )
@@ -210,7 +222,8 @@ const getTimesheetObject =   (timeEntry: any): any  => {
         NonBillableTime: timeEntry.nonBillableTime,
         InvoiceId:timeEntry.invoiceId,
         MatterActivityName: timeEntry.matterActivity != null ? timeEntry.matterActivity.activityName : "",
-        TimeTrackingActivityName: timeEntry.timeTrackingActivities != null ? timeEntry.timeTrackingActivities.timeTrackingActivityName : ""
+        TimeTrackingActivityName: timeEntry.timeTrackingActivities != null ? timeEntry.timeTrackingActivities.timeTrackingActivityName : "",
+        ParentId:timeEntry.parentId
     } 
 
     return timeObj
@@ -241,7 +254,8 @@ const getBlankTimesheetObject =   (): TimesheetModel  => {
          NonBillableTime: 0,
          InvoiceId:0,
          MatterActivityName: "",
-         TimeTrackingActivityName: ""
+         TimeTrackingActivityName: "",
+         ParentId:0
      } 
 
      return timeObj
@@ -378,7 +392,7 @@ const getAllowedBackDateForCreate =  (session : any) : Date =>{
 }
 
 return {
-     saveTimesheet, getTimesheetByDate, 
+     saveTimesheet,saveTagedTimesheet, getTimesheetByDate, 
     getCalendar, navigateCalendar, getAssignedTasks, 
     getTimesheetActivities, getTimesheetByTrackingId,
     deleteTimesheet, getBlankTimesheetObject, getTimesheetReport,isDateAllowedForTimeEntry,canEditOrDeleteTimesheet

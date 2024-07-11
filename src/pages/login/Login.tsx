@@ -31,18 +31,13 @@ const LoginPage: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
- const [darkMode]=useState(false);
+  const [autoLogin]=useState(false);
   const { handleLogin } = useManageUser();
 
   const isLoginDisabled = !username || !password;
 
   const onLoginClick = async () => {
-    if (rememberMe) {
-      setLoginInfo({ username, password, rememberMe,darkMode });
-    } else {
-      setLoginInfo(null);
-    }
-
+    setLoginInfo({ username, password, rememberMe,autoLogin });
     await handleLogin(username, password, setIsLoading, setShowAlert, setAlertMessage);
   };
 
@@ -113,7 +108,7 @@ const LoginPage: React.FC = () => {
         buttons={['OK']}
       />
 
-      <IonLoading isOpen={isLoading} message={'Please wait...'} />
+      <IonLoading isOpen={isLoading} message={'Login.....'} />
     </IonPage>
   );
 };

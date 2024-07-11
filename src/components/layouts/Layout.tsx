@@ -1,7 +1,7 @@
 import React from 'react';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonFab, IonFabButton, IonFabList } from '@ionic/react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
-import { add, homeOutline, calendarOutline, cardOutline, briefcaseOutline, timeOutline, timerOutline } from 'ionicons/icons';
+import { add, homeOutline, calendarOutline, cardOutline, briefcaseOutline, timeOutline, timerOutline, timer, cash, card, home, briefcase, calendar } from 'ionicons/icons';
 import DashboardPage from '../../pages/mainPages/DashboardPage';
 import ExpensePage from '../../pages/mainPages/ExpensePage';
 import MatterPage from '../../pages/mainPages/MatterPage';
@@ -39,24 +39,24 @@ const Layout: React.FC = () => {
         <IonTabBar slot="bottom">
           
           <IonTabButton tab="timesheet" href="/layout/timesheet">
-            <IonIcon icon={timerOutline} />
+            <IonIcon icon={timer} />
             <IonLabel>Timesheet</IonLabel>
           </IonTabButton>
           <IonTabButton tab="expense" href="/layout/expense">
-            <IonIcon icon={cardOutline} />
+            <IonIcon icon={card} />
             <IonLabel>Expense</IonLabel>
           </IonTabButton>
           <IonTabButton tab="dashboard" href="/layout/dashboard">
-            <IonIcon icon={homeOutline} />
+            <IonIcon icon={home} />
             <IonLabel>Home</IonLabel>
           </IonTabButton>
           <IonTabButton tab="matter" href="/layout/matter">
-            <IonIcon icon={briefcaseOutline} />
+            <IonIcon icon={briefcase} />
             <IonLabel>Matter</IonLabel>
           </IonTabButton>
 
-          <IonTabButton tab="leave" href="">
-            <IonIcon icon={calendarOutline} />
+          <IonTabButton disabled  tab="leave" href="">
+            <IonIcon icon={calendar} />
             <IonLabel>Leave</IonLabel>
           </IonTabButton>
         </IonTabBar>

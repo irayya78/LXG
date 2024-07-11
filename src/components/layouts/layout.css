@@ -25,6 +25,7 @@
     display: block; /* Show on hover */
   }
   
+  
   /* Adjust the hover effect for touch devices */
   @media (hover: none) {
     .fab-button::after {
@@ -32,3 +33,19 @@
     }
   }
   
+
+
+/* FabMenu.css */
+
+.fab-menu-container {
+  position: relative;
+}
+
+
+
+.menu-open ion-app, .menu-open ion-content, .menu-open ion-header {
+  filter: blur(10px); /* Apply blur to entire app content */
+}
+
+
+

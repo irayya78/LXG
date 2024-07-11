@@ -19,6 +19,7 @@ export interface UserSessionDetails {
     DisableMobileAppAccess: boolean,
     DisplayExpenseApprover:boolean,
     TimerTimeInterval:Number
+    AllowTaggingTimesheet:boolean
     
    
   }
@@ -27,7 +28,7 @@ export interface UserSessionDetails {
     username: string;
     password: string;
     rememberMe: boolean;
-    darkMode: boolean;
+    autoLogin:boolean
   }
   
 export interface UserModel{
@@ -88,6 +89,7 @@ export interface TimesheetModel{
   InvoiceId: number,
   TimeTrackingActivityName: string,
   MatterActivityName: string
+  ParentId:number
 }
 export interface ExpenseModel{
   ExpenseId : number,

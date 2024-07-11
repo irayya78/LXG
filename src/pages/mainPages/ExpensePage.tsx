@@ -8,13 +8,13 @@ import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
-import { chevronForwardOutline, pencil, trashOutline } from 'ionicons/icons';
+import { briefcaseOutline, calendarOutline, chevronForwardOutline, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useLocation } from 'react-router';
 import { messageManager } from '../../components/MassageManager';
 import MyProfileHeader from '../../components/MyProfileHeader';
-
+import '../../theme/variables.css'
 const ExpensePage: React.FC = () => {
     const navigation = useIonRouter();
     const location = useLocation();
@@ -102,29 +102,36 @@ const ExpensePage: React.FC = () => {
 
     return (
         <IonPage>
+          
             <IonHeader>
+           
                 <IonToolbar color="primary">
+              
                     <IonTitle>Expenses</IonTitle>
                     <MyProfileHeader/>
+               
                 </IonToolbar>
+               
             </IonHeader>
+            <CommonPullToRefresh onRefresh={getExpense}>
             <IonContent>
-                <CommonPullToRefresh onRefresh={getExpense}>
-                    <IonList id="time-list">
+            
+            
+                    <IonList >
                         {expenses && expenses.map((expense: ExpenseModel) => (
                             <IonItemSliding key={expense.ExpenseId.toString()}>
                                    <IonItem key={expense.ExpenseId?.toString()} button  onClick={() => viewExpense(expense.ExpenseId)}>
-                                    <IonLabel>
+                                    <IonLabel className="ion-text-wrap">
                                     <span className="matter-Code-font">
-                                       
+                                    <IonIcon icon={briefcaseOutline}/>&nbsp;
                                     {expense.MatterCode} | {expense.MatterTitle}
                                         </span>
-                                        <br/>
+                                        
                                         <span className="work-done-desc">
-                                            {expense.Date} - {expense.ExpenseCategory}
+                                        <IonIcon icon={calendarOutline}/> {expense.Date} - {expense.ExpenseCategory}
                                         </span>
                                        
-                                        <h2 className="small-font">{expense.Client}</h2>
+                                        <h2 className="small-font"> <IonIcon icon={personCircleOutline}/>&nbsp;{expense.Client} </h2>
                                     </IonLabel>
                                     <IonText className="time-text" slot="end">
                                         <p className="total-time">{(expense.AmountToDisplay)}</p>
@@ -133,11 +140,11 @@ const ExpensePage: React.FC = () => {
                                 </IonItem>
                                 <IonItemOptions side="end">
                                     <IonItemOption onClick={() => showDeleteConfirm(expense)} color="danger">
-                                        <IonIcon icon={trashOutline}></IonIcon>
+                                        <IonIcon icon={trash}></IonIcon>
                                     </IonItemOption>
                                 </IonItemOptions>
                                 <IonItemOptions onClick={() => editExpenseByExpenseId(expense)} side="start">
-                                    <IonItemOption color="light">
+                                    <IonItemOption color="success">
                                         <IonIcon icon={pencil}></IonIcon>
                                     </IonItemOption>
                                 </IonItemOptions>
@@ -165,11 +172,11 @@ const ExpensePage: React.FC = () => {
                             }
                         ]}
                     />
-                </CommonPullToRefresh>
-                <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
-                 <FabMenu />
-              </div>
+               
+               
             </IonContent>
+            </CommonPullToRefresh>
+            <FabMenu/>
         </IonPage>
     );
 };

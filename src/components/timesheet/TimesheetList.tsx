@@ -2,7 +2,7 @@
 import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions, 
     IonItemSliding, IonLabel, IonList, IonText } from '@ionic/react';
   import React from 'react';
-  import {  chevronForwardOutline,  pencil, time, trashOutline } from 'ionicons/icons';
+  import {  briefcase, briefcaseOutline, brush, brushOutline, chevronForwardOutline,  informationCircleOutline,  notifications,  pencil, pencilOutline, pencilSharp, person, personOutline, pricetag, pricetagOutline, pricetags, pricetagsSharp, time, trash, trashOutline } from 'ionicons/icons';
   import './TimesheetList.css'
   import { TimesheetModel } from '../../types/types';
   
@@ -34,14 +34,22 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                 <IonItemSliding key={timeEntry.TrackingId.toString()}>
                <IonItem key={timeEntry.TrackingId.toString()} onClick={() => handleViewTimesheet(timeEntry)}>
                 <IonLabel>
-                <h3 ><span className="matter-Code-font">{timeEntry.MatterCode} -</span> {timeEntry.MatterTitle}</h3>
-                <h2 className="small-font"> {timeEntry.ContactName}</h2>
+                <span className="matter-Code-font">
+                <IonIcon icon={briefcaseOutline}/>
+                  &nbsp;{timeEntry.MatterCode} | {timeEntry.MatterTitle}
+               </span>
+               <h2 className="small-font"> <IonIcon icon={personOutline}></IonIcon> {timeEntry.ContactName}</h2>
                
-                <p className="work-done-desc" >{timeEntry.Description}</p>  
+                <p className="work-done-desc" ><IonIcon icon={informationCircleOutline}/>{timeEntry.Description}</p>  
                 </IonLabel>
                   <IonText className="time-text" slot="end" > 
-                    <p className="total-time">{timeEntry.TrackedTime} </p>
-                    <p className="Billable-nonbillable-hrs">B: <span>{timeEntry.BillableHour}</span> | &nbsp;NB:<span>{timeEntry.NonBillableHour}</span></p>
+                  
+                    <p className="total-time">  <small>   {timeEntry.ParentId > 0 && (
+                  <IonIcon icon={pricetagOutline}/>
+                     )}</small>{timeEntry.TrackedTime}  </p>
+                    <p className="Billable-nonbillable-hrs">B: <span>{timeEntry.BillableHour}</span> | &nbsp;NB:<span>{timeEntry.NonBillableHour}</span>
+                    </p> 
+                 
                   </IonText>
                 
                 <IonButton className="btninlinemarg" color="dark" shape="round" fill="clear"  slot="end">
@@ -51,18 +59,18 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
   
               <IonItemOptions side="end">
                 <IonItemOption onClick={(e:any) => deleteTimeEntry(timeEntry)} color="danger"  > 
-                  <IonIcon icon={trashOutline}></IonIcon>
+                  <IonIcon  icon={trash}></IonIcon>
                 </IonItemOption>
               </IonItemOptions>  
               <IonItemOptions onClick={() => editTimeEntry(timeEntry)} side="start">
-                                    <IonItemOption color="light">
-                                        <IonIcon icon={pencil}></IonIcon>
+                                    <IonItemOption color="success">
+                                        <IonIcon className='' size='small' icon={pencil}></IonIcon>
                                     </IonItemOption>
                                 </IonItemOptions>
             </IonItemSliding>
                   )))
           }
-          
+           
   
           </IonList>
       );

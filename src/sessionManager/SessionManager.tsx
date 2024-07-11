@@ -7,6 +7,7 @@ interface SessionManagerContextType {
   clearUserSession: () => void;
   loginInfo: LoginModel | null;
   setLoginInfo: (info: LoginModel | null) => void;
+ 
 }
 
 const SessionManagerContext = createContext<SessionManagerContextType | undefined>(undefined);
@@ -41,6 +42,7 @@ export const SessionManagerProvider = ({ children }: { children: ReactNode }) =>
       localStorage.removeItem('loginInfo');
     }
   };
+
   return (
     <SessionManagerContext.Provider value={{ user, setUserSession: setUserDetails, clearUserSession: clearUserDetails ,loginInfo,setLoginInfo:setLoginDetails}}>
       {children}

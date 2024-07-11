@@ -1,45 +1,55 @@
-import React, { useState } from 'react';
-import { IonBackButton, IonButtons, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter, IonAvatar, IonCard, IonCardContent, IonToggle, IonList, IonListHeader, IonFooter } from '@ionic/react';
-import { logOutOutline, personOutline, mailOutline, callOutline, pricetagOutline, moonOutline, sunnyOutline } from 'ionicons/icons';
+import React, { useState, useEffect } from 'react';
+import { IonBackButton, IonButtons, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter, IonAvatar, IonList, IonListHeader, IonToggle } from '@ionic/react';
+import { logOutOutline, personOutline, mailOutline, callOutline, pricetagOutline, logInOutline } from 'ionicons/icons';
 import { useSessionManager } from '../../sessionManager/SessionManager';
-import './myProfile.css'
+import './myProfile.css';
 import Footer from '../../components/layouts/Footer';
+
 const MyProfile: React.FC = () => {
   const navigation = useIonRouter();
-  const { user, clearUserSession } = useSessionManager();
-  const [darkMode, setDarkMode] = useState(false);
+  const { user, clearUserSession, loginInfo, setLoginInfo } = useSessionManager();
+  const [autoLogin, setAutoLogin] = useState(loginInfo?.autoLogin || false);
+
+  useEffect(() => {
+    if (loginInfo) {
+      setAutoLogin(loginInfo.autoLogin);
+    }
+  }, [loginInfo]);
 
   const Logout = () => {
     clearUserSession();
     navigation.push('/login', 'root', 'replace');
     window.location.reload();
   };
-
-  const toggleDarkMode = () => {
-    setDarkMode(!darkMode);
-
-    document.body.classList.toggle('dark', darkMode);
-
+ const toggleAutoLogin = () => {
+    if (loginInfo) {
+      const updatedLoginInfo = {
+        ...loginInfo,
+        autoLogin: !autoLogin,
+      };
+      setLoginInfo(updatedLoginInfo);
+      setAutoLogin(!autoLogin);
+      
+    }
   };
 
   return (
-    <IonPage >
+    <IonPage>
       <IonHeader>
         <IonToolbar color="primary">
           <IonButtons slot="start">
-            <IonBackButton/>
+            <IonBackButton defaultHref='/layout/dashboard' />
           </IonButtons>
           <IonTitle>My Profile</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent class={`ion-padding ${darkMode ? 'dark-theme' : ''}`}>
+      <IonContent>
         <div className="profile-container">
-          <IonAvatar  className="profile-avatar">
-            <img src={user?.ProfilePicture} alt="Profile" />    
+          <IonAvatar className="profile-avatar">
+            <img src={user?.ProfilePicture} alt="Profile" />
           </IonAvatar>
-       
           <IonList className="profile-details">
-            <IonListHeader>Personal Information</IonListHeader>
+            <IonListHeader className='listHeader'>Personal Information</IonListHeader>
             <IonItem>
               <IonIcon icon={personOutline} slot="start" />
               <IonLabel>{user?.FirstName} {user?.LastName}</IonLabel>
@@ -56,16 +66,12 @@ const MyProfile: React.FC = () => {
               <IonIcon icon={pricetagOutline} slot="start" />
               <IonLabel>{user?.Designation}</IonLabel>
             </IonItem>
+            <IonItem lines="none">
+              <IonIcon icon={logInOutline} slot="start" />
+              <IonLabel>Auto Login</IonLabel>
+              <IonToggle checked={autoLogin} onIonChange={toggleAutoLogin} />
+            </IonItem>
           </IonList>
-          <IonCard className="profile-card">
-            <IonCardContent>
-              <IonItem lines="none">
-                <IonIcon icon={darkMode ? moonOutline : sunnyOutline} slot="start" />
-                <IonLabel>Dark Mode</IonLabel>
-                <IonToggle checked={darkMode} onIonChange={toggleDarkMode} />
-              </IonItem>
-            </IonCardContent>
-          </IonCard>
           <div className="logout-button">
             <IonButton expand="block" onClick={Logout}>
               <IonIcon icon={logOutOutline} slot="start" />
@@ -74,7 +80,7 @@ const MyProfile: React.FC = () => {
           </div>
         </div>
       </IonContent>
-     <Footer/>
+      <Footer />
     </IonPage>
   );
 };

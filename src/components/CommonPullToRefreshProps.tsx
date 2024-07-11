@@ -22,7 +22,7 @@ const CommonPullToRefresh: React.FC<CommonPullToRefreshProps> = ({ onRefresh, ch
         <IonRefresherContent
           pullingIcon="arrow-down"
           refreshingSpinner="circles"
-          style={{ backgroundColor: 'white' }}
+        
         />
       </IonRefresher>
       {children}

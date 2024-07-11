@@ -3,6 +3,124 @@
     height: 40px; 
     border-radius: 50%; 
     object-fit: cover;
-    border: 2px solid rgb(159, 248, 248); 
+    border: 1px solid rgb(159, 248, 248); 
+  }
+  .center-button {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
   }
   
+  .matter-Code-font {
+    display: block; /* Ensures it takes the full width */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflowed content */
+    text-overflow: ellipsis; /* Adds the ellipsis */
+    max-width: 100%; /* Ensures it doesn't exceed container width */
+    font-weight: bold;
+    font-size: small;
+  }
+
+  ion-fab-button[data-desc] {
+    position: relative;
+  }
+  
+  ion-fab-button[data-desc]::after {
+    position: absolute;
+    content: attr(data-desc);
+    z-index: 1;
+    right: 55px;
+    bottom: 4px;
+    background-color: var(--ion-color-light);
+    padding: 5px;
+    border-radius: 5px;
+    color: black;
+    box-shadow: 0 3px 5px -1px rgba(0,0,0,0.2), 0 6px 10px 0 rgba(0,0,0,0.14), 0 1px 18px 0 rgba(0,0,0,0.12);
+  }
+
+  .small-font{
+    font-size: small !important;
+  }
+
+  .height-50-px{
+    max-height: 150px !important;
+  }
+
+
+  .card-title{
+    font-size: small !important;
+  }
+.icon-background{    
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: #fad160;
+   padding: 1px;
+  color:#ffffff;}
+
+.billable-hours, .exp-reimbursed{color: green; font-size: x-small; font-weight: 600;}
+.nonbillable-hours, 
+.exp-balance
+{color: 
+  red; 
+  font-size: x-small; 
+  font-weight: 600;
+
+}
+
+.greeting-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333; 
+  text-align: center;
+  margin: 0;
+  padding: 10px 0; 
+}
+
+.dashboard-card {
+  
+  height: 130px;
+  margin: 8px; 
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border:  1px solid #e4e4e4 ;
+  border-radius: 10%;
+ 
+}
+
+.dashboard-card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1.2rem; 
+  border-bottom: 1px solid #ccc;
+  padding:8px 5px;
+  font-weight: bold;
+
+
+}
+
+.icon {
+  font-size: 1.5rem; /* Adjust the size of the icon */
+  margin-right: 8px; /* Space between icon and title */
+
+  color: #3dc2ff;
+}
+
+.billable-hours, .nonbillable-hours, .exp-reimbursed {
+  margin: 0; 
+}
+ 
+/* Ensure the page works on different devices */
+@media (max-width: 576px) {
+  .dashboard-card-title {
+    font-size: 1rem;
+  }
+
+  .icon {
+    font-size: 1.5rem;
+  }
+}
+
+.Ionic-header{padding: 0px!important;}
+.Card-content{padding: 10px 15px; margin-top: 10px;}

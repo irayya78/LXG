@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonAvatar, IonButton, IonButtons, IonLoading, IonText } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonAvatar, IonButton, IonButtons, IonLoading, IonText, IonIcon } from '@ionic/react';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { MatterModel } from '../../types/types';
 import { useMatterManagement } from '../../hooks/useMatterManagement';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import FabMenu from '../../components/layouts/FabIcon';
 import MyProfileHeader from '../../components/MyProfileHeader';
+import { briefcaseOutline, calendarClearOutline, calendarOutline, personCircleOutline } from 'ionicons/icons';
 
 const MatterPage: React.FC = () => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
@@ -33,7 +34,7 @@ const MatterPage: React.FC = () => {
   }, []);
 
   return (
-    <IonPage style={{ backgroundColor: '#fff' }}>
+    <IonPage>
       <IonHeader  color="primary">
         <IonToolbar color="primary">
           <IonTitle >Matters</IonTitle>
@@ -49,13 +50,14 @@ const MatterPage: React.FC = () => {
                                     </IonText> 
               <IonLabel className="ion-text-wrap">
                <span  className="matter-Code-font">
-                    {matter.MatterCode} | {matter.MatterTitle}
+               <IonIcon icon={briefcaseOutline}/>
+               &nbsp;  {matter.MatterCode} | {matter.MatterTitle}
                   </span>
                 <h5 className="work-done-desc">
-                  {matter.OpenDate} | {matter.PracticeArea}
+                 <IonIcon icon={calendarOutline}/> {matter.OpenDate} | {matter.PracticeArea}
                 </h5>
                
-                <h2 className="small-font">{matter.ClientName}</h2>
+                <h2 className="small-font"><IonIcon icon={personCircleOutline}/>&nbsp;{matter.ClientName}</h2>
               </IonLabel>
             </IonItem>
           ))}
@@ -66,9 +68,9 @@ const MatterPage: React.FC = () => {
           duration={0}
         />
       </CommonPullToRefresh>
-      <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
+     
                  <FabMenu />
-       </div>
+      
     </IonPage>
   );
 };

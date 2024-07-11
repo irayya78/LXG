@@ -4,6 +4,10 @@ ion-segment{
     font-size: xx-small;
 }
 
+.calender{
+    padding-top: 5px;
+}
+
 ion-segment-button{
     font-size: x-small;
     padding: px 0px;
@@ -11,21 +15,19 @@ ion-segment-button{
     font-weight: bold;
     text-align: -webkit-center;
     
+    
 }
 
+.buttonAero{
+    color:#0163aa;
+}
 ion-segment-button span{
     font-size: xx-small;
     font-weight: normal;
     
+    
 }
-.segment-button-checked span.activeData {
-    width: 20px;
-    height: 10px;
-    border-radius: 10px;
-    background-color: #32cd32; /* light green */
-    color: white;
-    display: block;
-  }
+
 
 ion-grid{
     padding: 0px;
@@ -57,6 +59,13 @@ ion-buttons ion-button{
     color: silver;
     font-size: small;
 }
+.dayName{
+    font-weight: bolder;
+}
+.segment-button-checked span {
+    font-weight: bolder;
+    color: #0163aa;
+  }
 div.item-native{padding-left:0px;}
 .nopadding{padding:0px;}
 .nobottomborder div.item-inner{border-style:none!important;}

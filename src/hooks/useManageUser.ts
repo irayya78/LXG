@@ -54,7 +54,8 @@ export const useManageUser = () => {
           BackDateTimesheetUpdateAllowedDays: customer?.backDateTimesheetUpdateAllowedDays || 0,
           DisableMobileAppAccess: disableMobileAppAccess || false,
           DisplayExpenseApprover:customer?.displayExpenseApprover||false,
-          TimerTimeInterval:customer?.timerTimeInterval||null
+          TimerTimeInterval:customer?.timerTimeInterval||null,
+          AllowTaggingTimesheet:customer?.allowTaggingTimesheet
           
         };
 
@@ -75,6 +76,79 @@ export const useManageUser = () => {
     }
   };
 
+
+  //AutoLogin
+  const checkAutoLogin = async (
+    username: string,
+    password: string,
+    setShowAlert: (show: boolean) => void,
+    setAlertMessage: (message: string) => void,
+    setAutoLoginSuccess: (success: boolean) => void 
+  ) => {
+    try {
+      const response = await axiosInstance.post('/ValidateUserPost', {username, password});
+      const data = response.data;
+  
+      const {
+        userId,
+        customerId,
+        firstName,
+        lastName,
+        email,
+        cellPhone,
+        designation,
+        customer,
+        disableMobileAppAccess,
+        profilePicId,
+        profilePic
+      } = data;
+  
+      const profilePicUrl: string =
+        profilePicId != null && profilePicId > 0 && profilePic?.guid
+          ? _STORAGE_IMAGE_PATH + profilePic.guid
+          : getGenericImageUrl(firstName);
+  
+      if (userId && customerId && firstName && email) {
+        const userObj = {
+          UserId: Number(userId),
+          CustomerId: customerId,
+          FirstName: firstName,
+          LastName: lastName,
+          ProfilePicture: profilePicUrl,
+          Email: email,
+          Cell: cellPhone,
+          Designation: designation?.designationName || '',
+          CaptureFromAndToTime: customer?.captureFromAndToTimeInTimeTracking || false,
+          CaptureActivity: customer?.captureActivityInTimeTracking || false,
+          AllowFutureDateForExpenseSubmission:
+            customer?.allowFutureDateForExpenseSubmission || false,
+          AllowFutureDateForTimeEntry: customer?.allowFutureDateForTimeEntry || false,
+          TimeSheetLockSelectedDay: customer?.timeSheetLockSelectedDay || 0,
+          BackDatedExpenseEntryAllowedDays: customer?.backDatedExpenseEntryAllowedDays || 0,
+          CustomerLogoFileName: customer?.document ? customer.document.guid : '',
+          BackDateTimesheetUpdateAllowedDays: customer?.backDateTimesheetUpdateAllowedDays || 0,
+          DisableMobileAppAccess: disableMobileAppAccess || false,
+          DisplayExpenseApprover: customer?.displayExpenseApprover || false,
+          TimerTimeInterval: customer?.timerTimeInterval || null,
+          AllowTaggingTimesheet: customer?.allowTaggingTimesheet
+        };
+  
+        setUserSession(userObj);
+        localStorage.setItem('userSession', JSON.stringify(userObj));
+        setAutoLoginSuccess(true); // Set auto-login success state
+      } else {
+        throw new Error('Invalid login response');
+      }
+    } catch (error) {
+      console.error('Auto-login error:', error);
+      setAlertMessage('Session expired. Please log in again.');
+      setShowAlert(true); 
+      setAutoLoginSuccess(false); 
+    }
+  };
+  
+ 
+  
   // Email Valid Or Not Checking In forgot Password Window API CALL
   const isValidUser = async (username: string): Promise<UserModel> => {
     try {
@@ -108,5 +182,5 @@ export const useManageUser = () => {
  
 
 
-  return { handleLogin, isValidUser, resetPassword };
+  return { handleLogin, isValidUser, resetPassword,checkAutoLogin };
 };

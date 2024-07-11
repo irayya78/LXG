@@ -112,7 +112,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
     setBusy(true);
     const saved = await saveExpense(formData);
     if (saved) {
-      navigation.goBack();
+      navigation.push('/layout/expense','back','push');
     } else {
       console.error("Failed to save expense");
     }

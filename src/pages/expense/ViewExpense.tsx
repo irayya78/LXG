@@ -88,8 +88,8 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
           <IonButtons slot="end">
 
               <IonButtons slot="secondary" >
-                  <IonButton  slot="end" onClick={() => showDeleteConfirm()} > <IonIcon  slot="start" icon={trashOutline}  /></IonButton>
-                  <IonButton onClick={() => editExpense()}  slot="end" > <IonIcon  slot="start" icon={pencilOutline}  /></IonButton>
+                  <IonButton size='small'  slot="end" onClick={() => showDeleteConfirm()} > <IonIcon  slot="start" icon={trashOutline}  /></IonButton>
+                  <IonButton size='small' onClick={() => editExpense()}  slot="end" > <IonIcon  slot="start" icon={pencilOutline}  /></IonButton>
               </IonButtons>
 
           </IonButtons>
@@ -104,7 +104,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
           <IonList  id="listTimeEntry">
               <IonItem>
                   <IonLabel  position="fixed">Matter</IonLabel>
-                  <IonLabel  position="fixed">{expense.MatterCode}</IonLabel>
+                  <IonLabel className='boldAmount'  position="fixed">{expense.MatterCode}</IonLabel>
               </IonItem>
               <IonItem>
                   <IonLabel position="fixed">Date</IonLabel>
@@ -117,7 +117,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
               </IonItem>
               <IonItem>
             <IonLabel position="fixed">Amount</IonLabel>
-            <IonText className='light-green'>{expense.AmountToDisplay}</IonText>
+            <IonText className='boldAmount'  color={"primary"}>{expense.AmountToDisplay}</IonText>
           </IonItem>
 
              

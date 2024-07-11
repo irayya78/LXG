@@ -9,7 +9,7 @@ import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import TimesheetList from '../../components/timesheet/TimesheetList';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import { DataAccessCheckModal, TimesheetModel } from '../../types/types';
-import { add } from 'ionicons/icons';
+import { add, time, timeOutline } from 'ionicons/icons';
 import { messageManager } from '../../components/MassageManager';
 
 
@@ -216,8 +216,8 @@ const onDeleteTimesheet =async()=>{
 }
 
   return (
-    <IonPage style={{ backgroundColor: '#fff' }}>
-      <IonHeader color="primary" >
+    <IonPage >
+      <IonHeader  >
         <IonToolbar color="primary">
          
         <IonTitle>Timesheet &nbsp;
@@ -227,7 +227,8 @@ const onDeleteTimesheet =async()=>{
         </IonToolbar>
       </IonHeader>
       <CommonPullToRefresh onRefresh={() => loadWeeklyCalendar(selectedDate)}>
-      <IonContent  fullscreen style={{ backgroundColor: '#fff' }}>
+      <IonContent>
+        
          <CalendarNavigation selectedDay={selectedDate} calendarItems={calItems} onDateClick={onDateClick}  />
          <IonItem color="light" className="nobottomborder">
          <IonList slot="start" class="nopadding">
@@ -238,7 +239,7 @@ const onDeleteTimesheet =async()=>{
         </IonList>
 
      </IonItem>
-     <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} />
+     <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0}  />
            <TimesheetList onDeleteTimesheet={showDeleteConfirm} onEditTimesheet={onTimesheetEdit} onViewTimesheet={onViewTimesheet} timeEntries={timeEntriesList} />
       
           
@@ -264,14 +265,14 @@ const onDeleteTimesheet =async()=>{
                         ]}
                     />
        </CommonPullToRefresh>
-       <div style={{ position: 'fixed', bottom: '20px', right: '20px', zIndex: 999 }}>
+       
          <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={newTimeEntry}>
-          <IonIcon icon={add} />
+          <IonIcon icon={time} />
          </IonFabButton>
 
           </IonFab>
-            </div> 
+            
     </IonPage>
   );
 };

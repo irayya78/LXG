@@ -16,58 +16,27 @@
   .profile-avatar {
     width: 100px;
     height: 100px;
+    margin-top: 5vh;
     margin-bottom: 10px;
     border-radius: 50%;
     overflow: hidden;
+    border: 1px solid#3dc2ff; 
   }
   
-  .profile-avatar img {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
-  }
+ 
   
   .profile-details {
     width: 100%;
   }
   
-  .profile-card {
-    width: 100%;
-    margin-top: 20px;
+ 
+  .listHeader{
+    font-weight: bolder;
+    text-align: center;
+    padding: 10px;
   }
-  
   .logout-button {
     width: 100%;
     margin-top: 20px;
   }
-  .dark-theme {
-    --ion-background-color: #121212; /* Dark background color */
-    --ion-text-color: #ffffff; /* Light text color */
-  }
-  
-  .profile-container.dark-theme {
-    background-color: #121212;
-    color: #ffffff;
-  }
-  /* myProfile.css */
-.dark-theme {
-  --ion-background-color: #121212; /* Dark background color */
-  --ion-text-color: #ffffff; /* Light text color */
-}
-
-.dark-theme ion-icon {
-  color: #ffffff; /* Light color for icons */
-}
-
-.dark-theme ion-label {
-  color: #ffffff; /* Light color for labels */
-}
-
-.profile-container.dark-theme {
-  background-color: #121212;
-  color: #ffffff;
-}
-/* .profile-pic{
-  height: 60px;
-  width: 60px;
-} */
+ 
