@@ -65,7 +65,7 @@ const Layout: React.FC = () => {
             <IonLabel>Matter</IonLabel>
           </IonTabButton>
 
-          <IonTabButton disabled  tab="leave" href="">
+          <IonTabButton tab="leave" href="/layout/leave">
             <IonIcon icon={calendar} />
             <IonLabel>Leave</IonLabel>
           </IonTabButton>
