@@ -12,6 +12,9 @@ import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
 import ApplyLeave from '../../pages/Leave/ApplyLeave';
+import LeavePage from '../../pages/mainPages/LeavePage';
+import HolidayList from '../../pages/Leave/HolidayList';
+import ViewLeave from '../../pages/Leave/ViewLeave';
 
 
 const Layout: React.FC = () => {
@@ -35,9 +38,9 @@ const Layout: React.FC = () => {
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
           <Route path="/layout/leave/create" component={ApplyLeave} exact />
           <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
-          {/* <Route path="/layout/leave" component={LeavePage} exact />
+          <Route path="/layout/leave" component={LeavePage} exact />
           <Route path="/layout/leave/viewHolidayList" component={HolidayList} exact/>
-          <Route path="/layout/leave/view/:leaveId" component={ViewLeave} exact/> */}
+          <Route path="/layout/leave/view/:leaveId" component={ViewLeave} exact/>
           <Redirect exact from="/layout" to="/layout/dashboard" />
         </IonRouterOutlet>
 
@@ -60,7 +63,7 @@ const Layout: React.FC = () => {
             <IonLabel>Matter</IonLabel>
           </IonTabButton>
 
-          <IonTabButton disabled  tab="leave" href="">
+          <IonTabButton tab="leave" href="/layout/leave">
             <IonIcon icon={calendar} />
             <IonLabel>Leave</IonLabel>
           </IonTabButton>

@@ -146,5 +146,45 @@ export interface DataAccessCheckModal {
   Message: string
 }
 
+export interface LeaveModel{
+  LeaveId : number,
+  UserId : Number,
+  CustomerId : Number,
+  ModifiedDate : string,
+  ModifiedBy : Number,
+  CreatedDate : string,
+  CreatedBy : Number,
+  FromDate : string,
+  ToDate : string,
+  LeaveFromDateToToDate : string,
+  FromSessionId : number,
+  ToSessionId : number,
+  LeaveTypeId : Number,
+  LeaveCount : number,
+  LeaveTransactionId : Number,
+  Description : string,
+  ApproverComment : string,
+  ApproverId : Number,
+  LeaveStatusId : Number,
+  LeaveTransactionType : string,
+  ActionOn : string,
+  LeaveTypeCollection : DropDownItem[],
+  LeaveSessionCollection: DropDownItem[],
+  LeaveStatuses : DropDownItem[],
+  BuId : number,
+  LeaveTypeName : string,
+  LeaveSessionName : string,
+  // LeaveTrTypeCollection : DropDownItem[],
+  // User: UserModel,
+  LeaveType : any
+}
+
+export interface HolidayListModel{
+  HolidayDate : string,
+  HolidayName : string,
+  Description : string
+}
+
+
 
  

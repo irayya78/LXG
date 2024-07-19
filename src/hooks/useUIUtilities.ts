@@ -47,7 +47,22 @@ export const useUIUtilities = () => {
     return dtYYYYMMDD;
   };
   
+  const sortDataByDate = (expenses: any[], dateProperty: string, order: 'asc' | 'desc' = 'desc') => {
+    return expenses.sort((a, b) => {
+      // Convert date strings to Date objects using the dynamic date property
+      const dateA = new Date(convertDateToYYYYMMDD(a[dateProperty]));
+      const dateB = new Date(convertDateToYYYYMMDD(b[dateProperty]));
   
+      // Compare dates
+      if (dateA < dateB) {
+        return order === 'asc' ? -1 : 1; // Sorting in ascending or descending order
+      }
+      if (dateA > dateB) {
+        return order === 'asc' ? 1 : -1; // Sorting in ascending or descending order
+      }
+      return 0;
+    });
+};
   
 
   const sortExpensesByDate = (expenses: any[]) => {
@@ -271,6 +286,7 @@ const getTimeDifferenceBetweenFromAndToTime =(fromTime:string, toTime : string) 
     getCurrentDateDDMMYYYY,
     getTimeAsHHMM,
     getTimeDifferenceBetweenFromAndToTime,
-    sortExpensesByDate
+    sortExpensesByDate,
+    sortDataByDate
   };
 };
