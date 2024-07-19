@@ -11,6 +11,7 @@ import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
+import ApplyLeave from '../../pages/Leave/ApplyLeave';
 
 
 const Layout: React.FC = () => {
@@ -32,7 +33,11 @@ const Layout: React.FC = () => {
           <Route path="/layout/expense/create" component={NewExpense} exact />
           <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
-          {/* <Route path="/layout/matter/create" component={ApplyLeave} exact /> */}
+          <Route path="/layout/leave/create" component={ApplyLeave} exact />
+          <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
+          {/* <Route path="/layout/leave" component={LeavePage} exact />
+          <Route path="/layout/leave/viewHolidayList" component={HolidayList} exact/>
+          <Route path="/layout/leave/view/:leaveId" component={ViewLeave} exact/> */}
           <Redirect exact from="/layout" to="/layout/dashboard" />
         </IonRouterOutlet>
 
