@@ -3,7 +3,6 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
     IonItemSliding, IonLabel, IonList, IonText } from '@ionic/react';
   import React from 'react';
   import {briefcaseOutline,chevronForwardOutline, informationCircleOutline, pencil,  personOutline, pricetag, trash,} from 'ionicons/icons';
-  import './TimesheetList.css'
   import { TimesheetModel } from '../../types/types';
   
   const TimesheetList: React.FC<{timeEntries: TimesheetModel[]; 

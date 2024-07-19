@@ -11,7 +11,8 @@ import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
-import ApplyLeave from '../../pages/Leave/ApplyLeave';
+import ApplyLeave from '../../pages/leave/ApplyLeave';
+
 
 
 const Layout: React.FC = () => {

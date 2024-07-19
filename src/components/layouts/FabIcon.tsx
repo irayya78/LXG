@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonFab, IonFabButton, IonFabList, IonIcon } from '@ionic/react';
-import { add, calendarOutline, cardOutline, briefcaseOutline, timerOutline } from 'ionicons/icons';
+import { add, calendarOutline, cardOutline, timerOutline } from 'ionicons/icons';
 
 const FabMenu: React.FC = () => {
   return (
