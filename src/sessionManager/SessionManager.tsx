@@ -9,6 +9,9 @@ interface SessionManagerContextType {
   setLoginInfo: (info: LoginModel | null) => void;
  
 }
+export const isSessionExpired = () => {
+  return localStorage.getItem('sessionExpired') === 'true';
+};
 
 const SessionManagerContext = createContext<SessionManagerContextType | undefined>(undefined);
 

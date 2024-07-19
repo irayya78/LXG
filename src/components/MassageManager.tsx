@@ -67,9 +67,35 @@ export function messageManager() {
     root.render(alert);
   };
 
+  const showTopToastMessage = (message: string, duration: number = 2000) => {
+    const toastElement = document.createElement('div');
+    document.body.appendChild(toastElement);
+    const root = createRoot(toastElement);
+
+    const toast = (
+      <IonToast
+        isOpen={true}
+        message={message}
+        duration={duration}
+        position="top"
+        cssClass="top-toast" // Custom CSS class for top toast styling
+        onDidDismiss={() => {
+          root.unmount();
+          document.body.removeChild(toastElement);
+        }}
+      />
+    );
+
+    root.render(toast);
+  };
+  const showValidationNotification = (message: string) => {
+    showTopToastMessage(message, 1000);
+  };
+
   return {
     showToastMessage,
     showAlertMessage,
     showConfirmMessage,
+    showValidationNotification
   };
 }

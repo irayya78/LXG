@@ -15,6 +15,7 @@ import { useLocation } from 'react-router';
 import { messageManager } from '../../components/MassageManager';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import '../../theme/variables.css'
+import withSessionCheck from '../../components/WithSessionCheck';
 const ExpensePage: React.FC = () => {
     const navigation = useIonRouter();
     const location = useLocation();
@@ -181,4 +182,4 @@ const ExpensePage: React.FC = () => {
     );
 };
 
-export default ExpensePage;
+export default withSessionCheck(ExpensePage);

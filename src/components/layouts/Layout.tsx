@@ -1,7 +1,7 @@
 import React from 'react';
-import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet, IonFab, IonFabButton, IonFabList } from '@ionic/react';
+import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react';
 import { Redirect, Route, useLocation } from 'react-router-dom';
-import { add, homeOutline, calendarOutline, cardOutline, briefcaseOutline, timeOutline, timerOutline, timer, cash, card, home, briefcase, calendar } from 'ionicons/icons';
+import {timer, card, home, briefcase, calendar } from 'ionicons/icons';
 import DashboardPage from '../../pages/mainPages/DashboardPage';
 import ExpensePage from '../../pages/mainPages/ExpensePage';
 import MatterPage from '../../pages/mainPages/MatterPage';
@@ -10,8 +10,8 @@ import TimeEntries from '../../pages/timesheet/TimeEntryForm';
 import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
-import ApplyLeave from '../../pages/leave/ApplyLeave';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
+import ApplyLeave from '../../pages/leave/ApplyLeave';
 
 const Layout: React.FC = () => {
 

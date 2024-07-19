@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonAvatar, IonButton, IonButtons, IonLoading, IonText, IonIcon } from '@ionic/react';
-import { useSessionManager } from '../../sessionManager/SessionManager';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonLoading, IonText, IonIcon } from '@ionic/react';
 import { MatterModel } from '../../types/types';
 import { useMatterManagement } from '../../hooks/useMatterManagement';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import FabMenu from '../../components/layouts/FabIcon';
 import MyProfileHeader from '../../components/MyProfileHeader';
-import { briefcaseOutline, calendarClearOutline, calendarOutline, personCircleOutline } from 'ionicons/icons';
+import { briefcaseOutline, calendarOutline, personCircleOutline } from 'ionicons/icons';
+import withSessionCheck from '../../components/WithSessionCheck';
 
 const MatterPage: React.FC = () => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
@@ -75,4 +75,4 @@ const MatterPage: React.FC = () => {
   );
 };
 
-export default MatterPage;
+export default withSessionCheck(MatterPage);

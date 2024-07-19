@@ -7,19 +7,20 @@ import { IonAlert, IonBackButton, IonButton, IonButtons,
   useIonViewDidEnter  } from '@ionic/react';
 import React, {  useState } from 'react';
 import { RouteComponentProps } from 'react-router';
-import {attachOutline,  pencilOutline, trashOutline } from 'ionicons/icons';
+import {attachOutline,  download,  pencilOutline, saveSharp, trashOutline } from 'ionicons/icons';
 import { messageManager } from '../../components/MassageManager';
 import { ExpenseDocumentModel, ExpenseModel } from '../../types/types';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
-import './viewExpense.css';
+// import './viewExpense.css';
+import { useSessionManager } from '../../sessionManager/SessionManager';
 
 interface ViewExpenseParams extends RouteComponentProps<{expenseId: string; }> {}
 
 const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
   
-  const navigation =useIonRouter()
-
-  const{deleteExpense, getExpense, getBlankExpenseObject,canEditOrDeleteExpense} = useExpenseManagement()
+  const navigation =useIonRouter();
+  const session=useSessionManager();
+  const{deleteExpense, getExpense, getBlankExpenseObject,canEditOrDeleteExpense,downloadDocument} = useExpenseManagement()
 
   const[showAlert, setShowAlert] = useState<boolean>(false)
 
@@ -71,6 +72,12 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
     }
 
     navigation.push(`/layout/expense/update/${expense.ExpenseId}`, 'forward', 'push');
+  }
+
+  const handelDownloadDocument = async(docId:number)=>{
+
+    await downloadDocument(docId)
+    
   }
 
   return (
@@ -156,6 +163,15 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
                       <IonLabel position="fixed">Payment Status</IonLabel>
                       <IonLabel>{expense.PaymentId > 0 ? "Reimbursed" : "Not Reimbursed"}</IonLabel>
               </IonItem>
+  
+             {session.user?.DisplayExpenseApprover ?
+                <IonItem>
+                    <IonLabel position="fixed">Approver</IonLabel>
+                    <IonLabel>{expense.ApproverName ? expense.ApproverName : "No ApproverSelected"}</IonLabel>
+                </IonItem>:null
+             }
+             
+             
              
              
               {expense.ExpenseDocuments && expense.ExpenseDocuments.map( (expDoc: ExpenseDocumentModel, index: Number)  => (
@@ -163,7 +179,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
                       
                        <IonLabel position="stacked"></IonLabel>
                        
-                       <IonText className="small-font"><IonIcon icon={attachOutline} className="icn-pad-right" color="warning"></IonIcon>{expDoc.DocumentName}</IonText>
+                       <IonText onClick={(e)=>{handelDownloadDocument(expDoc.DocumentId as number)}} className="small-font"><IonIcon icon={download} className="icn-pad-right" color="warning"></IonIcon>{expDoc.DocumentName}</IonText>
                    </IonItem>
               ))}                
           </IonList>

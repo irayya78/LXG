@@ -1,8 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonPage, IonText, IonTitle, IonToolbar, IonAlert, IonLoading } from '@ionic/react';
-import { chevronForwardOutline } from 'ionicons/icons';
+import { chevronForwardOutline, mailOpen } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
-import './forgotPassword.css';
+// import './forgotPassword.css';
 import { UserModel } from '../../types/types';
 import { useHistory } from 'react-router-dom';
 
@@ -53,15 +53,19 @@ const ForgotPasswordPage: React.FC = () => {
           <img alt="LegalXGen Logo" src="https://lx2.legalxgen.com/images/logo.png" />
         </div>
         <div className="inputarea">
-          <IonText className="reset-pwd-text">Enter your email we'll help you to reset your password.</IonText>
-          <IonInput
-            value={email}
-            placeholder="Email"
-            onIonChange={(e: any) => setEmail(e.target.value)}
-            type="email"
-          />
-        </div>
-        <IonButton expand="full" onClick={validateEmail} disabled={!isEmailValid}>
+      <IonText className="reset-pwd-text">Enter your email we'll help you to reset your password.</IonText>
+      <div className="input-with-icon">
+        <IonInput
+          value={email}
+          placeholder="Email"
+          onIonInput={(e: any) => setEmail(e.target.value)}
+          type="email"
+          style={{ borderBottom: "2px solid #ccc", padding: "10px 5px", transition: "border-color 0.3s" }}
+        />
+        <IonIcon icon={mailOpen} />
+      </div>
+    </div>
+        <IonButton shape='round'  expand="full" onClick={validateEmail} disabled={!isEmailValid}>
           Next <IonIcon icon={chevronForwardOutline} slot="end" />
         </IonButton>
         {/* Loader */}

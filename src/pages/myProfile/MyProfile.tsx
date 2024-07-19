@@ -2,8 +2,9 @@ import React, { useState, useEffect } from 'react';
 import { IonBackButton, IonButtons, IonButton, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonPage, IonTitle, IonToolbar, useIonRouter, IonAvatar, IonList, IonListHeader, IonToggle } from '@ionic/react';
 import { logOutOutline, personOutline, mailOutline, callOutline, pricetagOutline, logInOutline } from 'ionicons/icons';
 import { useSessionManager } from '../../sessionManager/SessionManager';
-import './myProfile.css';
+// import './myProfile.css';
 import Footer from '../../components/layouts/Footer';
+import withSessionCheck from '../../components/WithSessionCheck';
 
 const MyProfile: React.FC = () => {
   const navigation = useIonRouter();
@@ -14,13 +15,24 @@ const MyProfile: React.FC = () => {
     if (loginInfo) {
       setAutoLogin(loginInfo.autoLogin);
     }
-  }, [loginInfo]);
+  }, [loginInfo?.autoLogin]);
 
-  const Logout = () => {
-    clearUserSession();
-    navigation.push('/login', 'root', 'replace');
-    window.location.reload();
-  };
+const Logout = () => {
+  // Clear user session
+  clearUserSession();
+  localStorage.setItem('sessionExpired', 'true'); 
+
+  // Remove login info if not remembered
+  if (!loginInfo?.rememberMe) {
+    setLoginInfo(null);
+    localStorage.removeItem('loginInfo');
+  }
+
+  // Navigate to login page
+  navigation.push('/login', 'root', 'replace');
+ // window.location.reload();
+};
+
  const toggleAutoLogin = () => {
     if (loginInfo) {
       const updatedLoginInfo = {

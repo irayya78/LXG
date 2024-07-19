@@ -34,9 +34,12 @@ const App: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [autoLoginAttempted, setAutoLoginAttempted] = useState(false);
   const [autoLoginSuccess, setAutoLoginSuccess] = useState(false);
-  
+
+   
+ 
   useEffect(() => {
-    const performAutoLogin = async () => {
+    const performAutoLogin = async () => {   
+      localStorage.removeItem('sessionExpired');
       if (loginInfo?.autoLogin && loginInfo.username && loginInfo.password) {
         setIsLoading(true);
         try {
@@ -61,7 +64,7 @@ const App: React.FC = () => {
     performAutoLogin();
   }, []);
 
-  
+
   return (
     <IonApp>
       <IonReactRouter>

@@ -29,7 +29,7 @@ import {
   import UserList from '../../components/UserList';
   import useExpenseManagement from '../../hooks/useExpenseManagement';
   import { useSessionManager } from '../../sessionManager/SessionManager';
-  import './ViewTimesEntry.css'
+  // import './ViewTimesEntry.css'
   interface ViewTimesheetParams extends RouteComponentProps<{ trackingId: string }> {}
   
   const ViewTimesheet: React.FC<ViewTimesheetParams> = ({ match }) => {
@@ -119,20 +119,14 @@ import {
       userIds: userIds
     };
      setBusy(true)
-     const isSuccess=await saveTagedTimesheet(data);
-     if (isSuccess) {
-      showToastMessage("Tagged Users Successfully!"); 
-    } else {
-      showToastMessage("Failed to tag users. Please try again.");
-    }
+      await saveTagedTimesheet(data);
+      showToastMessage("Users have been successfully tagged!"); 
+      navigation.goBack();
+  
       setUsers([]);
       setBusy(false)
     };
   
-    // Remove Selected User
-    const removeSelectedUser = (user: UserModel) => {
-      setTagedUsers((prevTagedUsers) => prevTagedUsers.filter((u) => u.UserId !== user.UserId));
-    };
   
     return (
       <IonPage>
@@ -251,19 +245,7 @@ import {
                   onIonInput={(e) => searchUsersToTag(e.detail.value as string)}
                 ></IonInput>
               </IonItem>
-              {tagedUsers.length > 0 && (
-                <IonList>
-                  <IonItem>
-                    <IonLabel>Tagged Users</IonLabel>
-                  </IonItem>
-                  {tagedUsers.map((user, index) => (
-                    <IonItem key={index} lines="none" style={{ width: '100%' }}>
-                      <IonLabel style={{ flex: 1 }}>{user.FullName}</IonLabel>
-                      <IonIcon icon={closeCircleOutline} onClick={() => removeSelectedUser(user)} />
-                    </IonItem>
-                  ))}
-                </IonList>
-              )}
+      
               <UserList users={users} onUsersSelect={handleSelectUsers} />
             </IonContent>
           </IonModal>

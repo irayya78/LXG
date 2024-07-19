@@ -34,7 +34,7 @@ import { useMatterManagement } from "../../hooks/useMatterManagement";
 import useExpenseManagement from "../../hooks/useExpenseManagement";
 import "./expenseForm.css";
 import MatterList from "../../components/SearchMatterProps";
-import ApproverList from "../../components/SearchUserProps"; // Import the new ApproverList component
+import ApproverList from "../../components/SearchUserProps"; 
 import { RouteComponentProps } from "react-router";
 import { useSessionManager } from "../../sessionManager/SessionManager";
 import { useUIUtilities } from "../../hooks/useUIUtilities";
@@ -46,7 +46,7 @@ interface ExpenseParams extends RouteComponentProps<{ expenseId: string }> { }
 const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const navigation = useIonRouter();
   const session = useSessionManager();
-  const [expenseDate, setDate] = useState<string>(
+  const [expenseDate, setExpenseDate] = useState<string>(
     new Date().toISOString().substring(0, 10)
   );
   const [matter, setMatter] = useState<MatterModel | null>(null);
@@ -73,13 +73,15 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [approvers, setApprovers] = useState<UserModel[]>([]);
   const [approverSearch, setApproverSearch] = useState<string>("");
   const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
-  const { showToastMessage ,showAlertMessage,showConfirmMessage} = messageManager();
+  const { showToastMessage} = messageManager();
 
   const displayApprover = session.user?.DisplayExpenseApprover;
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
-
+  const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays
+  
   useEffect(() => {
     validateForm();
+    console.log(matterId)
   }, [expenseCategoryId, matterId, amount, description]);
 
   //FOR SAVING THE EXPENSE
@@ -100,7 +102,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   formData.append("CreatedBy", session.user?.UserId.toString() || "");
   formData.append("BillableToClient", billableToClient ? "true" : "false");
   formData.append("ApproverId", ApproverId?.toString() || "");
-
+console.log(matterId)
   // Append photos to FormData
   expenseReceiptDoc.forEach((file: File) => {
     formData.append("FileToUpload", file);
@@ -149,7 +151,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       ? convertDateToYYYYMMDD(expense.Date)
       : getCurrentDateAsYYYYMMDD();
     setExpenseId(expense.ExpenseId);
-    setDate(expDate);
+    setExpenseDate(expDate);
     setMatterCode(expense.MatterCode);
     setMatterId(expense.MatterId);
     setAmount(expense.Amount);
@@ -158,8 +160,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
     setExpenseCategories(expense.ExpenseCategories);
     setBillableToClient(expense.BillableToClient);
     setSelectedApproverId(expense.ApproverId);
-   
-    
+    setApproverSearch(expense.ApproverName)
   };
 
 
@@ -171,6 +172,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       setMatters(matterList);
     } else {
       setMatters([]);
+      setMatterId(0)
     }
   };
 
@@ -185,29 +187,29 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   // Save button enable and disable function 
   const validateForm = () => {
     let isValid = true;
-
+    let message=""
     if (description.trim() === "") {
-      showToastMessage("Description is required!");
+      message ="Description is required!";
       isValid = false;
     }
 
     if (!expenseDate) {
-      showToastMessage("Expense date is required!");
+      message="Expense date is required!";
       isValid = false;
     }
 
     if (expenseCategoryId === 0) {
-      showToastMessage("Select a category!");
+    message="Select a category!";
       isValid = false;
     }
 
     if (amount <= 0) {
-      showToastMessage("Amount should be greater than 0!");
+      message="Amount should be greater than 0!";
       isValid = false;
     }
 
     if (matterId === 0) {
-      showToastMessage("Select a matter!");
+      message="Select a matter!" ;
       isValid = false;
     }
 
@@ -264,6 +266,24 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       console.error("Error taking/selecting photo:", error);
     }
   };
+
+ 
+  const getMinDate = () => {
+    const date = new Date();
+    date.setDate(date.getDate() - Number(allowBackDatesExpense)); // Subtract the number of days allowed for backdating
+    return date.toISOString().substring(0, 10);
+  };
+
+  const getMaxDate = () => {
+    if (!allowFutureDatesExpenses) {
+      const date = new Date();
+      date.setMonth(date.getMonth() + 1);
+      date.setDate(0); 
+      return date.toISOString().substring(0, 10);
+    }
+    return undefined;
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -303,24 +323,20 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
 
-        <IonItem>
-          <IonLabel position="stacked">Date</IonLabel>
-          <IonInput
-            type="date"
-            value={expenseDate}
-            defaultValue={expenseDate}
-            onIonChange={(e) => setDate(e.detail.value!)}
-            max={
-              allowFutureDatesExpenses
-                ? undefined
-                : new Date().toISOString().substring(0, 10)
-            }
-          >
-            {allowFutureDatesExpenses ? (
-              <IonIcon icon={calendar} slot="start" />
-            ) : null}
-          </IonInput>
-        </IonItem>
+         <IonItem>
+      <IonLabel position="stacked">Date</IonLabel>
+      <IonInput
+        type="date"
+        value={expenseDate}
+        defaultValue={expenseDate}
+        onIonChange={(e) => setExpenseDate(e.detail.value!)}
+        max={getMaxDate()}
+        min={getMinDate()}
+        
+      >
+       
+      </IonInput>
+    </IonItem>
 
         <IonItem>
           <IonLabel position="stacked">Select Category </IonLabel>

@@ -55,7 +55,8 @@ export const useManageUser = () => {
           DisableMobileAppAccess: disableMobileAppAccess || false,
           DisplayExpenseApprover:customer?.displayExpenseApprover||false,
           TimerTimeInterval:customer?.timerTimeInterval||null,
-          AllowTaggingTimesheet:customer?.allowTaggingTimesheet
+          AllowTaggingTimesheet:customer?.allowTaggingTimesheet,
+          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable
           
         };
 
@@ -130,11 +131,13 @@ export const useManageUser = () => {
           DisableMobileAppAccess: disableMobileAppAccess || false,
           DisplayExpenseApprover: customer?.displayExpenseApprover || false,
           TimerTimeInterval: customer?.timerTimeInterval || null,
-          AllowTaggingTimesheet: customer?.allowTaggingTimesheet
+          AllowTaggingTimesheet: customer?.allowTaggingTimesheet,
+          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable
         };
   
         setUserSession(userObj);
         localStorage.setItem('userSession', JSON.stringify(userObj));
+        // localStorage.removeItem('sessionExpired');
         setAutoLoginSuccess(true); // Set auto-login success state
       } else {
         throw new Error('Invalid login response');

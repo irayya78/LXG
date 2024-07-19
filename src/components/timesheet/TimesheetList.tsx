@@ -2,7 +2,7 @@
 import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions, 
     IonItemSliding, IonLabel, IonList, IonText } from '@ionic/react';
   import React from 'react';
-  import {  briefcase, briefcaseOutline, brush, brushOutline, chevronForwardOutline,  informationCircleOutline,  notifications,  pencil, pencilOutline, pencilSharp, person, personOutline, pricetag, pricetagOutline, pricetags, pricetagsSharp, time, trash, trashOutline } from 'ionicons/icons';
+  import {briefcaseOutline,chevronForwardOutline, informationCircleOutline, pencil,  personOutline, pricetag, trash,} from 'ionicons/icons';
   import './TimesheetList.css'
   import { TimesheetModel } from '../../types/types';
   
@@ -45,7 +45,7 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                   <IonText className="time-text" slot="end" > 
                   
                     <p className="total-time">  <small>   {timeEntry.ParentId > 0 && (
-                  <IonIcon icon={pricetagOutline}/>
+                  <IonIcon icon={pricetag}/>
                      )}</small>{timeEntry.TrackedTime}  </p>
                     <p className="Billable-nonbillable-hrs">B: <span>{timeEntry.BillableHour}</span> | &nbsp;NB:<span>{timeEntry.NonBillableHour}</span>
                     </p> 

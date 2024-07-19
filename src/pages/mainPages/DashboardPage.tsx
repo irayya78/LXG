@@ -18,10 +18,6 @@ import {
   IonIcon
 } from "@ionic/react";
 import {
-  timeOutline,
-  briefcaseOutline,
-  cardOutline,
-  notificationsOutline,
   notifications,
   card,
   briefcase,
@@ -35,6 +31,9 @@ import { useDashboardManagement } from "../../hooks/useDashboardManagement";
 import CommonPullToRefresh from "../../components/CommonPullToRefreshProps";
 import FabMenu from "../../components/layouts/FabIcon";
 import TimesheetChartModal from "../charts/TimesheetChart";
+import withSessionCheck from "../../components/WithSessionCheck";
+import ContentLoader from "react-content-loader";
+
 
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
@@ -67,7 +66,20 @@ console.log("render")
   const [busy, setBusy] = useState<boolean>(false);
   const [isTimesheetChartOpen, setTimesheetChartOpen] = useState(false);
   const greeting = getGreeting();
-
+  const DashboardCardLoader = () => (
+    <ContentLoader
+    speed={2}
+    width="100%"
+    height={150}
+    viewBox="0 0 400 150"
+    backgroundColor="#f3f3f3"
+    foregroundColor="#ecebeb"
+  >
+    <rect x="0" y="10" rx="3" ry="3" width="100%" height="15" />
+    <rect x="0" y="35" rx="3" ry="3" width="50%" height="13" />
+    <rect x="0" y="60" rx="3" ry="3" width="70%" height="13" />
+  </ContentLoader>
+);
   const getExpanseToApproveOrReject = async () => {
    
   }
@@ -75,16 +87,17 @@ console.log("render")
     (async () => {
     
       setCurrentDate(connvertDateToMMMDDYYYY(getCurrentDateAsString()))
-      
+      setBusy(true)
     await  renderDashboardData();
+    setBusy(false)
     })();
   });
  
 
   const renderDashboardData = async () => {
-    setBusy(true)
+   
     const dashboardData = await getUserDashboardData()
-    setBusy(false)
+    
     const billableHoursAsNum = dashboardData.BillableTime
     const nonBillableHoursAsNum = dashboardData.NonBillableTime
     const totalTimeAsNum = convertHHMMFormatToDecimal(String(dashboardData.TotalTime))
@@ -113,21 +126,25 @@ console.log("render")
       <IonContent>
       <div className="ion-padding" style={{ textAlign: 'center' }}>
       <h2 className="greeting-text">{greeting}, {session.user?.FirstName}</h2>
-      <small style={{ display: 'block', fontSize: '0.5em', marginTop: '0',color:'gray' }}>{currentDate}</small>
+      <small style={{ display: 'block', fontSize: '0.6em', marginTop: '0',color:'gray' }}>{currentDate}</small>
       </div>
-
-       
         <IonGrid>
           <IonRow>
             <IonCol size="6">
               <IonCard  button onClick={() => setTimesheetChartOpen(true)}className="dashboard-card">
                 <IonCardHeader className="Ionic-header">
-                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={timer} className="icon" /> Timesheet</IonCardTitle>
+                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={timer} className="icon" />Timesheet</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className="Card-content">
-                  <p style={{ color: "#3880ff" }}>{dashboardData.TotalTime} hr(s)</p>
-                  <p className="billable-hours">B:{billableHours} ({percentBillable}%)</p>
-                  <p className="nonbillable-hours">NB: {nonBillableHours} ({percentNonBillable}%)</p>
+                  {busy ? (
+                    <DashboardCardLoader />
+                  ) : (
+                    <>
+                      <p style={{ color: "#3880ff" }}>{dashboardData.TotalTime} hr(s)</p>
+                      <p className="billable-hours">B:{billableHours} ({percentBillable}%)</p>
+                      <p className="nonbillable-hours">NB: {nonBillableHours} ({percentNonBillable}%)</p>
+                    </>
+                  )}
                 </IonCardContent>
               </IonCard>
             </IonCol>
@@ -137,7 +154,11 @@ console.log("render")
                   <IonCardTitle className="dashboard-card-title"><IonIcon icon={briefcase} className="icon" /> Matters </IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className="Card-content">
-                  <p>Assigned on {dashboardData.MatterCount} new matter(s)</p>
+                  {busy ? (
+                    <DashboardCardLoader />
+                  ) : (
+                    <p>Assigned on {dashboardData.MatterCount} new matter(s)</p>
+                  )}
                 </IonCardContent>
               </IonCard>
             </IonCol>
@@ -149,8 +170,14 @@ console.log("render")
                   <IonCardTitle className="dashboard-card-title"><IonIcon icon={card} className="icon" /> Expenses</IonCardTitle>
                 </IonCardHeader>
                 <IonCardContent className="Card-content">
-                  <p><span style={{ color: "#3880ff" }}>₹{formatNumber(dashboardData.ExpenseAmount)}</span></p>
-                  <p className="exp-reimbursed">Rei:{formatNumber(dashboardData.ReimbursedAmount)} ({formatNumber(percentReimbursed)}%)</p>
+                  {busy ? (
+                    <DashboardCardLoader />
+                  ) : (
+                    <>
+                      <p><span style={{ color: "#3880ff" }}>₹{formatNumber(dashboardData.ExpenseAmount)}</span></p>
+                      <p className="exp-reimbursed">Rei:{formatNumber(dashboardData.ReimbursedAmount)} ({formatNumber(percentReimbursed)}%)</p>
+                    </>
+                  )}
                 </IonCardContent>
               </IonCard>
             </IonCol>
@@ -159,14 +186,18 @@ console.log("render")
                 <IonCardHeader className="Ionic-header">
                   <IonCardTitle className="dashboard-card-title"><IonIcon icon={notifications} className="icon" /> Approvals </IonCardTitle>
                 </IonCardHeader>
-                <IonCardContent  className="Card-content">
-                  <p>{dashboardData.NotificationCount} Approval(s)</p>
+                <IonCardContent className="Card-content">
+                  {busy ? (
+                    <DashboardCardLoader />
+                  ) : (
+                    <p>{dashboardData.NotificationCount} Approval(s)</p>
+                  )}
                 </IonCardContent>
               </IonCard>
             </IonCol>
           </IonRow>
         </IonGrid>
-        <IonLoading message="Please wait..." duration={0} isOpen={busy}></IonLoading>
+       
       </IonContent>
       </CommonPullToRefresh>
       <TimesheetChartModal
@@ -183,4 +214,4 @@ console.log("render")
   );
 };
 
-export default DashboardPage;
+export default withSessionCheck(DashboardPage);

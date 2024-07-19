@@ -15,7 +15,7 @@ import {
 } from '@ionic/react';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
-import './login.css';
+// import './login.css';
 import { Link } from 'react-router-dom';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { messageManager } from '../../components/MassageManager';
@@ -23,7 +23,6 @@ import { messageManager } from '../../components/MassageManager';
 
 const LoginPage: React.FC = () => {
   const { loginInfo, setLoginInfo } = useSessionManager();
-  const {showAlertMessage,showToastMessage}=messageManager(); 
   const [username, setUsername] = useState(loginInfo?.username || '');
   const [password, setPassword] = useState(loginInfo?.password || '');
   const [rememberMe, setRememberMe] = useState(loginInfo?.rememberMe || false);
@@ -31,13 +30,15 @@ const LoginPage: React.FC = () => {
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);
-  const [autoLogin]=useState(false);
+  const [autoLogin]=useState(loginInfo?.autoLogin||false);
   const { handleLogin } = useManageUser();
 
   const isLoginDisabled = !username || !password;
 
   const onLoginClick = async () => {
+    localStorage.removeItem('sessionExpired');
     setLoginInfo({ username, password, rememberMe,autoLogin });
+    
     await handleLogin(username, password, setIsLoading, setShowAlert, setAlertMessage);
   };
 
@@ -82,6 +83,8 @@ const LoginPage: React.FC = () => {
                   slot="end"
                   checked={rememberMe}
                   onIonChange={(e) => setRememberMe(e.detail.checked)}
+                  
+                 
                 />
               </IonItem>
 

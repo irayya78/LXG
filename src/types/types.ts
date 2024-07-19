@@ -18,8 +18,10 @@ export interface UserSessionDetails {
     BackDateTimesheetUpdateAllowedDays: number,
     DisableMobileAppAccess: boolean,
     DisplayExpenseApprover:boolean,
-    TimerTimeInterval:Number
-    AllowTaggingTimesheet:boolean
+    TimerTimeInterval:Number,
+    AllowTaggingTimesheet:boolean,
+    DefaultTimeEntryAsBillable:boolean
+
     
    
   }
@@ -120,6 +122,7 @@ export interface ExpenseModel{
   Comments: string
   BillableToClient :boolean
   ApproverId:number
+  ApproverName:string
   
   
 }

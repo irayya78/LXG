@@ -22,7 +22,9 @@ import {
   IonModal,
   useIonRouter,
   IonIcon,
-  useIonViewWillLeave
+  useIonViewWillLeave,
+  IonCard,
+  IonCardContent
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router";
 import { useMatterManagement } from "../../hooks/useMatterManagement";
@@ -32,8 +34,9 @@ import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { useTimesheetManagement } from '../../hooks/useTimesheetManagement';
 import { messageManager } from '../../components/MassageManager';
-import './timeEntry.css';
+// import './timeEntry.css';
 import TimePickerModal from '../../components/timesheet/TimePickerModal';
+import { alertCircle } from 'ionicons/icons';
 
 interface TimesheetParams extends RouteComponentProps<{ trackingId: string; date: string }> {}
 const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
@@ -53,7 +56,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
   const [tasksOnMatter, setTasksOnMatter] = useState<DropDownItem[]>([]);
   const [task, setTask] = useState<string>("");
-  const [isBillable, setBillable] = useState<boolean>(true);
+  const [isBillable, setBillable] = useState<boolean>(false);
   const [fromTime, setFromTime] = useState<string>('00:00');
   const [toTime, setToTime] = useState<string>('00:00');
   const [totalHours, setTotalHours] = useState<string>('00:00');
@@ -78,12 +81,14 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [showFromTimePicker, setShowFromTimePicker] = useState<boolean>(false);
   const [showToTimePicker,setShowToTimePicker]= useState<boolean>(false)
   const[disabledTotalTime,setDisableTotalTime]=useState<boolean>(false);
+  const [validationMessage,setValidationMessage]=useState<string>("")
   const isCaptureTask = session.user?.CaptureActivity;
   const isCaptureFromTimeToTime =  session.user?.CaptureFromAndToTime;
+  const isBillableByDefault=session.user?.DefaultTimeEntryAsBillable;
   const getTimeInterval =session.user?.TimerTimeInterval;
   const minuteInterval = getTimeInterval ? getTimeInterval : '00,15,30,45';
   const isAnyPickerOpen = showFromTimePicker || showToTimePicker || showTotalHoursPicker || showBillableHoursPicker;
-
+  
   useEffect(() => {
     if (isCaptureFromTimeToTime) {
       calculateAndSetTotalHours(fromTime, toTime);
@@ -95,7 +100,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     validateForm();
   },[description, taskVisible, matterTaskId, isCaptureTask, timeTrackingActivityId, isBillable, billableHours, totalHours, matterId])
 
-  console.log("render");
+  console.log("renderTime",);
   //resting state's after saving the time
   const resetForm = () => {
     setMatterCode("");
@@ -200,12 +205,22 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
        
       setDisableTotalTime(true);
     }
+    if(isBillableByDefault){
+      setBillable(true)
+    }
     
   }
 
   const calculateAndSetTotalHours = useCallback((fromTime: string, toTime: string) => {
     const timeDiff = getTimeDifferenceBetweenFromAndToTime(fromTime, toTime);
     setTotalHours(timeDiff);
+    if(isBillable){
+      setBillableHours(timeDiff)
+    }else{
+      setBillableHours('00:00')
+    }
+   
+ 
   }, [getTimeDifferenceBetweenFromAndToTime]);
 
 
@@ -277,7 +292,9 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
     if(!isSuccess){
         setTimeExceeds24Hours(true)
-        showAlertMessage("Seems you're trying to enter > 24 hr(s) on this date.")
+        showAlertMessage("It looks like you're trying to enter a time that exceeds 24 hours for this date or a time entry already exists during this period. Please check your entry and try again.");
+
+
     }else{
       navigation.push(`/layout/timesheet/${convertToDDMMYYYYWithoutSeparator(dateToDisplay)}`);;
     }
@@ -326,7 +343,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     let isValid=true
 
     if(description.length < 5 ){
-      //showToastMessage("Description should be minimum 5-6 characters!")
+      //setValidationMessage("Description should be minimum 5-6 characters!")
         isValid= false
     }
     if(taskVisible && matterTaskId==0){
@@ -474,20 +491,6 @@ const handelTotalTimeChange=(totalHours:string)=>{
             </IonSelect>
           </IonItem>
         )}
-
-        <IonItem>
-          <IonLabel position="stacked">Total Hours</IonLabel>
-          <IonInput
-            value={totalHours}
-            placeholder="Select Time"
-            onIonFocus={() => activeTimePicker('totalHours')}
-            disabled={disabledTotalTime}
-            readonly
-          />
-        </IonItem>
-
-       
-
         {isCaptureFromTimeToTime && (
           <>
             <IonItem>
@@ -511,7 +514,16 @@ const handelTotalTimeChange=(totalHours:string)=>{
             </IonItem>
           </>
         )}
-
+  <IonItem>
+          <IonLabel position="stacked">Total Hours</IonLabel>
+          <IonInput
+            value={totalHours}
+            placeholder="Select Time"
+            onIonFocus={() => activeTimePicker('totalHours')}
+            disabled={disabledTotalTime}
+            readonly
+          />
+        </IonItem>
      
           <IonItem>
             <IonLabel position="stacked">Billable Time</IonLabel>
@@ -578,6 +590,17 @@ const handelTotalTimeChange=(totalHours:string)=>{
       </div>
     </IonContent>
     <IonLoading isOpen={ isLoading} message={"Please wait..."} />
+    {validationMessage.length > 0 && (
+          <IonCard>
+            <IonCardContent>
+              <IonIcon className="validationError" icon={alertCircle}></IonIcon>
+              <span className="validationError" color="warning">
+                {' '}
+                {validationMessage}
+              </span>
+            </IonCardContent>
+          </IonCard>
+        )}
   </IonPage>
   );
 };

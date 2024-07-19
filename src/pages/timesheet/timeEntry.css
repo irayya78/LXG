@@ -47,14 +47,14 @@
 } */
 
 
-.modal-content {
+/* .modal-content {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
   width: 250px;
   height: 250px;
-  border-radius: 50%;
+  border-radius: 20%;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -62,19 +62,10 @@
   text-align: center;
 }
 
-.modal-container {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: space-between;
-  height: 100%;
-}
 
-.ion-modal-wrapper {
-  background: transparent;
-}
+
 
 .modal-close-button {
   margin-top: auto;
-}
+} */
 

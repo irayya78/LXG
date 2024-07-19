@@ -20,11 +20,11 @@ const MatterList: React.FC<MatterListProps> = ({ matters, matterClick }) => {
         <IonItem onClick={(e) => selectMatter(e, matter)} key={matter.MatterId} lines="none">
           <IonLabel className="ion-text-wrap">
             <h3 className="matterCodeAndTitle">
-              <span  className="">{matter.MatterCode}</span> <br />
-              <span className="matterTitle">{matter.MatterTitle}</span>   <IonIcon icon={briefcaseOutline} /><br />
+              <span  className="">#{matter.MatterCode}</span> <br />
+              <IonIcon icon={briefcaseOutline} /> <span className="matterTitle">{matter.MatterTitle}</span> <br />
               <small className="matter-Code-font">
-               {matter.ClientName}  <IonIcon icon={personOutline} />
-              </small>
+              <IonIcon icon={personOutline} /> {matter.ClientName} 
+              </small> 
             </h3>
           </IonLabel>
         </IonItem>

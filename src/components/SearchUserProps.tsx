@@ -1,6 +1,7 @@
 import React, { useState } from 'react';
-import { IonButton, IonCheckbox, IonItem, IonLabel } from '@ionic/react';
+import { IonButton, IonCheckbox, IonIcon, IonItem, IonLabel } from '@ionic/react';
 import { UserModel } from '../types/types';
+import { personCircle } from 'ionicons/icons';
 
 
 
@@ -17,7 +18,7 @@ const ApproverList: React.FC<ApproverListProps> = ({ approvers, onApproverSelect
         <div className="approver-list">
           {approvers.map((approver) => (
             <IonItem key={approver.UserId} button onClick={() => onApproverSelect(approver)}>
-              <IonLabel>{approver.FullName}</IonLabel>
+             <IonIcon icon={personCircle} /> <IonLabel>{approver.FullName}</IonLabel>
             </IonItem>
           ))}
         </div>

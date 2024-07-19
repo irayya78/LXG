@@ -116,7 +116,8 @@ const useExpenseManagement = () => {
                 ApprovalStatus: expense.expenseApprovalStatus !== null ?  {StatusId:expense.expenseApprovalStatus.approvalStatusId, StatusName:expense.expenseApprovalStatus.approvalStatus} :  {StatusId:0,StatusName:""},
                 Comments: expense.rejectionComment !== null ? expense.rejectionComment  : "",
                 BillableToClient:expense.billableToClient,
-                ApproverId:expense.approverId
+                ApproverId:expense.approverId,
+                ApproverName:expense.approver !==null ?expense.approver.associateName:"",
             }    
         }
       
@@ -165,7 +166,8 @@ const useExpenseManagement = () => {
             ApprovalStatus: { StatusId: 0, StatusName: "" },
             Comments: "",
             BillableToClient: false,
-            ApproverId:0
+            ApproverId:0,
+            ApproverName:""
         } 
  
          return expObj
@@ -190,9 +192,48 @@ const useExpenseManagement = () => {
           }
            
     };
+
+    const downloadDocument = async (documentId: number) => {
+        try {
+            const response = await axiosInstance.get(`DownloadDocument/${documentId}`, {
+                responseType: 'blob',
+            });
+    
+         
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            const url = window.URL.createObjectURL(blob);
+            const link = document.createElement('a');
+            link.href = url;
+    
+            const contentDisposition = response.headers['content-disposition'];
+            let fileName = 'document';
+            if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
+                const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
+                if (fileNameMatch && fileNameMatch.length === 2) {
+                    fileName = fileNameMatch[1];
+                }
+            }
+    
+            link.setAttribute('download', fileName);
+            document.body.appendChild(link);
+            link.click();
+    
+            if (link.parentNode) {
+                link.parentNode.removeChild(link);
+            }
+    
+            return true;
+        } catch (error) {
+            console.error('Error downloading document:', error);
+            return false;
+        }
+    };
+    
+    
+    
     
     return {
-        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers
+        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers,downloadDocument
     };
 };
 

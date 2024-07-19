@@ -1,10 +1,11 @@
 import { IonButton, IonCard, IonCardContent, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, IonAlert } from '@ionic/react';
 import React, { useEffect, useState } from 'react';
-import './forgotPassword.css';
+// import './forgotPassword.css';
 import { alertCircle, chevronBackOutline, eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { useIonRouter } from '@ionic/react';
 import { useManageUser } from '../../hooks/useManageUser';
 import { useLocation } from 'react-router-dom';
+import Footer from '../../components/layouts/Footer';
 
 const ResetPassword: React.FC = () => {
   const { resetPassword } = useManageUser();
@@ -72,7 +73,19 @@ const ResetPassword: React.FC = () => {
       setBusy(false);
     }
   };
-
+  const handleOTPChange = (e: any) => {
+    const value = (e.target as HTMLInputElement).value;
+    if (value.length <= 4 && e.key !== 'Backspace') {
+      setOTP(value);
+    }
+  };
+  //For Restrict the Inputs To 4
+  const handleOTPKeyPress = (e: React.KeyboardEvent) => {
+    const value = (e.target as HTMLInputElement).value;
+    if (value.length >= 4) {
+      e.preventDefault();
+    }
+  };
   const toggleShowPassword = () => {
     setShowPassword(!showPassword);
   };
@@ -87,33 +100,39 @@ const ResetPassword: React.FC = () => {
 
       <IonLoading message="Please wait..." duration={0} isOpen={busy}></IonLoading>
       <IonContent class="ion-padding">
-        <div className="loginlogo">
-          <img alt="" src="https://lx2.legalxgen.com/images/logo.png" />
-        </div>
-        <IonList className="inputarea">
+       
+        <IonList className="inputsList">
           <IonItem className="texts reset-password-alert">
             <IonText className="reset-pwd-text">
               We've sent an OTP on your email <span>{email}</span>! Enter the same below.
             </IonText>
           </IonItem>
 
-          <IonItem className="texts">
-            <IonLabel position="stacked">OTP</IonLabel>
-            <IonInput type="number" minlength={4} maxlength={4} value={otp} onIonChange={(e: any) => setOTP(e.target.value)}></IonInput>
+          <IonItem>
+          
+            <IonInput
+              placeholder='OTP'
+              type="number"
+              minlength={4}
+              maxlength={4}
+              value={otp}
+              onIonInput={handleOTPChange}
+              onKeyPress={handleOTPKeyPress}
+            ></IonInput>
           </IonItem>
 
           {!showPassword ? (
             <IonItem>
-              <IonLabel position="stacked">Password</IonLabel>
-              <IonInput value={password} className="sample-pwd-field-class" type="password" onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
+            
+              <IonInput placeholder='Password' value={password} className="sample-pwd-field-class" type="password" onIonInput={(e: any) => setPassword(e.target.value)}></IonInput>
               <IonButton className="transparent-bg-btn" color="light" onClick={toggleShowPassword} slot="end">
                 <IonIcon icon={showPasswordIcon}></IonIcon>
               </IonButton>
             </IonItem>
           ) : (
             <IonItem>
-              <IonLabel position="stacked">Password</IonLabel>
-              <IonInput value={password} className="sample-pwd-field-class" type="text" onIonChange={(e: any) => setPassword(e.target.value)}></IonInput>
+           
+              <IonInput  style={{padding:"10px"}} value={password} className="sample-pwd-field-class" type="text" onIonInput={(e: any) => setPassword(e.target.value)}></IonInput>
               <IonButton className="transparent-bg-btn" color="light" onClick={toggleShowPassword} slot="end">
                 <IonIcon slot="end" icon={hidePasswordIcon}></IonIcon>
               </IonButton>
@@ -122,16 +141,16 @@ const ResetPassword: React.FC = () => {
 
           {!showConfirmPassword ? (
             <IonItem>
-              <IonLabel position="stacked">Confirm Password</IonLabel>
-              <IonInput value={confirmPassword} className="sample-pwd-field-class" type="password" onIonChange={(e: any) => setConfirmPassword(e.target.value)}></IonInput>
+          
+              <IonInput placeholder='Confirm Password' value={confirmPassword} className="sample-pwd-field-class" type="password" onIonInput={(e: any) => setConfirmPassword(e.target.value)}></IonInput>
               <IonButton className="transparent-bg-btn" color="light" onClick={toggleShowConfirmPassword} slot="end">
                 <IonIcon icon={showPasswordIcon}></IonIcon>
               </IonButton>
             </IonItem>
           ) : (
             <IonItem>
-              <IonLabel position="stacked">Confirm Password</IonLabel>
-              <IonInput value={confirmPassword} className="sample-pwd-field-class" type="text" onIonChange={(e: any) => setConfirmPassword(e.target.value)}></IonInput>
+       
+              <IonInput placeholder='Confirm Password' value={confirmPassword} className="sample-pwd-field-class" type="text" onIonInput={(e: any) => setConfirmPassword(e.target.value)}></IonInput>
               <IonButton className="transparent-bg-btn" color="light" onClick={toggleShowConfirmPassword} slot="end">
                 <IonIcon slot="end" icon={hidePasswordIcon}></IonIcon>
               </IonButton>
@@ -184,6 +203,7 @@ const ResetPassword: React.FC = () => {
           buttons={['OK']}
         />
       </IonContent>
+      <Footer/>
     </IonPage>
   );
 };

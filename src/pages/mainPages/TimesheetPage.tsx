@@ -9,9 +9,8 @@ import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import TimesheetList from '../../components/timesheet/TimesheetList';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import { DataAccessCheckModal, TimesheetModel } from '../../types/types';
-import { add, time, timeOutline } from 'ionicons/icons';
+import { add, pulse, time, } from 'ionicons/icons';
 import { messageManager } from '../../components/MassageManager';
-
 
 interface CalendarPageParams extends RouteComponentProps<{date: string }> {}
 
@@ -268,7 +267,7 @@ const onDeleteTimesheet =async()=>{
        
          <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={newTimeEntry}>
-          <IonIcon icon={time} />
+          <IonIcon icon={add} />
          </IonFabButton>
 
           </IonFab>
