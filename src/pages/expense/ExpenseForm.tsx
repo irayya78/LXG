@@ -32,7 +32,6 @@ import {
 } from "../../types/types";
 import { useMatterManagement } from "../../hooks/useMatterManagement";
 import useExpenseManagement from "../../hooks/useExpenseManagement";
-import "./expenseForm.css";
 import MatterList from "../../components/SearchMatterProps";
 import ApproverList from "../../components/SearchUserProps"; 
 import { RouteComponentProps } from "react-router";

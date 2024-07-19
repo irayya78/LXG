@@ -376,4 +376,80 @@
   .icn-pad-right {
     margin-right: 8px;
   }
-  
+  .timesheet-item{
+    list-style-type: none;
+    padding: 0px;
+    margin: 0px;
+}
+
+#time-list{
+    padding: 0px !important;
+    margin: 0px !important;
+}
+
+.small-font{
+    font-size:smaller !important;
+    color: darkgray;
+}
+
+.time-text{
+    font-size: small !important;
+    color: blue;
+    font-weight: 600;
+    margin-inline-start: 5px;
+}
+
+
+.action-item{
+    font-size: small !important;
+}
+.btninlinemarg{margin-inline-start: 0px;}
+.total-time{ font-size: small; text-align: right;}
+.Billable-nonbillable-hrs{font-size: x-small; color: gray; text-align: right;}
+.Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 5px 0px 0px;}
+.Billable-nonbillable-hrs span:last-child{color:red; padding:0px 0px 0px 5px;}
+/*.matter-Code-font{font-size: x-small; color:#000;}*/
+
+
+.work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }
+/* src/pages/MyProfile.css */
+
+.profile-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  margin-bottom: 20px;
+}
+
+.profile-avatar {
+  width: 100px;
+  height: 100px;
+  margin-top: 5vh;
+  margin-bottom: 10px;
+  border-radius: 50%;
+  overflow: hidden;
+  border: 1px solid#3dc2ff; 
+}
+
+
+
+.profile-details {
+  width: 100%;
+}
+
+
+.listHeader{
+  font-weight: bolder;
+  text-align: center;
+  padding: 10px;
+}
+.logout-button {
+  width: 100%;
+  margin-top: 20px;
+}
