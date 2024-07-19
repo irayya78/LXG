@@ -1,6 +1,6 @@
 import React from 'react';
 import { IonTabs, IonTabBar, IonTabButton, IonIcon, IonLabel, IonRouterOutlet } from '@ionic/react';
-import { Redirect, Route, useLocation } from 'react-router-dom';
+import { Redirect, Route,} from 'react-router-dom';
 import {timer, card, home, briefcase, calendar } from 'ionicons/icons';
 import DashboardPage from '../../pages/mainPages/DashboardPage';
 import ExpensePage from '../../pages/mainPages/ExpensePage';
