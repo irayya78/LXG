@@ -25,6 +25,11 @@ const useLeaveManagement = () => {
     }; 
     
     const getLeaveObject = (element: any): LeaveModel => {
+
+      const leaveStatusText = element.leaveStatusId === 1 
+      ? 'Submitted' 
+      : element.leaveStatuses.find((status: any) => status.value === element.leaveStatusId)?.text || '';
+
         let Obj : LeaveModel = getBlankLeaveObject()
 
         Obj = {
@@ -54,9 +59,10 @@ const useLeaveManagement = () => {
             LeaveStatuses : element.leaveStatuses,
             LeaveType : element.leaveType,
             BuId : element.buId,
-            LeaveTypeName : element.leaveType.leaveTypeName,
-            LeaveSessionName : element.LeaveSessionCollection
-        }
+            LeaveTypeName : element.leaveType != null ? element.leaveType.leaveTypeName : '',
+            LeaveSessionName : element.FromSessionId == 1 ? 'Full Day' : 'Hlaf Day',
+            LeaveStatus : leaveStatusText  
+          }
         return Obj;
     }
 
@@ -91,13 +97,16 @@ const useLeaveManagement = () => {
           LeaveSessionName: '',
           // User: any,
           LeaveType: undefined,
-          BuId: 0
+          BuId: 0,
+          LeaveStatus : ''
         }
         return obj;
     }
 
     const getLeaveStatusColor = (leaveStatusId: number) => {
         switch (leaveStatusId) {
+          case 1:
+            return 'orange'
           case 2:
             return 'green';
           case 3:

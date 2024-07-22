@@ -124,7 +124,7 @@ export interface ExpenseModel{
   ApproverId:number
   ApproverName:string
   
-  
+
 }
 export interface ExpenseStatusModel {
   iosIcon: string;
@@ -174,6 +174,7 @@ export interface LeaveModel{
   BuId : number,
   LeaveTypeName : string,
   LeaveSessionName : string,
+  LeaveStatus : string,
   // LeaveTrTypeCollection : DropDownItem[],
   // User: UserModel,
   LeaveType : any

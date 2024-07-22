@@ -56,7 +56,7 @@ const HolidayList: React.FC = () => {
                         {holidays && holidays.map((holiday: HolidayListModel, index: number) => (
                             <IonItem key={index}>
                                 <IonLabel className="ion-text-wrap"> 
-                                    <span className="matter-Code-font">{holiday.HolidayName}</span><br/>
+                                    <span className="font-bold">{holiday.HolidayName}</span><br/>
                                     <span className="small-font">{holiday.Description}</span>
                                 </IonLabel> 
                                 <IonLabel className="work-done-desc" slot="end"> 

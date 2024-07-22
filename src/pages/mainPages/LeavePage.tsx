@@ -5,12 +5,11 @@ import {
     useIonViewDidEnter
   } from '@ionic/react';
 import MyProfileHeader from '../../components/MyProfileHeader';
-import { useSessionManager } from '../../sessionManager/SessionManager';
+
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { LeaveModel } from '../../types/types';
-import { checkmarkCircle, chevronForwardOutline, list, pencil } from 'ionicons/icons';
-import { Icon } from 'ionicons/dist/types/components/icon/icon';
+import { checkmarkCircle, list, pencil } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 
@@ -112,14 +111,14 @@ const LeavePage: React.FC = () => {
                             
                            <IonItem key={leave.LeaveId.toString()} button onClick={() => viewLeave(leave.LeaveId)}> 
                                 
-                                <IonButton className="btninlinemarg" color="dark" shape="round" fill="clear"  slot="end">
-                                    <IonText className="time-text" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
+                                <IonButton className="time-text" fill="clear" slot="end">
+                                    <IonText className="total-time" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
                                     {/* <IonIcon className="action-item" icon={chevronForwardOutline} slot="end"/> */}
                                 </IonButton>   
 
                                 <IonLabel className="ion-text-wrap">
                                     <IonIcon icon={checkmarkCircle} style={{ fontSize: '12px' , color: getLeaveStatusColor(leave.LeaveStatusId as number)  }}/> &nbsp;
-                                    <span className="matter-Code-font">{leave.LeaveType.leaveTypeName}</span> - &nbsp;
+                                    <span className="font-bold">{leave.LeaveType.leaveTypeName}</span> - &nbsp;
                                     <span className="work-done-desc">{leave.LeaveTransactionType}</span>
                                     <br/>
                                     <span className="work-done-desc">{leave.LeaveFromDateToToDate}</span>
@@ -137,11 +136,11 @@ const LeavePage: React.FC = () => {
                         
                         
                     </IonList>
-                    
-                        <FabMenu />
-                    
+                    <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} />
+                                       
                 </IonContent>
             </CommonPullToRefresh>
+            <FabMenu />
         </IonPage>
         
       

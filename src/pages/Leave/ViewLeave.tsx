@@ -1,5 +1,5 @@
 import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from '@ionic/react';
-import { pencilOutline } from 'ionicons/icons';
+import { checkmarkCircle, pencilOutline } from 'ionicons/icons';
 import React, { useState } from 'react';
 import { RouteComponentProps } from 'react-router';
 import { LeaveModel } from '../../types/types';
@@ -9,7 +9,7 @@ interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
 const ViewLeave: React.FC<LeaveParams> = ({match}) => {
     const [isLoading, setIsLoading] = useState(true);
-    const { getBlankLeaveObject,getLeave} = useLeaveManagement();
+    const { getBlankLeaveObject,getLeave,getLeaveStatusColor} = useLeaveManagement();
     const [leave, setLeave] = useState<LeaveModel>(getBlankLeaveObject());
     const navigation = useIonRouter();
 
@@ -54,10 +54,10 @@ const ViewLeave: React.FC<LeaveParams> = ({match}) => {
             <IonLoading message="Please wait..." duration={0} isOpen={isLoading}/>
 
             <IonContent class="ion-padding">
-                <IonList id="viewLeave">
+                <IonList id="view-Leave">
                     <IonItem>
                         <IonLabel position="fixed">Leave Type</IonLabel>
-                        <IonLabel position="fixed">{leave.LeaveTypeName}</IonLabel>
+                        <IonLabel>{leave.LeaveTypeName}</IonLabel>
                     </IonItem>
                     {/* <IonItem>
                         <IonLabel position="fixed">From Date</IonLabel>
@@ -69,11 +69,23 @@ const ViewLeave: React.FC<LeaveParams> = ({match}) => {
                     </IonItem> */}
                     <IonItem>
                         <IonLabel position="fixed">Leave Dates</IonLabel>
-                        <IonLabel position="fixed">{leave.LeaveFromDateToToDate}</IonLabel>
+                        <IonLabel>{leave.LeaveFromDateToToDate}</IonLabel>
                     </IonItem>
                     <IonItem>
                         <IonLabel position="fixed">Leave Count</IonLabel>
-                        <IonLabel position="fixed">{leave.LeaveCount}</IonLabel>
+                        <IonLabel>{leave.LeaveCount}</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel position="fixed">Leave Status</IonLabel>
+                        <IonLabel>{leave.LeaveStatus}<IonIcon icon={checkmarkCircle} style={{ fontSize: '14px' , color: getLeaveStatusColor(leave.LeaveStatusId as number)  }}/></IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel position="fixed">Tr. Type</IonLabel>
+                        <IonLabel>{leave.LeaveTransactionType}</IonLabel>
+                    </IonItem>
+                    <IonItem>
+                        <IonLabel position="fixed">Description</IonLabel>
+                        <IonLabel className="small-font">{leave.Description}</IonLabel>
                     </IonItem>
                 </IonList>
             </IonContent>
