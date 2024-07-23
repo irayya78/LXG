@@ -262,6 +262,70 @@ const getTimeDifferenceBetweenFromAndToTime =(fromTime:string, toTime : string) 
 
   return convertMinutesToHHMMFormat(timeDiff)
 }
+const getPeriodName = (dateFilterId: number) : string =>{
+  let period : string = ""
+
+  const filterItems : DropDownItem[] = getDateFilterItems()
+
+  filterItems.forEach((item: DropDownItem) =>{
+      if(item.Value === dateFilterId){
+        period = item.Text
+        return
+      }
+
+  })
+
+  return period
+}
+
+const getDateFilterItems = () : DropDownItem[] =>{
+  const filterItems : DropDownItem[] = [
+    {Value:0, Text: "Any Period"},
+    {Value:1, Text: "Today"},
+    {Value:2, Text: "Yesterday"},
+    {Value:3, Text: "This Week"},
+    {Value:4, Text: "This Month"},
+    {Value:5, Text: "This Month And Last Month"},
+    {Value:6, Text: "This Calendar Year (Jan - Dec)"},
+    {Value:7, Text: "This Financial Year (Apr - Mar)"},
+    {Value:8, Text: "  --Q1 (Apr - June)"},
+    {Value:9, Text: "  --Q2 (July - Sept)"},
+    {Value:10, Text: "  --Q3 (Oct - Dec)"},
+    {Value:11, Text: "  --Q4 (Jan - Mar)"},
+    {Value:12, Text: "Last Week"},
+    {Value:13, Text: "Last Month"},
+    {Value:14, Text: "Last To Last Month"},
+    {Value:15, Text: "Last Three Months"},
+    {Value:16, Text: "Last Six Months"},
+    {Value:17, Text: "Last One Year"},
+    {Value:18, Text: "Last Financial Year"},
+    {Value:19, Text: "Advance Options"}
+  ]
+
+  return filterItems
+}
+enum DateFilters {
+  AnyPeriod = 0,
+  Today = 1,
+  Yesterday = 2,
+  ThisWeek = 3,
+  ThisMonth = 4,
+  ThisMonthAndLastMonth = 5,
+  ThisCalendarYear = 6,
+  ThisFinancialYear = 7,
+  Q1 = 8,
+  Q2 = 9,
+  Q3 = 10,
+  Q4 = 11,
+  LastWeek = 12,
+  LastMonth = 13,
+  LastToLastMonth = 14,
+  LastThreeMonths = 15,
+  LastSixMonths = 16,
+  LastOneYear = 17,
+  LastFinancialYear = 18,
+  AdvanceOptions = 19
+}
 
 
   return {
@@ -287,6 +351,9 @@ const getTimeDifferenceBetweenFromAndToTime =(fromTime:string, toTime : string) 
     getTimeAsHHMM,
     getTimeDifferenceBetweenFromAndToTime,
     sortExpensesByDate,
+    getPeriodName,
+    getDateFilterItems,
+    DateFilters,
     sortDataByDate
   };
 };

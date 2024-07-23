@@ -1,7 +1,6 @@
 // messageManager.tsx
 
 import { IonToast, IonAlert } from '@ionic/react';
-import React from 'react';
 import { createRoot } from 'react-dom/client';
 
 export function messageManager() {

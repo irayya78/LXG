@@ -453,7 +453,62 @@
   width: 100%;
   margin-top: 20px;
 }
+<<<<<<< Updated upstream
+<<<<<<< Updated upstream
 
 .font-bold {
   font-weight: bold;
 }
+=======
+=======
+>>>>>>> Stashed changes
+.filterBar {
+  display: flex;
+  align-items: center;
+  border-bottom: 1px solid #ddd;
+  overflow: hidden;
+  white-space:nowrap;
+ 
+}
+.font-bold{
+  font-weight: bold;
+}
+
+.filtersBar .small-font {
+  font-size: 0.8rem;
+}
+
+.filtersBar .font-small {
+  font-size: 0.5rem;
+    
+}
+.filterName{
+  display: block;
+    white-space: nowrap;
+    overflow: hidden; 
+    text-overflow: ellipsis !important; 
+    max-width: 100%; 
+    font-weight: bold;
+   font-size: 10px !important;
+
+
+  }
+.filterIcon{
+  font-size: 30px !important;
+  color: #3880ff;
+}
+
+.filtersBar .nopadding {
+  padding: 0;
+}
+
+.filtersBar .ion-button {
+  margin-right: 10px;
+}
+.total-exp{
+  color: #3880ff;
+}
+<<<<<<< Updated upstream
+>>>>>>> Stashed changes
+=======
+>>>>>>> Stashed changes

@@ -26,7 +26,9 @@ const LeavePage: React.FC = () => {
 
     useIonViewDidEnter(() => {
         (async () => {
+            setIsLoading(true)
             await getLeavesList ();
+            setIsLoading(false)
         })();
     });
     
@@ -91,6 +93,7 @@ const LeavePage: React.FC = () => {
             </IonHeader>
             <CommonPullToRefresh onRefresh={getLeavesList}>
                 <IonContent>
+                    <IonLoading isOpen={isLoading}  message={'Please wait...'}duration={0}/>
                     <IonItem color="light" className="nobottomborder"> 
                        <IonList className='nopadding'>
                             <IonLabel className="greyback">Rec(s): {leaves.length}&nbsp;|
@@ -126,7 +129,7 @@ const LeavePage: React.FC = () => {
 
                             </IonItem>
                             <IonItemOptions onClick={() => editLeaveByLeaveId(leave)} side="start">
-                                <IonItemOption color="light">
+                                <IonItemOption color="success">
                                     <IonIcon icon={pencil}></IonIcon>
                                 </IonItemOption>
                             </IonItemOptions>

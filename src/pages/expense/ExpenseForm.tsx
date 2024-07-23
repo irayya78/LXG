@@ -73,7 +73,6 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [approverSearch, setApproverSearch] = useState<string>("");
   const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
   const { showToastMessage} = messageManager();
-
   const displayApprover = session.user?.DisplayExpenseApprover;
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
   const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays

@@ -11,9 +11,9 @@ const useExpenseManagement = () => {
     const {convertToDropDownItems } =useUIUtilities()
 
 
-    const getExpenses = async (): Promise<ExpenseModel[]> => {
+    const getExpenses = async (dateFilterId:number): Promise<ExpenseModel[]> => {
         try {
-            const resp = await axiosInstance.get(`/GetExpenses/${session.user?.UserId}/5`);
+            const resp = await axiosInstance.get(`/GetExpenses/${session.user?.UserId}/${dateFilterId}`);
              console.log('raw all',resp)
              const expArray: ExpenseModel[] = [];
 

@@ -9,7 +9,7 @@ import withSessionCheck from '../../components/WithSessionCheck';
 const MyProfile: React.FC = () => {
   const navigation = useIonRouter();
   const { user, clearUserSession, loginInfo, setLoginInfo } = useSessionManager();
-  const [autoLogin, setAutoLogin] = useState(loginInfo?.autoLogin || false);
+  const [autoLogin, setAutoLogin] = useState(false);
 
   useEffect(() => {
     if (loginInfo) {
