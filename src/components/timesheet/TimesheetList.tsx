@@ -39,7 +39,7 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                </span>
                <h2 className="small-font"> <IonIcon icon={personOutline}></IonIcon> {timeEntry.ContactName}</h2>
                
-                <p className="work-done-desc" ><IonIcon icon={informationCircleOutline}/>{timeEntry.Description}</p>  
+                <p className="small-font" ><IonIcon icon={informationCircleOutline}/>{timeEntry.Description}</p>  
                 </IonLabel>
                   <IonText className="time-text" slot="end" > 
                   

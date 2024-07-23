@@ -1,13 +1,12 @@
-import React from 'react';
+import React, { useState } from 'react';
 import {
-    IonModal, IonHeader, IonToolbar, IonTitle, IonButtons, IonButton, IonIcon, IonContent, IonItem, IonLabel, IonSelect, IonSelectOption
+    IonButton, IonIcon, IonAlert, IonItem, IonLabel, IonSelect, IonSelectOption, IonContent, IonPage
 } from '@ionic/react';
 import { closeCircleOutline } from 'ionicons/icons';
 import { DropDownItem } from '../types/types';
 import { useUIUtilities } from '../hooks/useUIUtilities';
 
-
-interface FilterModalProps {
+interface FilterAlertProps {
     isOpen: boolean;
     onClose: () => void;
     dateFilterId: number;
@@ -15,45 +14,57 @@ interface FilterModalProps {
     applyFilter: () => void;
 }
 
-const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, dateFilterId, setDateFilterId, applyFilter }) => {
+const FilterAlert: React.FC<FilterAlertProps> = ({ isOpen, onClose, dateFilterId, setDateFilterId, applyFilter }) => {
     const { getDateFilterItems } = useUIUtilities();
     const dateFilterItems: DropDownItem[] = getDateFilterItems();
 
+    const [showAlert, setShowAlert] = useState(isOpen);
+
+    const handleSelectChange = (value: any) => {
+        setDateFilterId(value);
+        applyFilter();
+        setShowAlert(false);
+        onClose();
+    };
+
     return (
-        <IonModal isOpen={isOpen} onDidDismiss={onClose}>
+        <IonPage>
             <IonContent>
-                <IonHeader>
-                    <IonToolbar color="secondary">
-                        <IonButtons slot="end">
-                            <IonButton onClick={onClose} className="norightpadding">
-                                <IonIcon slot="start" icon={closeCircleOutline} size="large" />
-                            </IonButton>
-                        </IonButtons>
-                        <IonTitle>Filters</IonTitle>
-                    </IonToolbar>
-                </IonHeader>
                 <IonItem>
-                    <IonSelect 
-                    value={dateFilterId} 
-                    okText="OK" cancelText="Cancel" 
-                    onIonChange={e => setDateFilterId(e.detail.value)} 
-                    className="small-font"
-                    interface="alert"
-                    onSelect={applyFilter}
-                        
-                        
-                        >
-                        {dateFilterItems.map(filterItem => (
-                            <IonSelectOption key={filterItem.Value} value={filterItem.Value}>
-                                {filterItem.Text}
-                            </IonSelectOption>
-                        ))}
-                    </IonSelect>
+                    <IonLabel>Filter</IonLabel>
+                    <IonButton onClick={() => setShowAlert(true)}>
+                        <IonIcon icon={closeCircleOutline} size="large" />
+                    </IonButton>
                 </IonItem>
-                <IonButton expand="full" onClick={applyFilter} color="primary" className="toppadding"> Apply </IonButton>
+                <IonAlert
+                    isOpen={true}
+                    onDidDismiss={() => setShowAlert(false)}
+                    header={'Select Filter'}
+                    inputs={dateFilterItems.map(filterItem => ({
+                        name: 'filter',
+                        type: 'radio',
+                        label: filterItem.Text,
+                        value: filterItem.Value,
+                        checked: filterItem.Value === dateFilterId,
+                    }))}
+                    buttons={[
+                        {
+                            text: 'Cancel',
+                            role: 'cancel',
+                            handler: () => {
+                                setShowAlert(false);
+                                onClose();
+                            }
+                        },
+                        {
+                            text: 'OK',
+                            handler: handleSelectChange
+                        }
+                    ]}
+                />
             </IonContent>
-        </IonModal>
+        </IonPage>
     );
 };
 
-export default FilterModal;
+export default FilterAlert;

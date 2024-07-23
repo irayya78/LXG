@@ -39,7 +39,7 @@
   }
 
   .small-font{
-    font-size: small !important;
+    font-size: x-small !important;
   }
 
   .height-50-px{
@@ -369,10 +369,7 @@
 .boldAmount{
   font-weight: bold;
 }
- 
-  .small-font {
-    font-size: 0.9em;
-  }
+
   .icn-pad-right {
     margin-right: 8px;
   }
@@ -461,34 +458,36 @@
   overflow: hidden;
   white-space:nowrap;
  
+ 
 }
 .font-bold{
   font-weight: bold;
 }
-
-.filtersBar .small-font {
-  font-size: 0.8rem;
+.filterName {
+  white-space: nowrap;
+  overflow: hidden; 
+  text-overflow: ellipsis; 
+  display: inline-block;
+  vertical-align: middle;
+  max-width: 80px; 
+  font-weight: bold;
+  font-size: 10px !important;
 }
 
-.filtersBar .font-small {
-  font-size: 0.5rem;
-    
-}
-.filterName{
-  display: block;
-    white-space: nowrap;
-    overflow: hidden; 
-    text-overflow: ellipsis !important; 
-    max-width: 100%; 
-    font-weight: bold;
-   font-size: 10px !important;
+.filterButton {
+  display: flex;
+  align-items: center;
+ background-color: #e1eafc;
 
-
-  }
-.filterIcon{
-  font-size: 30px !important;
-  color: #3880ff;
 }
+
+.filterIcon {
+  font-size: 15px;
+  margin-right: 2px; 
+  display: inline-block;
+  vertical-align: middle;
+}
+
 
 .filtersBar .nopadding {
   padding: 0;

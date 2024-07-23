@@ -12,7 +12,7 @@ import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { DropDownItem, ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
-import { briefcaseOutline, calendarOutline, chevronForwardOutline, closeCircleOutline, filter, filterCircle, funnel, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
+import { briefcaseOutline, calendarOutline, chevronForwardOutline, closeCircleOutline, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
 import { messageManager } from '../../components/MassageManager';
@@ -31,7 +31,7 @@ const ExpensePage: React.FC = () => {
     const [expenseToDelete, setExpenseToDelete] = useState<ExpenseModel | null>(null);
     const { showToastMessage, showAlertMessage, showConfirmMessage } = messageManager();
     const { sortExpensesByDate } = useUIUtilities();
-    const [showModal, setShowModal] = useState(false);
+    const [showFilterAlert, setShowFilterAlert] = useState(false);
     const[dateFilterItems] = useState<DropDownItem[]>(getDateFilterItems())
     const[dateFilterId, setDateFilterId] = useState<number>(DateFilters.ThisMonth)
     const[totalAmount, setTotalAmount] = useState("")
@@ -44,7 +44,7 @@ const ExpensePage: React.FC = () => {
     const getExpense = async () => {
         setIsLoading(true); // Start loading
         try {
-            console.log('inside',dateFilterId)
+          
           const expenseData = await getExpenses(dateFilterId);
           setExpenseSummary(expenseData)     
           setExpenses(expenseData);
@@ -54,11 +54,24 @@ const ExpensePage: React.FC = () => {
           setIsLoading(false); // Stop loading
         }
       };
-   
-      
+      const handleFilterChange =async (value: number) => {
+        console.log(value,"data FilterId")
+        setDateFilterId(value);
+        setIsLoading(true);
+       const period = getPeriodName(value)
+       setSelectedPeriod(period)
+       const expList= await getExpenses(value);
+       setExpenseSummary(expList)     
+       setExpenses(expList);
+       setIsLoading(false);
+    };
+       
       useIonViewDidEnter(() => {
         (async () => {
-        await getExpense();
+         setDateFilterId(DateFilters.ThisMonth)
+          const period= getPeriodName(dateFilterId)
+         setSelectedPeriod(period)
+        getExpense();
         })();
       });
 
@@ -127,13 +140,7 @@ const ExpensePage: React.FC = () => {
         console.log("re",reimbursedAmount)
       }
 
-      const applyFilter = async() => {
-        setSelectedPeriod(getPeriodName(dateFilterId));
-       
-        console.log('apply filter,',dateFilterId)
-        getExpense();
-        setShowModal(false);
-    }
+
   
 
     return (
@@ -151,16 +158,18 @@ const ExpensePage: React.FC = () => {
     
             <CommonPullToRefresh onRefresh={getExpense}>
             <IonContent>
-            <IonItem color="light" className="nobottomborder">
+            <IonItem color="light" className="nobottomborder filterBar">
                 
                 <IonList slot="start" class="nopadding">
                  <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Reimb.: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
                </IonList>
                
-              <IonButton onClick={()=> setShowModal(true)} className="filterName" color="dark" shape="round" fill="clear" slot="end">
-                  <IonIcon className='filterIcon'  icon={funnelSharp} ></IonIcon>
-                 <IonLabel className='filterName'>{selectedPeriod}</IonLabel>
-            </IonButton>
+               <IonButton onClick={() => setShowFilterAlert(true)} className="filterButton" color="primary"  fill="clear" slot="end">
+                              <IonIcon className='filterIcon' icon={funnel}></IonIcon>
+                              <IonLabel className='filterName'>{selectedPeriod}</IonLabel>
+                             </IonButton>
+
+
             </IonItem>
                     <IonList >
                         {expenses && expenses.map((expense: ExpenseModel) => (
@@ -222,12 +231,53 @@ const ExpensePage: React.FC = () => {
             </IonContent>
             </CommonPullToRefresh>
             <FabMenu/>
-            <FilterModal
-                        isOpen={showModal}
-                        onClose={() => setShowModal(false)}
-                        dateFilterId={dateFilterId}
-                        setDateFilterId={setDateFilterId}
-                        applyFilter={applyFilter}
+            <IonAlert
+                        isOpen={showAlert}
+                        onDidDismiss={() => setShowAlert(false)}
+                        header={'Delete Expense'}
+                        message={'Are you sure you want to delete this expense?'}
+                        buttons={[
+                            {
+                                text: 'Cancel',
+                                role: 'cancel',
+                                cssClass: 'secondary',
+                                handler: () => {
+                                    setShowAlert(false);
+                                }
+                            },
+                            {
+                                text: 'Okay',
+                                handler: confirmDeleteExpense
+                            }
+                        ]}
+                    />
+                    <IonAlert
+                        isOpen={showFilterAlert}
+                        onDidDismiss={() => setShowFilterAlert(false)}
+                        header={'Select Filter'}
+                        inputs={dateFilterItems.map(filterItem => ({
+                            name: 'filter',
+                            type: 'radio',
+                            label: filterItem.Text,
+                            value: filterItem.Value,
+                            checked: filterItem.Value === dateFilterId,
+                        }))}
+                        buttons={[
+                            {
+                                text: 'Cancel',
+                                role: 'cancel',
+                                cssClass: 'secondary',
+                                handler: () => {
+                                    setShowFilterAlert(false);
+                                }
+                            },
+                            {
+                                text: 'Apply',
+                                handler: (value: any) => {
+                                    handleFilterChange(value)
+                                }
+                            }
+                        ]}
                     />
         </IonPage>
     );

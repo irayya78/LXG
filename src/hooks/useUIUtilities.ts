@@ -262,7 +262,8 @@ const getTimeDifferenceBetweenFromAndToTime =(fromTime:string, toTime : string) 
 
   return convertMinutesToHHMMFormat(timeDiff)
 }
-const getPeriodName = (dateFilterId: number) : string =>{
+
+const getPeriodName =  (dateFilterId: number) : string =>{
   let period : string = ""
 
   const filterItems : DropDownItem[] = getDateFilterItems()
@@ -299,7 +300,7 @@ const getDateFilterItems = () : DropDownItem[] =>{
     {Value:16, Text: "Last Six Months"},
     {Value:17, Text: "Last One Year"},
     {Value:18, Text: "Last Financial Year"},
-    {Value:19, Text: "Advance Options"}
+   
   ]
 
   return filterItems
@@ -324,7 +325,7 @@ enum DateFilters {
   LastSixMonths = 16,
   LastOneYear = 17,
   LastFinancialYear = 18,
-  AdvanceOptions = 19
+  
 }
 
 
