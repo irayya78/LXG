@@ -16,7 +16,7 @@
     white-space: nowrap; /* Prevents text from wrapping */
     overflow: hidden; /* Hides overflowed content */
     text-overflow: ellipsis; /* Adds the ellipsis */
-    max-width: 100%; /* Ensures it doesn't exceed container width */
+    max-width: 100%; 
     font-weight: bold;
     font-size: small;
   }
@@ -412,7 +412,6 @@
 
 
 .work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }
-/* src/pages/MyProfile.css */
 
 .profile-container {
   display: flex;

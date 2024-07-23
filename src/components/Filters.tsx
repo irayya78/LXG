@@ -38,7 +38,7 @@ const FilterModal: React.FC<FilterModalProps> = ({ isOpen, onClose, dateFilterId
                     okText="OK" cancelText="Cancel" 
                     onIonChange={e => setDateFilterId(e.detail.value)} 
                     className="small-font"
-                    interface="action-sheet"
+                    interface="alert"
                     onSelect={applyFilter}
                         
                         

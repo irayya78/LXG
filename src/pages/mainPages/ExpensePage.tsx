@@ -5,7 +5,8 @@ import {
   useIonViewDidEnter,
   IonSelect,
   IonSelectOption,
-  IonModal
+  IonModal,
+  isPlatform
 } from '@ionic/react';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
@@ -37,7 +38,7 @@ const ExpensePage: React.FC = () => {
     const[reimbursedAmount, setReimbursedAmount] = useState("")
     const[percentReimbursedAmount, setPercentReimbursedAmount] = useState("")
     const[selectedPeriod, setSelectedPeriod] = useState<string>(getPeriodName(dateFilterId))
-  
+    const isIos = isPlatform('ios');
 
     //Here The List of Expenses
     const getExpense = async () => {
@@ -180,7 +181,7 @@ const ExpensePage: React.FC = () => {
                                     <IonText className="time-text" slot="end">
                                         <p className="total-time">{(expense.AmountToDisplay)}</p>
                                     </IonText>
-                                   
+                                    {isIos ? null :<IonIcon className="action-item" icon={chevronForwardOutline} slot="end"/>}
                                 </IonItem>
                                 <IonItemOptions side="end">
                                     <IonItemOption onClick={() => showDeleteConfirm(expense)} color="danger">

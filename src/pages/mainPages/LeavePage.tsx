@@ -9,10 +9,10 @@ import MyProfileHeader from '../../components/MyProfileHeader';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { LeaveModel } from '../../types/types';
-import { checkmarkCircle, list, pencil } from 'ionicons/icons';
+import { calendarOutline, checkmarkCircle, chevronForwardOutline, list, pencil } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
-
+import { isPlatform } from '@ionic/react';
 
 const LeavePage: React.FC = () => {
     const navigation = useIonRouter();
@@ -23,6 +23,8 @@ const LeavePage: React.FC = () => {
     const [deduct, setDeduct] = useState<number>(0);
     const [balance, setBalance] = useState<number>(0);
     const {sortDataByDate} = useUIUtilities();
+    const isIos = isPlatform('ios');
+   
 
     useIonViewDidEnter(() => {
         (async () => {
@@ -112,19 +114,19 @@ const LeavePage: React.FC = () => {
                         {leaves && leaves.map((leave: LeaveModel)=>(
                         <IonItemSliding key={leave.LeaveId.toString()}>
                             
-                           <IonItem key={leave.LeaveId.toString()} button onClick={() => viewLeave(leave.LeaveId)}> 
+                           <IonItem className='ion-text-wrap' key={leave.LeaveId.toString()} button onClick={() => viewLeave(leave.LeaveId)}> 
                                 
                                 <IonButton className="time-text" fill="clear" slot="end">
                                     <IonText className="total-time" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
-                                    {/* <IonIcon className="action-item" icon={chevronForwardOutline} slot="end"/> */}
-                                </IonButton>   
-
+                                   
+                                </IonButton>  
+                               {isIos ? null :<IonIcon className="action-item" icon={pencil} slot="end"/>}
                                 <IonLabel className="ion-text-wrap">
-                                    <IonIcon icon={checkmarkCircle} style={{ fontSize: '12px' , color: getLeaveStatusColor(leave.LeaveStatusId as number)  }}/> &nbsp;
-                                    <span className="font-bold">{leave.LeaveType.leaveTypeName}</span> - &nbsp;
-                                    <span className="work-done-desc">{leave.LeaveTransactionType}</span>
-                                    <br/>
-                                    <span className="work-done-desc">{leave.LeaveFromDateToToDate}</span>
+                                
+                                    <span className="matter-Code-font"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number)  }}/>{leave.LeaveType.leaveTypeName}&nbsp;-&nbsp;<span className="work-done-desc">{leave.LeaveTransactionType}</span></span>
+                                    
+                                 
+                                    <span className="work-done-desc"> <IonIcon icon={calendarOutline}/>{leave.LeaveFromDateToToDate}</span>
                                 </IonLabel>
 
                             </IonItem>
