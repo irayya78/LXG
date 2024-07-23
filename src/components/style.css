@@ -453,15 +453,8 @@
   width: 100%;
   margin-top: 20px;
 }
-<<<<<<< Updated upstream
-<<<<<<< Updated upstream
 
-.font-bold {
-  font-weight: bold;
-}
-=======
-=======
->>>>>>> Stashed changes
+
 .filterBar {
   display: flex;
   align-items: center;
@@ -508,7 +501,4 @@
 .total-exp{
   color: #3880ff;
 }
-<<<<<<< Updated upstream
->>>>>>> Stashed changes
-=======
->>>>>>> Stashed changes
+
