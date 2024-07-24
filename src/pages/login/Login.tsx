@@ -26,7 +26,7 @@ const LoginPage: React.FC = () => {
   const [username, setUsername] = useState(loginInfo?.username || '');
   const [password, setPassword] = useState(loginInfo?.password || '');
   const [rememberMe, setRememberMe] = useState(loginInfo?.rememberMe || false);
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const [showAlert, setShowAlert] = useState(false);
   const [alertMessage, setAlertMessage] = useState('');
   const [showPassword, setShowPassword] = useState(false);

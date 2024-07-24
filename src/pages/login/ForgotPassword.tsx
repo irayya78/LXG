@@ -12,7 +12,7 @@ const ForgotPasswordPage: React.FC = () => {
   const [email, setEmail] = useState('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [showLoader, setShowLoader] = useState(false); // State for the loader
+  const [showLoader, setShowLoader] = useState<boolean>(false); // State for the loader
   const history = useHistory();
 
   useEffect(() => {

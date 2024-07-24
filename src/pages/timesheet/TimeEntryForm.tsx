@@ -62,7 +62,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [totalHours, setTotalHours] = useState<string>('00:00');
   const [billableHours, setBillableHours] = useState<string>('00:00');
   const [nonBillableHours, setNonBillableHours] = useState<string>("00:00");
-  const [isLoading, setIsLoading] = useState(true);
+  const [busy, setBusy] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [caption, setCaption] = useState<string>("Time-Entry");
   const [trackingDate, setTrackingDate] = useState<string>(getCurrentDateAsYYYYMMDD);
@@ -166,19 +166,24 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       console.log('id',paramTrackingId)
     
       if (paramTrackingId > 0) {
-        setIsLoading(true);
+        setBusy(true)
         setCaption("Update TimeSheet");
         setTimesheetData(paramTrackingId);
        
       }
-      
-      await inView();
+      try {
+        await inView();
+        setBusy(false)
+      } catch (error) {
+        console.error(error)
+      }
+     
       
       
     })()
       .then(() => { })
       .catch((error) => console.error(error));
-      setIsLoading(false)
+    
   });
 
   //when will Leave Reset the States
@@ -257,7 +262,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     }
 
     setTimeExceeds24Hours(false)
-    setIsLoading(true)
+    setBusy(true)
 
     const dateToDisplay = getDateToDisplay(trackingDate)
     const fTime = session.user?.CaptureFromAndToTime ? convertTimeTo24HoursFormat(fromTime) : "00:00:00"
@@ -287,7 +292,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     }
 
     const isSuccess = await saveTimesheet(timesheetObj)
-    setIsLoading(false)
+    setBusy(false)
 
 
     if(!isSuccess){
@@ -589,7 +594,7 @@ const handelTotalTimeChange=(totalHours:string)=>{
         />
       </div>
     </IonContent>
-    <IonLoading isOpen={ isLoading} message={"Please wait..."} />
+    <IonLoading isOpen={ busy} message={"Please wait..."} />
     {validationMessage.length > 0 && (
           <IonCard>
             <IonCardContent>

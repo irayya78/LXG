@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonLoading, IonText, IonIcon } from '@ionic/react';
+import { IonPage, IonHeader, IonToolbar, IonTitle, IonList, IonItem, IonLabel, IonLoading, IonText, IonIcon, IonContent } from '@ionic/react';
 import { MatterModel } from '../../types/types';
 import { useMatterManagement } from '../../hooks/useMatterManagement';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
@@ -10,7 +10,7 @@ import withSessionCheck from '../../components/WithSessionCheck';
 
 const MatterPage: React.FC = () => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
-  const [isLoading, setIsLoading] = useState(true);
+  const [isLoading, setIsLoading] = useState<boolean>(false);
   const { getRecentMatters } = useMatterManagement();
 
   const getMatters = async () => {
@@ -18,8 +18,6 @@ const MatterPage: React.FC = () => {
     try {
       //The api call for matters
       const matter = await getRecentMatters();
-
-     // const sortedMatters = matter.sort((a, b) => new Date(b.OpenDate).getTime() - new Date(a.OpenDate).getTime());
       setMatters(matter);
     } catch (error) {
       console.error('Error fetching recent matters:', error);
@@ -40,7 +38,14 @@ const MatterPage: React.FC = () => {
           <IonTitle >Matters</IonTitle>
           <MyProfileHeader/>
         </IonToolbar>
+        <IonItem color="light" className="nobottomborder filterBar">
+                
+                <IonList slot="start" class="nopadding">
+                 <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {matters.length}</span></IonLabel>
+               </IonList>
+            </IonItem>
       </IonHeader>
+      <IonContent style={{marginTop:"60px"}}>
       <CommonPullToRefresh onRefresh={getMatters}>
         <IonList>
           {matters.map((matter: MatterModel) => (
@@ -68,6 +73,7 @@ const MatterPage: React.FC = () => {
           duration={0}
         />
       </CommonPullToRefresh>
+      </IonContent>
      
                  <FabMenu />
       

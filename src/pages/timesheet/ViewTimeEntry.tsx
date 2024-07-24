@@ -19,7 +19,7 @@ import {
     useIonRouter,
     useIonViewDidEnter,
   } from '@ionic/react';
-  import { trashOutline, pencilOutline, personAddOutline, closeCircleOutline, pricetagSharp, pricetagsOutline, pricetagOutline } from 'ionicons/icons';
+  import { trashOutline, pencilOutline, personAddOutline, closeCircleOutline, pricetagSharp, pricetagsOutline, pricetagOutline, backspace, arrowBackSharp, arrowBack } from 'ionicons/icons';
   import React, { useState } from 'react';
   import { TimesheetModel, UserModel } from '../../types/types';
   import { useTimesheetManagement } from '../../hooks/useTimesheetManagement';
@@ -126,14 +126,22 @@ import {
       setUsers([]);
       setBusy(false)
     };
-  
-  
     return (
       <IonPage>
         <IonHeader>
           <IonToolbar color="secondary">
             <IonButtons slot="start">
-              <IonBackButton defaultHref='/layout/timesheet'></IonBackButton>
+            <IonButton fill='clear'
+      onClick={(e)=>{
+        navigation.push(`/layout/timesheet/${convertToDDMMYYYYWithoutSeparator(timesheet.TrackingDate)}`,"none","pop")
+      }}
+      style={{ 
+        color: 'white',
+      }}
+    >
+      <IonIcon icon={arrowBack} slot="start" style={{ color: 'white' }} />
+      Back
+    </IonButton>
             </IonButtons>
             <IonButtons slot="end">
               {isTimeSheetTaggingAllowed && (

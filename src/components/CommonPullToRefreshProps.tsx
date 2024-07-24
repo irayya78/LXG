@@ -18,10 +18,10 @@ const CommonPullToRefresh: React.FC<CommonPullToRefreshProps> = ({ onRefresh, ch
 
   return (
     <IonContent>
-      <IonRefresher slot="fixed" onIonRefresh={doRefresh}>
+      <IonRefresher slot="fixed"  pullFactor={0.5} onIonRefresh={doRefresh} pullMin={100} pullMax={200}>
         <IonRefresherContent
           pullingIcon="arrow-down"
-          refreshingSpinner="circles"
+           refreshingSpinner="circles"
         
         />
       </IonRefresher>

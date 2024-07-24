@@ -21,6 +21,17 @@
     font-size: small;
   }
 
+  .ellipsis{
+    display: block; /* Ensures it takes the full width */
+    white-space: nowrap; /* Prevents text from wrapping */
+    overflow: hidden; /* Hides overflowed content */
+    text-overflow: ellipsis; /* Adds the ellipsis */
+    max-width: 100%; 
+    font-size: small;
+    color: gray;
+    
+  }
+
   ion-fab-button[data-desc] {
     position: relative;
   }
@@ -180,12 +191,12 @@
   justify-content: center;
   width: 250px;
   height: 250px;
-  border-radius: 20%;
+  border-radius: 10%;
   position: absolute;
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  text-align: center;
+    text-align: center;
 }
 
 
@@ -498,5 +509,10 @@
 }
 .total-exp{
   color: #3880ff;
+}
+
+.text-center{
+  text-align: center;
+
 }
 

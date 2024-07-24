@@ -9,8 +9,9 @@ import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import TimesheetList from '../../components/timesheet/TimesheetList';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import { DataAccessCheckModal, TimesheetModel } from '../../types/types';
-import { add, pulse, time, } from 'ionicons/icons';
+import { add, enter, pulse, recording, recordingSharp, time, } from 'ionicons/icons';
 import { messageManager } from '../../components/MassageManager';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
 
 interface CalendarPageParams extends RouteComponentProps<{date: string }> {}
 
@@ -38,10 +39,11 @@ interface CalendarPageParams extends RouteComponentProps<{date: string }> {}
 
   useIonViewDidEnter(() => {
     (async () => {
+    console.log("enterPage:",match.params.date)
       const selDt = match.params.date && match.params.date.length > 0 
         ? addSeperatorToMMDDYYYDateString(match.params.date) 
         : "";
-
+        console.log("sended",selDt)
       await loadWeeklyCalendar(selDt);
     })();
   });
@@ -224,24 +226,25 @@ const onDeleteTimesheet =async()=>{
          </IonTitle>
           <MyProfileHeader/>
         </IonToolbar>
-      </IonHeader>
-      <CommonPullToRefresh onRefresh={() => loadWeeklyCalendar(selectedDate)}>
-      <IonContent>
-        
-         <CalendarNavigation selectedDay={selectedDate} calendarItems={calItems} onDateClick={onDateClick}  />
-         <IonItem color="light" className="nobottomborder">
+        <CalendarNavigation selectedDay={selectedDate} calendarItems={calItems} onDateClick={onDateClick}  />
+         <IonItem color="light" className="nobottomborder filterBar">
          <IonList slot="start" class="nopadding">
-           <IonLabel className="greyback">Rec(s):{timeEntriesList.length}</IonLabel>
+           <IonLabel className="greyback font-bold">#Rec:{timeEntriesList.length}</IonLabel>
          </IonList>
+            
          <IonList slot="end" class="nopadding">
-             <IonLabel className="font-grey-color greyback">T: <span className="record-bold">{totalHours} Hrs</span> | B: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
+             <IonLabel className="font-grey-color greyback">Total: <span className="font-bold total-exp">{totalHours} Hrs</span> | BH: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
         </IonList>
 
      </IonItem>
+      </IonHeader>
+     
+      <IonContent>
+      <CommonPullToRefresh onRefresh={() => loadWeeklyCalendar(selectedDate)}>
      <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0}  />
            <TimesheetList onDeleteTimesheet={showDeleteConfirm} onEditTimesheet={onTimesheetEdit} onViewTimesheet={onViewTimesheet} timeEntries={timeEntriesList} />
       
-          
+           </CommonPullToRefresh>
        </IonContent>
        <IonAlert
                         isOpen={showAlert}
@@ -262,8 +265,9 @@ const onDeleteTimesheet =async()=>{
                                 handler: onDeleteTimesheet
                             }
                         ]}
+                        
                     />
-       </CommonPullToRefresh>
+      
        
          <IonFab vertical="bottom" horizontal="end" slot="fixed">
           <IonFabButton onClick={newTimeEntry}>

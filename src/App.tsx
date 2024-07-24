@@ -22,6 +22,9 @@ import ResetPassword from './pages/login/ResetPassword';
 import { useSessionManager } from './sessionManager/SessionManager';
 import { useManageUser } from './hooks/useManageUser';
 import { messageManager } from './components/MassageManager';
+import { ConnectionStatus, Network } from '@capacitor/network';
+import { PluginListenerHandle } from '@capacitor/core';
+import useNetworkCheck from './hooks/useNetworkCheck';
 
 Chart.register(...registerables);
 
@@ -35,19 +38,10 @@ const App: React.FC = () => {
   const [alertMessage, setAlertMessage] = useState('');
   const [autoLoginAttempted, setAutoLoginAttempted] = useState(false);
   const [autoLoginSuccess, setAutoLoginSuccess] = useState(false);
-  const [isOffline, setIsOffline] = useState(!navigator.onLine);
-  useEffect(() => {
-    const handleOnline = () => setIsOffline(false);
-    const handleOffline = () => setIsOffline(true);
+  const isOffline =useNetworkCheck();
+ 
 
-    window.addEventListener('online', handleOnline);
-    window.addEventListener('offline', handleOffline);
 
-    return () => {
-        window.removeEventListener('online', handleOnline);
-        window.removeEventListener('offline', handleOffline);
-    };
-}, []);
  
   useEffect(() => {
     const performAutoLogin = async () => {   
@@ -98,7 +92,7 @@ const App: React.FC = () => {
       {isOffline && (
                     <IonAlert
                         isOpen={isOffline}
-                        header={'oops'}
+                        header={'Connection failed'}
                         message={'Please check your internet connection and try again.'}
                         buttons={['OK']}
                     />

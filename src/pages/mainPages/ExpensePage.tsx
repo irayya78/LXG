@@ -26,7 +26,7 @@ const ExpensePage: React.FC = () => {
     const {formatNumber,getDateFilterItems,getPeriodName,DateFilters}=useUIUtilities();
     const { getExpenses, deleteExpense,canEditOrDeleteExpense } = useExpenseManagement();
     const [expenses, setExpenses] = useState<ExpenseModel[]>([]);
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [showAlert, setShowAlert] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<ExpenseModel | null>(null);
     const { showToastMessage, showAlertMessage, showConfirmMessage } = messageManager();
@@ -153,24 +153,24 @@ const ExpensePage: React.FC = () => {
                     <IonTitle>Expenses</IonTitle>
                     <MyProfileHeader/>
                 </IonToolbar>
-               
-            </IonHeader>
-    
-            <CommonPullToRefresh onRefresh={getExpense}>
-            <IonContent>
-            <IonItem color="light" className="nobottomborder filterBar">
+                <IonItem color="light" className="nobottomborder filterBar">
                 
                 <IonList slot="start" class="nopadding">
-                 <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Reimb.: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
+                 <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Rei: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
                </IonList>
                
-               <IonButton onClick={() => setShowFilterAlert(true)} className="filterButton" color="primary"  fill="clear" slot="end">
+                        <IonButton onClick={() => setShowFilterAlert(true)} className="filterButton" color="primary"  fill="clear" slot="end" >
                               <IonIcon className='filterIcon' icon={funnel}></IonIcon>
                               <IonLabel className='filterName'>{selectedPeriod}</IonLabel>
-                             </IonButton>
+                        </IonButton>
 
 
             </IonItem>
+            </IonHeader>
+    
+           
+            <IonContent>
+           <CommonPullToRefresh onRefresh={getExpense}>
                     <IonList >
                         {expenses && expenses.map((expense: ExpenseModel) => (
                             <IonItemSliding key={expense.ExpenseId.toString()}>
@@ -227,9 +227,9 @@ const ExpensePage: React.FC = () => {
                         ]}
                     />
                
-               
+               </CommonPullToRefresh>
             </IonContent>
-            </CommonPullToRefresh>
+        
             <FabMenu/>
             <IonAlert
                         isOpen={showAlert}

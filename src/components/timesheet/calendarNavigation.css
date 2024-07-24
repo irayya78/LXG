@@ -74,3 +74,7 @@ div.item-native{padding-left:0px;}
 .greyback{background: #f4f5f8;}
 
 
+:host {
+    --backdrop-opacity: 0 !important;
+  }
+  

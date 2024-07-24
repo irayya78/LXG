@@ -26,23 +26,20 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
 };
 
 
-
-
-
-const saveMatter = async  (model: MatterModel) : Promise<boolean> => {
+// const saveMatter = async  (model: MatterModel) : Promise<boolean> => {
    
-    await axiosInstance.post("SaveMatter", model)
-    return true
-}
+//     await axiosInstance.post("SaveMatter", model)
+//     return true
+// }
 
 
 
-const deleteMatter = async  (matterId: Number): Promise<boolean>  => {
+// const deleteMatter = async  (matterId: Number): Promise<boolean>  => {
 
-    await axiosInstance.get( "/DeleteMatter/" + matterId)
+//     await axiosInstance.get( "/DeleteMatter/" + matterId)
     
-    return true
-}
+//     return true
+// }
 
 
  const getMatterObject =   (element: any): MatterModel  => {
@@ -124,7 +121,7 @@ const searchMatters = async  (searchField: string): Promise<MatterModel[]>  => {
        
 };
 return {
-    getRecentMatters,saveMatter,deleteMatter,getBlankMatterObject ,searchMatters
+    getRecentMatters ,searchMatters
 
 }
 };
