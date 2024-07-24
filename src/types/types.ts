@@ -165,6 +165,7 @@ export interface LeaveModel{
   Description : string,
   ApproverComment : string,
   ApproverId : Number,
+  ApproverName : string,
   LeaveStatusId : Number,
   LeaveTransactionType : string,
   ActionOn : string,

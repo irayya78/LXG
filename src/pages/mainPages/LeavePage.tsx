@@ -9,22 +9,23 @@ import MyProfileHeader from '../../components/MyProfileHeader';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { LeaveModel } from '../../types/types';
-import { calendarOutline, checkmarkCircle, chevronForwardOutline, list, pencil } from 'ionicons/icons';
+import { calendarOutline, checkmarkCircle, chevronForwardOutline, informationCircleOutline, list, pencil, trash } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { isPlatform } from '@ionic/react';
+import { messageManager } from '../../components/MassageManager';
 
 const LeavePage: React.FC = () => {
     const navigation = useIonRouter();
     const { getLeaves,getLeaveStatusColor} = useLeaveManagement();
-    const [isLoading, setIsLoading] = useState(true);
+    const [isLoading, setIsLoading] = useState<boolean>(false);
     const [leaves, setLeaves] = useState<LeaveModel[]>([]);
     const [credit, setCredit] = useState<number>(0);
     const [deduct, setDeduct] = useState<number>(0);
     const [balance, setBalance] = useState<number>(0);
     const {sortDataByDate} = useUIUtilities();
     const isIos = isPlatform('ios');
-   
+    const { showToastMessage, showAlertMessage, showConfirmMessage } = messageManager();
 
     useIonViewDidEnter(() => {
         (async () => {
@@ -35,7 +36,6 @@ const LeavePage: React.FC = () => {
     });
     
     const getLeavesList = async()=>{
-        setIsLoading(true); // Start loading
         try{
             const Leavelist= await getLeaves();
             const sortedLeavelist: any = sortDataByDate(Leavelist, 'FromDate', 'desc');
@@ -43,9 +43,10 @@ const LeavePage: React.FC = () => {
             await getSummary(Leavelist);
         }catch (error) {
             console.error('Error fetching expenses:', error);
-        } finally {
-            setIsLoading(false); // Stop loading
-        }
+        } 
+        // finally {
+        //     setIsLoading(false); // Stop loading
+        // }
     }
     
     const getSummary = async(leaveList: LeaveModel[]) =>{
@@ -73,6 +74,17 @@ const LeavePage: React.FC = () => {
     const editLeaveByLeaveId = (leave : LeaveModel): void =>{
         if(leave.LeaveStatusId != 2){
             navigation.push(`/layout/leave/edit/${leave.LeaveId}`, 'forward', 'push');
+        }else{
+            showAlertMessage("Can't edit! The leave has been approved!");
+        }
+    }
+
+    // Navigation For Delete Leave Window 
+    const deleteLeaveByLeaveId = (leave : LeaveModel): void =>{
+        if(leave.LeaveStatusId != 2){
+            navigation.push(`/layout/leave/delete/${leave.LeaveId}`, 'forward', 'push');
+        }else{
+            showAlertMessage("Can't delete! The leave has been approved!");
         }
     }
 
@@ -97,15 +109,15 @@ const LeavePage: React.FC = () => {
                 <IonContent>
                     <IonLoading isOpen={isLoading}  message={'Please wait...'}duration={0}/>
                     <IonItem color="light" className="nobottomborder"> 
-                       <IonList className='nopadding'>
-                            <IonLabel className="greyback">Rec(s): {leaves.length}&nbsp;|
-                                &nbsp;Credit(s):{credit}&nbsp;|
-                                &nbsp;Deduction(s):{deduct}&nbsp;|
-                                &nbsp;Balance:{balance}
+                       <IonList className='nopadding' slot="start">
+                            <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {leaves.length}</span>&nbsp;|
+                                Credit(s):&nbsp;<span className="billable-hours">{credit}</span>&nbsp;|
+                                Deduction(s):&nbsp;<span className="nonbillable-hours">{deduct}</span>&nbsp;|
+                                Balance:&nbsp;<span className="font-bold total-exp">{balance}</span>
                             </IonLabel>
                             
                         </IonList>
-                        <IonIcon icon={list} slot="end" onClick={()=> viewHolidayList()}/> 
+                        {/* <IonIcon icon={list} slot="end" onClick={()=> viewHolidayList()}/>  */}
                        
                        
                     </IonItem>
@@ -123,16 +135,23 @@ const LeavePage: React.FC = () => {
                                {isIos ? null :<IonIcon className="action-item" icon={pencil} slot="end"/>}
                                 <IonLabel className="ion-text-wrap">
                                 
-                                    <span className="matter-Code-font"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number)  }}/>{leave.LeaveType.leaveTypeName}&nbsp;-&nbsp;<span className="work-done-desc">{leave.LeaveTransactionType}</span></span>
-                                    
-                                 
-                                    <span className="work-done-desc"> <IonIcon icon={calendarOutline}/>{leave.LeaveFromDateToToDate}</span>
+                                    <span className="font-bold action-item"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number) }} />&nbsp;{leave.LeaveType.leaveTypeName}</span>&nbsp;-&nbsp;
+                                    <span className="work-done-desc">{leave.LeaveTransactionType}</span>
+                                     <br/>                               
+                                    <span className="work-done-desc"> <IonIcon icon={calendarOutline}/>&nbsp;{leave.LeaveFromDateToToDate}</span><br/>
+                                    <span className="small-font ellipsis"><IonIcon icon={informationCircleOutline}/>&nbsp;{leave.Description}</span> 
                                 </IonLabel>
 
                             </IonItem>
                             <IonItemOptions onClick={() => editLeaveByLeaveId(leave)} side="start">
                                 <IonItemOption color="success">
                                     <IonIcon icon={pencil}></IonIcon>
+                                </IonItemOption>
+                            </IonItemOptions>
+
+                            <IonItemOptions onClick={() => deleteLeaveByLeaveId(leave)} side="end">
+                                <IonItemOption color="danger">
+                                    <IonIcon icon={trash}></IonIcon>
                                 </IonItemOption>
                             </IonItemOptions>
                            

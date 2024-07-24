@@ -6,6 +6,8 @@ import { RouteComponentProps } from 'react-router';
 import { useSessionManager } from "../../sessionManager/SessionManager";
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { messageManager } from "../../components/MassageManager";
+import ApproverList from '../../components/SearchUserProps';
+import useExpenseManagement from "../../hooks/useExpenseManagement";
 
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
@@ -28,7 +30,12 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const [leaveCount, setLeaveCount] = useState<Number>(0);
   const [disableSaveButton, setDisableSaveButton] = useState<boolean>(true);
   const { showToastMessage } = messageManager();
- 
+  const [approverSearch, setApproverSearch] = useState<string>("");
+  const {searchUsers } = useExpenseManagement();
+  const [approvers, setApprovers] = useState<UserModel[]>([]);
+  const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
+  const [approverName,setApproverName] = useState<string>('');
+
   useEffect(() => {
     validateForm();
   }, [leaveTypeId,fromDate,toDate,description]);
@@ -38,14 +45,15 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       let paramLeaveId = Number(match.params.leaveId);
       let leave: LeaveModel = getBlankLeaveObject();
   
-      if(paramLeaveId>0){
-        setIsLoading(true);
+      if(paramLeaveId>0){  
+        setIsLoading(true);     
         setCaption("Update Leave");    
       } else {
         paramLeaveId = 0;
       }
      
       leave = await getLeave(paramLeaveId);
+      
       await setLeaveData(leave);
       setIsLoading(false);
       
@@ -72,6 +80,8 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setToSessionId(toSessionId)
     setLeaveSessionCollection(lev.LeaveSessionCollection)
     setLeaveCount(lev.LeaveCount)
+    setSelectedApproverId(Number(lev.ApproverId))
+    setApproverName(lev.ApproverName)
    }
   
 
@@ -93,6 +103,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       leave.ToSessionId = (toSessionId)
       leave.LeaveCount = Number(leaveCount)
       leave.Description = (description)
+      leave.ApproverId = Number(ApproverId)
     }
 
     try {
@@ -185,7 +196,23 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setIsLoading(false)
   };
 
-  
+  //For searching Approver's
+  const searchApprovers = async (searchValue: string) => {
+    setApproverName(searchValue);
+    if (searchValue.length > 2) {
+      const approversList = await searchUsers(searchValue);
+      setApprovers(approversList);
+    } else {
+      setApprovers([]);
+    }
+  };
+
+  const handleSelectApprover = async (selectedApprover: UserModel) => {
+    setSelectedApproverId(selectedApprover.UserId);
+    setApproverName(selectedApprover.FullName);
+    setApprovers([]);
+  };
+
 
   return (
     <IonPage>
@@ -297,6 +324,21 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
           <IonLabel position="stacked">#Leave(s)</IonLabel>
           <IonInput value={leaveCount as number} readonly></IonInput>
         </IonItem>
+
+        {/* Approver Input*/}
+        <IonItem>
+          <IonLabel position="stacked">Approver</IonLabel>
+          <IonInput
+                value={approverName}
+                placeholder="Search for an approver..."
+                onIonInput={(e: any) => searchApprovers(e.target.value)}
+              ></IonInput>
+        </IonItem>
+
+        <ApproverList
+              approvers={approvers}
+              onApproverSelect={handleSelectApprover}
+            />
 
         {/* Description Input*/}
         <IonItem>
