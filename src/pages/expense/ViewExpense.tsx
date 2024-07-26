@@ -108,66 +108,66 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
           <IonLoading message="Please wait..." duration={0} isOpen={busy}></IonLoading>
 
           <IonContent  class="ion-padding">
-          <IonList  id="listTimeEntry">
+          <IonList   id="view-exp">
               <IonItem>
-                  <IonLabel  position="fixed">Matter</IonLabel>
-                  <IonLabel className='boldAmount'  position="fixed">{expense.MatterCode}</IonLabel>
+                  <IonLabel className='small-font'  position="fixed">Matter</IonLabel>
+                  <IonLabel  className='boldAmount view-lable'  position="fixed">{expense.MatterCode}</IonLabel>
               </IonItem>
               <IonItem>
-                  <IonLabel position="fixed">Date</IonLabel>
-                  <IonLabel>{expense.Date}</IonLabel>
+                  <IonLabel className='small-font' position="fixed">Date</IonLabel>
+                  <IonLabel className='view-lable'>{expense.Date}</IonLabel>
               </IonItem>
               
               <IonItem>
-                  <IonLabel position="fixed">Category</IonLabel>
-                  <IonLabel>{expense.ExpenseCategory}</IonLabel>                
+                  <IonLabel className='small-font' position="fixed">Category</IonLabel>
+                  <IonLabel className='view-lable' >{expense.ExpenseCategory}</IonLabel>                
               </IonItem>
               <IonItem>
-            <IonLabel position="fixed">Amount</IonLabel>
-            <IonText className='boldAmount'  color={"primary"}>{expense.AmountToDisplay}</IonText>
+            <IonLabel className='small-font' position="fixed">Amount</IonLabel>
+            <IonText className='boldAmount view-lable'  color={"primary"}>{expense.AmountToDisplay}</IonText>
           </IonItem>
 
              
               <IonItem>
-                  <IonLabel position="fixed">Description</IonLabel>
-                  <IonLabel className="small-font">{expense.Description}</IonLabel>
+                  <IonLabel className='small-font' position="fixed">Description</IonLabel>
+                  <IonLabel className="small-font view-lable">{expense.Description}</IonLabel>
               </IonItem>
 
               <IonItem>
-                  <IonLabel position="fixed">Status</IonLabel>
+                  <IonLabel className='small-font' position="fixed">Status</IonLabel>
                   {/* <IonIcon icon={expense.ExpenseStatus.icon} color={expense.ExpenseStatus.color} className="icn-pad-right"></IonIcon> */}
-                  <IonLabel>{expense.ApprovalStatus.StatusName}</IonLabel>
+                  <IonLabel className='view-lable'>{expense.ApprovalStatus.StatusName}</IonLabel>
               </IonItem>
               {
                   expense.ApprovalStatusId === 4 ? 
                   <IonItem>
                       <IonLabel position="fixed">Comments</IonLabel>
-                      <IonLabel>{expense.Comments}</IonLabel>
+                      <IonLabel className='view-lable'>{expense.Comments}</IonLabel>
                   </IonItem> : null
               }
               {
                   expense.ActionBy.UserId > 0 ?
                   <IonItem>
-                      <IonLabel position="fixed">Action By</IonLabel>
-                      <IonLabel>{expense.ActionBy.FullName}</IonLabel>
+                      <IonLabel className='small-font' position="fixed">Action By</IonLabel>
+                      <IonLabel className='view-lable'>{expense.ActionBy.FullName}</IonLabel>
                   </IonItem> : null
               }
                    <IonItem>
-                          <IonLabel position="fixed">Billable To Client</IonLabel>            
-                          <IonText style={{ color: expense.BillableToClient}}>
+                          <IonLabel className='small-font' position="fixed">Billable To Client</IonLabel>            
+                          <IonLabel className='view-lable' style={{ color: expense.BillableToClient}}>
                             {expense.BillableToClient ? "Yes" : "No"}
-                         </IonText>
+                         </IonLabel>
                          </IonItem>
 
              <IonItem>
-                      <IonLabel position="fixed">Payment Status</IonLabel>
-                      <IonLabel>{expense.PaymentId > 0 ? "Reimbursed" : "Not Reimbursed"}</IonLabel>
+                      <IonLabel className='small-font' position="fixed">Payment Status</IonLabel>
+                      <IonLabel className='view-lable'>{expense.PaymentId > 0 ? "Reimbursed" : "Not Reimbursed"}</IonLabel>
               </IonItem>
   
              {session.user?.DisplayExpenseApprover ?
                 <IonItem>
-                    <IonLabel position="fixed">Approver</IonLabel>
-                    <IonLabel>{expense.ApproverName ? expense.ApproverName : "No ApproverSelected"}</IonLabel>
+                    <IonLabel className='small-font' position="fixed">Approver</IonLabel>
+                    <IonLabel className='view-lable'>{expense.ApproverName ? expense.ApproverName : "No Approver"}</IonLabel>
                 </IonItem>:null
              }
              
@@ -207,12 +207,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
       />
 
           </IonContent>
-          
 
-         
-        
-
-       
       </IonPage>
     );
 };

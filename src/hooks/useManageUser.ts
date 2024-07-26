@@ -48,7 +48,7 @@ export const useManageUser = () => {
           CaptureActivity: customer?.captureActivityInTimeTracking || false,
           AllowFutureDateForExpenseSubmission: customer?.allowFutureDateForExpenseSubmission || false,
           AllowFutureDateForTimeEntry: customer?.allowFutureDateForTimeEntry || false,
-          TimeSheetLockSelectedDay: customer?.timeSheetLockSelectedDay || 0,
+          TimeSheetLockSelectedDay: customer?.timeSheetLockSelectedDay ,
           BackDatedExpenseEntryAllowedDays: customer?.backDatedExpenseEntryAllowedDays || 0,
           CustomerLogoFileName: customer?.document ? customer.document.guid : '',
           BackDateTimesheetUpdateAllowedDays: customer?.backDateTimesheetUpdateAllowedDays || 0,
@@ -110,7 +110,7 @@ export const useManageUser = () => {
           : getGenericImageUrl(firstName);
   
       if (userId && customerId && firstName && email) {
-        const userObj = {
+        const userObj:UserSessionDetails = {
           UserId: Number(userId),
           CustomerId: customerId,
           FirstName: firstName,
@@ -124,7 +124,7 @@ export const useManageUser = () => {
           AllowFutureDateForExpenseSubmission:
             customer?.allowFutureDateForExpenseSubmission || false,
           AllowFutureDateForTimeEntry: customer?.allowFutureDateForTimeEntry || false,
-          TimeSheetLockSelectedDay: customer?.timeSheetLockSelectedDay || 0,
+          TimeSheetLockSelectedDay: customer?.timeSheetLockSelectedDay,
           BackDatedExpenseEntryAllowedDays: customer?.backDatedExpenseEntryAllowedDays || 0,
           CustomerLogoFileName: customer?.document ? customer.document.guid : '',
           BackDateTimesheetUpdateAllowedDays: customer?.backDateTimesheetUpdateAllowedDays || 0,

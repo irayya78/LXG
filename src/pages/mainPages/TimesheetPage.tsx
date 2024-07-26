@@ -140,7 +140,7 @@ const navigateCalendarWeek = async (selectedDate: string, firstDayOfWeek: string
 const getTimesheetBySelectedDate = async (selectedDate1: string) =>{
 
   setIsLoading(true)
-    const timesheet : Array<any> = await getTimesheetByDate(selectedDate1)      
+    const timesheet : Array<TimesheetModel> = await getTimesheetByDate(selectedDate1)      
 
     setTimeEntriesList(timesheet)
    

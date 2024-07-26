@@ -84,11 +84,9 @@ import {
   
     // Delete
     const deleteRecord = async () => {
-      setBusy(true);
       await deleteTimesheet(timesheet.TrackingId);
-      setBusy(false);
       showToastMessage("Timesheet deleted successfully!");
-      navigation.push(`/layout/timesheet`);
+      navigation.push(`/layout/timesheet/${convertToDDMMYYYYWithoutSeparator(timesheet.TrackingDate)}`,"none","pop")
     };
   
     // Search Users
@@ -164,28 +162,28 @@ import {
         <IonContent class="ion-padding">
           <IonList id="listTimeEntry">
             <IonItem>
-              <IonLabel position="fixed">Matter</IonLabel>
+              <IonLabel className='small-font' position="fixed">Matter</IonLabel>
               <IonLabel className='boldAmount' position="fixed">{timesheet.MatterCode}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel position="fixed">Date</IonLabel>
+              <IonLabel className='small-font' position="fixed">Date</IonLabel>
               <IonLabel>{timesheet.TrackingDate}</IonLabel>
             </IonItem>
             {timesheet.MatterActivityId > 0 ? (
               <IonItem>
-                <IonLabel position="fixed">Task</IonLabel>
+                <IonLabel className='small-font' position="fixed">Task</IonLabel>
                 <IonLabel>{timesheet.MatterActivityName}</IonLabel>
               </IonItem>
             ) : null}
   
             {timesheet.TimeTrackingActivityId > 0 ? (
               <IonItem>
-                <IonLabel position="fixed">Activity</IonLabel>
+                <IonLabel className='small-font' position="fixed">Activity</IonLabel>
                 <IonLabel>{timesheet.TimeTrackingActivityName}</IonLabel>
               </IonItem>
             ) : null}
             <IonItem>
-              <IonLabel position="fixed">Billable?</IonLabel>
+              <IonLabel className='small-font' position="fixed">Billable?</IonLabel>
               {timesheet.IsBillable ? (
                 <IonLabel className='boldAmount' color={"success"}>Yes</IonLabel>
               ) : (
@@ -194,19 +192,19 @@ import {
             </IonItem>
   
             <IonItem>
-              <IonLabel position="fixed">Total Time</IonLabel>
+              <IonLabel className='small-font' position="fixed">Total Time</IonLabel>
               <IonLabel>{timesheet.TrackedTime}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel position="fixed">Billable Time</IonLabel>
+              <IonLabel className='small-font' position="fixed">Billable Time</IonLabel>
               <IonLabel>{timesheet.BillableHour}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel position="fixed">Non Billable</IonLabel>
+              <IonLabel className='small-font' position="fixed">Non Billable</IonLabel>
               <IonLabel>{timesheet.NonBillableHour}</IonLabel>
             </IonItem>
             <IonItem>
-              <IonLabel position="fixed">Description</IonLabel>
+              <IonLabel className='small-font' position="fixed">Description</IonLabel>
               <IonText className="small-font">{timesheet.Description}</IonText>
             </IonItem>
           </IonList>

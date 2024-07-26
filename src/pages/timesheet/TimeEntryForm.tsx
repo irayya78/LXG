@@ -28,7 +28,7 @@ import {
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router";
 import { useMatterManagement } from "../../hooks/useMatterManagement";
-import { DropDownItem, MatterModel, TimesheetModel } from "../../types/types";
+import { DropDownItem, MatterModel, TimesheetModel, UserSessionDetails } from "../../types/types";
 import MatterList from "../../components/SearchMatterProps";
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { useSessionManager } from '../../sessionManager/SessionManager';
@@ -45,7 +45,9 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     convertDateToYYYYMMDD,
     getCurrentDateAsYYYYMMDD,
     convertToDDMMYYYYWithoutSeparator,
-    getTimeAsHHMM,getDateToDisplay,convertTimeTo24HoursFormat,convertToMinutes,getTimeDifferenceBetweenFromAndToTime
+    convertToYYYYMMDD,
+    getTimeAsHHMM,getDateToDisplay,convertTimeTo24HoursFormat,
+    convertToMinutes,getTimeDifferenceBetweenFromAndToTime
   } = useUIUtilities();
   const{showAlertMessage,showToastMessage}=messageManager();
   const session = useSessionManager();
@@ -81,7 +83,9 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [showFromTimePicker, setShowFromTimePicker] = useState<boolean>(false);
   const [showToTimePicker,setShowToTimePicker]= useState<boolean>(false)
   const[disabledTotalTime,setDisableTotalTime]=useState<boolean>(false);
-  const [validationMessage,setValidationMessage]=useState<string>("")
+  const [validationMessage,setValidationMessage]=useState<string>("");
+  const [minDate,setMinDate]=useState<string>("");
+  const [maxDate,setMaxDate]=useState<string>("");
   const isCaptureTask = session.user?.CaptureActivity;
   const isCaptureFromTimeToTime =  session.user?.CaptureFromAndToTime;
   const isBillableByDefault=session.user?.DefaultTimeEntryAsBillable;
@@ -213,7 +217,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     if(isBillableByDefault){
       setBillable(true)
     }
-    
+     setMinAndMaxDate();
   }
 
   const calculateAndSetTotalHours = useCallback((fromTime: string, toTime: string) => {
@@ -412,6 +416,26 @@ const handelTotalTimeChange=(totalHours:string)=>{
   setBillableHours(totalHours)
 
 }
+
+const setMinAndMaxDate =  () =>{
+  if(session.user?.TimeSheetLockSelectedDay&&session.user?.TimeSheetLockSelectedDay>0){
+      let startDate : Date = new Date()
+      startDate.setDate(startDate.getDate() - Number(session.user?.TimeSheetLockSelectedDay))
+      const dateToSet = convertToYYYYMMDD(startDate)
+      setMinDate(dateToSet)
+  }else{
+      setMinDate((new Date().getFullYear() - 1).toString())
+  }
+
+  let endDate : Date = new Date()
+  if(!session.user?.AllowFutureDateForTimeEntry){
+      const endDateToSet = convertToYYYYMMDD(endDate)
+      setMaxDate(endDateToSet)
+  }else{
+      endDate.setDate(endDate.getDate() + 90)
+      setMaxDate(endDate.getFullYear().toString())
+  }
+}
   return (
     <IonPage>
     <IonHeader>
@@ -432,11 +456,13 @@ const handelTotalTimeChange=(totalHours:string)=>{
       <div className="form-container">
         <IonItem>
           <IonLabel position="stacked">Matter</IonLabel>
+       
           <IonInput
             value={matterCode}
             placeholder="Search your matter here..."
             onIonInput={(e: any) => searchMatter(e.target.value)}
           ></IonInput>
+
         </IonItem>
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
@@ -447,6 +473,8 @@ const handelTotalTimeChange=(totalHours:string)=>{
             value={trackingDate}
             placeholder="Select Date"
             type="date"
+            max={maxDate}
+            min={minDate}
             onIonChange={(e) => setTrackingDate(e.target.value as string)}
           />
         </IonItem>

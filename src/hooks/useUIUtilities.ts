@@ -32,7 +32,17 @@ export const useUIUtilities = () => {
     const formattedDate = `${parts[2]}-${parts[1]}-${parts[0]}`;
     return formattedDate;
   };
-  
+  const convertToYYYYMMDD = (dateValue: Date) : string =>{
+     
+    const month =  Number( dateValue.getMonth())  + 1
+    const date =  dateValue.getDate()
+
+    const monthAsString = month > 10 ? month : "0" + Number(month).toString();
+    const dateAsString = date >= 10 ? Number(date).toString() : "0" + Number(date).toString();
+
+    const dtDDMMYYY =dateValue.getFullYear() + "-" + monthAsString + "-" + dateAsString
+    return dtDDMMYYY
+  }
   const getCurrentDateAsYYYYMMDD = (): string => {
     const date = new Date();
     const month = date.getMonth() + 1; // Month is zero-based, so add 1
@@ -355,6 +365,7 @@ enum DateFilters {
     getPeriodName,
     getDateFilterItems,
     DateFilters,
+    convertToYYYYMMDD,
     sortDataByDate
   };
 };
