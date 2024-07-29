@@ -62,12 +62,12 @@ const Layout: React.FC = () => {
           </IonTabButton>
           <IonTabButton tab="matter" href="/layout/matter">
             <IonIcon icon={briefcase} />
-            <IonLabel>Matter</IonLabel>
+            <IonLabel>Matters</IonLabel>
           </IonTabButton>
 
           <IonTabButton tab="leave" href="/layout/leave">
             <IonIcon icon={calendar} />
-            <IonLabel>Leave</IonLabel>
+            <IonLabel>Leaves</IonLabel>
           </IonTabButton>
         </IonTabBar>
       </IonTabs>

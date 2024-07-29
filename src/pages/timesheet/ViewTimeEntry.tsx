@@ -64,7 +64,7 @@ import {
       const canEditOrDelete = await canEditOrDeleteTimesheet(timesheet);
   
       if (!canEditOrDelete.OperationAllowed) {
-        showToastMessage(canEditOrDelete.Message);
+        showAlertMessage(canEditOrDelete.Message);
         return false;
       }
       navigation.push(`/layout/timesheet/update/${timesheet.TrackingId}`);
@@ -104,6 +104,13 @@ import {
   
     // Tag Others
     const onTagOthers = async () => {
+
+      const validation = await canEditOrDeleteTimesheet(timesheet);
+  
+      if (!validation.OperationAllowed) {
+        showAlertMessage(validation.Message);
+        return false;
+      }
       setShowUserSearch(!showUserSearch);
     };
   

@@ -5,6 +5,7 @@ import { Route, Redirect } from 'react-router-dom';
 import LoginPage from './pages/login/Login';
 import Layout from './components/layouts/Layout';
 import MyProfile from './pages/myProfile/MyProfile';
+import "./components/style.css"
 import '@ionic/react/css/core.css';
 import '@ionic/react/css/normalize.css';
 import '@ionic/react/css/structure.css';

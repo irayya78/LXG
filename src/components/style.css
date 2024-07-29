@@ -468,8 +468,6 @@
   border-bottom: 1px solid #ddd;
   overflow: hidden;
   white-space:nowrap;
- 
- 
 }
 .font-bold{
   font-weight: bold;
@@ -519,3 +517,4 @@
 .view-lable{
   margin:10px
 }
+

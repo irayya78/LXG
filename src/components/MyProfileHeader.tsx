@@ -1,7 +1,6 @@
 
 import { IonButtons, IonButton, IonAvatar } from '@ionic/react';
 import { useSessionManager } from '../sessionManager/SessionManager'; // Adjust the import path
-import"./style.css"
 const MyProfileHeader = () => {
   const session = useSessionManager();
 

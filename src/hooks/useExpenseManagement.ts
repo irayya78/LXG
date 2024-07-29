@@ -3,6 +3,7 @@ import { useSessionManager } from '../sessionManager/SessionManager';
 import axiosInstance from '../apiHelper/axiosInstance';
 import { DataAccessCheckModal, ExpenseDocumentModel, ExpenseModel, getBlankUserObject } from '../types/types';
 import { useUIUtilities } from './useUIUtilities';
+import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
 
 
 
@@ -193,17 +194,11 @@ const useExpenseManagement = () => {
            
     };
 
-    const downloadDocument = async (documentId: number) => {
+    const downloadDocument = async (documentId: number): Promise<boolean> => {
         try {
             const response = await axiosInstance.get(`DownloadDocument/${documentId}`, {
                 responseType: 'blob',
             });
-    
-         
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const url = window.URL.createObjectURL(blob);
-            const link = document.createElement('a');
-            link.href = url;
     
             const contentDisposition = response.headers['content-disposition'];
             let fileName = 'document';
@@ -214,13 +209,31 @@ const useExpenseManagement = () => {
                 }
             }
     
-            link.setAttribute('download', fileName);
-            document.body.appendChild(link);
-            link.click();
+            const blob = new Blob([response.data], { type: response.headers['content-type'] });
+            const reader = new FileReader();
     
-            if (link.parentNode) {
-                link.parentNode.removeChild(link);
-            }
+            reader.onloadend = async () => {
+                const base64data = (reader.result as string).split(',')[1];
+    
+                try {
+                    await Filesystem.writeFile({
+                        path: fileName,
+                        data: base64data,
+                        directory: Directory.Documents,
+                        encoding: Encoding.UTF8
+                    });
+    
+                    console.log(`File downloaded: ${fileName}`);
+                } catch (writeError) {
+                    console.error('Error writing file:', writeError);
+                }
+            };
+    
+            reader.onerror = (readError) => {
+                console.error('Error reading blob:', readError);
+            };
+    
+            reader.readAsDataURL(blob);
     
             return true;
         } catch (error) {

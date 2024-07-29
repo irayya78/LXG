@@ -33,6 +33,7 @@ import FabMenu from "../../components/layouts/FabIcon";
 import TimesheetChartModal from "../charts/TimesheetChart";
 import withSessionCheck from "../../components/WithSessionCheck";
 import ContentLoader from "react-content-loader";
+import DashboardWidgets from "../../components/DashBoardWidgets";
 
 
 const DashboardPage: React.FC = () => {
@@ -66,20 +67,6 @@ console.log("render")
   const [busy, setBusy] = useState<boolean>(false);
   const [isTimesheetChartOpen, setTimesheetChartOpen] = useState(false);
   const greeting = getGreeting();
-  const DashboardCardLoader = () => (
-    <ContentLoader
-    speed={2}
-    width="100%"
-    height={150}
-    viewBox="0 0 400 150"
-    backgroundColor="#f3f3f3"
-    foregroundColor="#ecebeb"
-  >
-    <rect x="0" y="10" rx="3" ry="3" width="100%" height="15" />
-    <rect x="0" y="35" rx="3" ry="3" width="50%" height="13" />
-    <rect x="0" y="60" rx="3" ry="3" width="70%" height="13" />
-  </ContentLoader>
-);
   const getExpanseToApproveOrReject = async () => {
    
   }
@@ -131,69 +118,52 @@ console.log("render")
         <IonGrid>
           <IonRow>
             <IonCol size="6">
-              <IonCard  button onClick={() => setTimesheetChartOpen(true)}className="dashboard-card">
-                <IonCardHeader className="Ionic-header">
-                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={timer} className="icon" />Timesheet</IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent className="Card-content">
-                  {busy ? (
-                    <DashboardCardLoader />
-                  ) : (
-                    <>
-                      <p style={{ color: "#3880ff" }}>{dashboardData.TotalTime} hr(s)</p>
-                      <p className="billable-hours">B:{billableHours} ({percentBillable}%)</p>
-                      <p className="nonbillable-hours">NB: {nonBillableHours} ({percentNonBillable}%)</p>
-                    </>
-                  )}
-                </IonCardContent>
-              </IonCard>
+            <DashboardWidgets
+           title="Timesheet"
+           icon={timer}
+           busy={busy}
+           onClick={() => setTimesheetChartOpen(true)}
+           content={
+            <>
+              <p style={{ color: "#3880ff" }}>{dashboardData.TotalTime} hr(s)</p>
+              <p className="billable-hours">B: {billableHours} ({percentBillable}%)</p>
+              <p className="nonbillable-hours">NB: {nonBillableHours} ({percentNonBillable}%)</p>
+            </>
+          }
+        />
             </IonCol>
             <IonCol size="6">
-              <IonCard button onClick={() => navigation.push('/layout/matter')} className="dashboard-card">
-                <IonCardHeader className="Ionic-header">
-                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={briefcase} className="icon" /> Matters </IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent className="Card-content">
-                  {busy ? (
-                    <DashboardCardLoader />
-                  ) : (
-                    <p>Assigned on {dashboardData.MatterCount} new matter(s)</p>
-                  )}
-                </IonCardContent>
-              </IonCard>
+            <DashboardWidgets
+             title="Matters"
+             icon={briefcase}
+             busy={busy}
+             onClick={() => navigation.push('/layout/matter')}
+             content={<p>Assigned on {dashboardData.MatterCount} new matter(s)</p>}
+            />
             </IonCol>
           </IonRow>
           <IonRow>
             <IonCol size="6">
-              <IonCard button onClick={() => navigation.push('/layout/expense')} className="dashboard-card">
-                <IonCardHeader className="Ionic-header">
-                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={card} className="icon" /> Expenses</IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent className="Card-content">
-                  {busy ? (
-                    <DashboardCardLoader />
-                  ) : (
-                    <>
-                      <p><span style={{ color: "#3880ff" }}>₹{formatNumber(dashboardData.ExpenseAmount)}</span></p>
-                      <p className="exp-reimbursed">Rei:{formatNumber(dashboardData.ReimbursedAmount)} ({formatNumber(percentReimbursed)}%)</p>
-                    </>
-                  )}
-                </IonCardContent>
-              </IonCard>
+            <DashboardWidgets
+             title="Expenses"
+             icon={briefcase}
+             busy={busy}
+             onClick={() => navigation.push('/layout/expense')}
+             content={
+              <>
+              <p><span style={{ color: "#3880ff" }}>₹ {formatNumber(dashboardData.ExpenseAmount)}</span></p>
+              <p className="exp-reimbursed">Rei: {formatNumber(dashboardData.ReimbursedAmount)} ({formatNumber(percentReimbursed)}%)</p>
+             </>}
+            />
             </IonCol>
             <IonCol size="6">
-              <IonCard button onClick={getExpanseToApproveOrReject} className="dashboard-card">
-                <IonCardHeader className="Ionic-header">
-                  <IonCardTitle className="dashboard-card-title"><IonIcon icon={notifications} className="icon" /> Approvals </IonCardTitle>
-                </IonCardHeader>
-                <IonCardContent className="Card-content">
-                  {busy ? (
-                    <DashboardCardLoader />
-                  ) : (
-                    <p>{dashboardData.NotificationCount} Approval(s)</p>
-                  )}
-                </IonCardContent>
-              </IonCard>
+            <DashboardWidgets
+             title="Approvals"
+             icon={notifications}
+             busy={busy}
+             onClick={getExpanseToApproveOrReject}
+             content={<p>{dashboardData.NotificationCount} Approval(s)</p>}
+            />
             </IonCol>
           </IonRow>
         </IonGrid>

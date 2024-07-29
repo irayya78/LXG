@@ -48,8 +48,8 @@ const MatterPage: React.FC = () => {
       <IonContent style={{marginTop:"60px"}}>
       <CommonPullToRefresh onRefresh={getMatters}>
         <IonList>
-          {matters.map((matter: MatterModel) => (
-            <IonItem key={matter.MatterId}>
+          {matters.map((matter: MatterModel,index) => (
+            <IonItem key={index}>
                  <IonText className="time-text" slot="end">
                                         <p className="total-time">{(matter.Status)}</p>
                                     </IonText> 
