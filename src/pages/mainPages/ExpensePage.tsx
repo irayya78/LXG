@@ -6,13 +6,15 @@ import {
   IonSelect,
   IonSelectOption,
   IonModal,
-  isPlatform
+  isPlatform,
+  IonFab,
+  IonFabButton
 } from '@ionic/react';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { DropDownItem, ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
-import { briefcaseOutline, calendarOutline, chevronForwardOutline, closeCircleOutline, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
+import { add, briefcaseOutline, calendarOutline, chevronForwardOutline, closeCircleOutline, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
 import { messageManager } from '../../components/MassageManager';
@@ -153,19 +155,22 @@ const ExpensePage: React.FC = () => {
                     <IonTitle>Expenses</IonTitle>
                     <MyProfileHeader/>
                 </IonToolbar>
-                <IonItem color="light" className="nobottomborder filterBar">
+                <IonToolbar color="none" className="nobottomborder filterBar">
                 
-                <IonList slot="start" class="nopadding">
-                 <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Rei: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
-               </IonList>
-               
-                        <IonButton onClick={() => setShowFilterAlert(true)} className="filterButton" color="primary"  fill="clear" slot="end" >
+                <IonLabel slot="start" class="">
+                 <IonLabel><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Rei: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
+               </IonLabel>
+                  <IonButtons slot='end' className='btns'>
+                        <IonButton style={{}} onClick={() => setShowFilterAlert(true)} className="filterButton" color=""  slot="end" >
                               <IonIcon className='filterIcon' icon={funnel}></IonIcon>
                               <IonLabel className='filterName'>{selectedPeriod}</IonLabel>
                         </IonButton>
+                        </IonButtons>
+                        
+                       
 
 
-            </IonItem>
+            </IonToolbar>
             </IonHeader>
     
            
@@ -230,7 +235,12 @@ const ExpensePage: React.FC = () => {
                </CommonPullToRefresh>
             </IonContent>
         
-            <FabMenu/>
+            {/* <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton onClick={(e)=>{navigation.push("/layout/expense/create" ,"forward")}}>
+          <IonIcon icon={add} />
+         </IonFabButton>
+          </IonFab> */}
+          <FabMenu/>
             <IonAlert
                         isOpen={showAlert}
                         onDidDismiss={() => setShowAlert(false)}

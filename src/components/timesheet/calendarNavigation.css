@@ -1,33 +1,60 @@
 
+
 ion-segment{
     margin: 0px;
-    font-size: xx-small;
-}
+    background: linear-gradient(180deg, #307af8, #FFFFFF )!important;
+  }
 
 .calender{
     padding-top: 5px;
 }
 
-ion-segment-button{
+ion-segment-button {
     font-size: x-small;
-    padding: px 0px;
+    padding: 0;
     min-width: 30px;
     font-weight: bold;
-    text-align: -webkit-center;
+    text-align: center; 
+   
+  }
+  
+  .md ion-segment-button{
+    height: 35px !important; 
+    min-height: 30px !important;
+    border-radius: 10px;
+    --padding-top: 0px;
+    --padding-bottom: 0px; 
+   
     
+  }
+ .md .segment-button-checked{ 
+    background-color: rgb(252, 252, 255);
     
-}
+    }
+ .ios .segment-button-checked{background: #fff!important;  border-bottom: 2px solid blue; }
 
 .buttonAero{
     color:#0163aa;
 }
+
+:host(.md) .segment-button-checked.segment-button-indicator-background {
+    display: none !important; /* Hide the element */
+  }
+  
+
+
 ion-segment-button span{
     font-size: xx-small;
     font-weight: normal;
     
     
 }
-
+ion-segment.calender{
+    border-radius: 0px;
+    border-top: 1px solid #051633;
+    border-bottom:1px  #fff;
+  
+}
 
 ion-grid{
     padding: 0px;
@@ -61,20 +88,15 @@ ion-buttons ion-button{
 }
 .dayName{
     font-weight: bolder;
+   
 }
 .segment-button-checked span {
     font-weight: bolder;
     color: #0163aa;
+    
   }
-div.item-native{padding-left:0px;}
-.nopadding{padding:0px;}
-.nobottomborder div.item-inner{border-style:none!important;}
-.nobottomborder { --inner-border-width:0px!important; font-size:x-small; --min-height:30px; vertical-align: middle!important;}
-.nobottomborder .list-md{background-color: transparent!important;}
-.greyback{background: #f4f5f8;}
+ div.segment-button-indicator{ border-bottom: 0px;}
 
 
-:host {
-    --backdrop-opacity: 0 !important;
-  }
+
   

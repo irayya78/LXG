@@ -20,7 +20,7 @@ const CalendarNavigation: React.FC<{
     <IonSegment className='calender'  value={props.selectedDay} onIonChange={(e) => onDateClick(e)}>
     <IonSegmentButton className='buttonAero' value="Prev"><IonIcon icon={chevronBackCircle} /></IonSegmentButton>
     {props.calendarItems && props.calendarItems.map((cal: any) => (
-      <IonSegmentButton value={cal.Date} key={cal.Date}>
+      <IonSegmentButton className='btnsIncel' value={cal.Date} key={cal.Date}>
            <span className='' >{cal.DayNameShort}</span> 
        
         <span className="">{cal.JustDatePart}</span>

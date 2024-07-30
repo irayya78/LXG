@@ -23,7 +23,7 @@ import {
   IonText,
   IonImg,
 } from "@ionic/react";
-import { calendar, camera, close, image, trash } from "ionicons/icons";
+import { calendar, camera, close, image, informationCircle, informationCircleOutline, trash } from "ionicons/icons";
 import {
   ExpenseModel,
   MatterModel,
@@ -39,7 +39,7 @@ import { useSessionManager } from "../../sessionManager/SessionManager";
 import { useUIUtilities } from "../../hooks/useUIUtilities";
 import { messageManager } from "../../components/MassageManager";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
-//import'./expenseForm.css'
+import ValidationMessage from "../../components/ValidationMessageProps";
 interface ExpenseParams extends RouteComponentProps<{ expenseId: string }> { }
 
 const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
@@ -72,7 +72,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [approvers, setApprovers] = useState<UserModel[]>([]);
   const [approverSearch, setApproverSearch] = useState<string>("");
   const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
-  const { showToastMessage} = messageManager();
+  const [validationMessage,setValidationMessage]=useState<string>("");
   const displayApprover = session.user?.DisplayExpenseApprover;
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
   const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays
@@ -185,29 +185,29 @@ console.log(matterId)
   // Save button enable and disable function 
   const validateForm = () => {
     let isValid = true;
-    let message=""
+    setValidationMessage("")
     if (description.trim() === "") {
-      message ="Description is required!";
+      setValidationMessage ("Description is required!");
       isValid = false;
     }
 
     if (!expenseDate) {
-      message="Expense date is required!";
+     setValidationMessage("Expense date is required!");
       isValid = false;
     }
 
     if (expenseCategoryId === 0) {
-    message="Select a category!";
+      setValidationMessage("Select a category!");
       isValid = false;
     }
 
     if (amount <= 0) {
-      message="Amount should be greater than 0!";
+      setValidationMessage("Amount should be greater than 0!");
       isValid = false;
     }
 
     if (matterId === 0) {
-      message="Select a matter!" ;
+      setValidationMessage("Select a matter!") ;
       isValid = false;
     }
 
@@ -309,7 +309,8 @@ console.log(matterId)
         duration={0}
         isOpen={busy}
       ></IonLoading>
-      <IonContent fullscreen>
+      <IonContent className="page-content" >
+     
         <IonItem>
           <IonLabel position="stacked">Matter</IonLabel>
           <IonInput
@@ -478,7 +479,7 @@ console.log(matterId)
             ))}
           </div>
         )}
-        
+         <ValidationMessage message={validationMessage}/>
           
       </IonContent>
      

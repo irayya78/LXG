@@ -38,14 +38,11 @@ const MatterPage: React.FC = () => {
           <IonTitle >Matters</IonTitle>
           <MyProfileHeader/>
         </IonToolbar>
-        <IonItem color="light" className="nobottomborder filterBar">
-                
-                <IonList slot="start" class="nopadding">
-                 <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {matters.length}</span></IonLabel>
-               </IonList>
-            </IonItem>
+        <IonToolbar color="none" className='filterBar'>
+        <IonLabel slot='start' className="font-bold">#Rec:{matters.length}</IonLabel>
+        </IonToolbar>
       </IonHeader>
-      <IonContent style={{marginTop:"60px"}}>
+      <IonContent style={{marginTop:"60px"}}className='page-content'>
       <CommonPullToRefresh onRefresh={getMatters}>
         <IonList>
           {matters.map((matter: MatterModel,index) => (

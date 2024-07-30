@@ -227,16 +227,15 @@ const onDeleteTimesheet =async()=>{
           <MyProfileHeader/>
         </IonToolbar>
         <CalendarNavigation selectedDay={selectedDate} calendarItems={calItems} onDateClick={onDateClick}  />
-         <IonItem color="light" className="nobottomborder filterBar">
-         <IonList slot="start" class="nopadding">
-           <IonLabel className="greyback font-bold">#Rec:{timeEntriesList.length}</IonLabel>
-         </IonList>
+         <IonToolbar  color="none" className="filterBar">
+         
+           <IonLabel slot='start' className="font-bold">#Rec:{timeEntriesList.length}</IonLabel>
+       
             
-         <IonList slot="end" class="nopadding">
-             <IonLabel className="font-grey-color greyback">Total: <span className="font-bold total-exp">{totalHours} Hrs</span> | BH: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
-        </IonList>
+             <IonLabel slot='end'  className=" ">Total: <span className="font-bold total-exp">{totalHours} Hrs</span> | B: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
+      
 
-     </IonItem>
+     </IonToolbar>
       </IonHeader>
      
       <IonContent>

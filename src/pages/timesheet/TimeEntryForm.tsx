@@ -37,6 +37,7 @@ import { messageManager } from '../../components/MassageManager';
 // import './timeEntry.css';
 import TimePickerModal from '../../components/timesheet/TimePickerModal';
 import { alertCircle } from 'ionicons/icons';
+import ValidationMessage from '../../components/ValidationMessageProps';
 
 interface TimesheetParams extends RouteComponentProps<{ trackingId: string; date: string }> {}
 const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
@@ -97,6 +98,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     if (isCaptureFromTimeToTime) {
       calculateAndSetTotalHours(fromTime, toTime);
     }
+    
   }, [fromTime, toTime, isCaptureFromTimeToTime]);
   
 
@@ -254,6 +256,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       setMatters(matterList);
     } else {
       setMatters([]);
+      setMatterId(0)
     }
   };
 
@@ -348,34 +351,34 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   };
 
   const validateForm = () =>{
-   
+    setValidationMessage("");
     let isValid=true
 
     if(description.length < 5 ){
-      //setValidationMessage("Description should be minimum 5-6 characters!")
+      setValidationMessage("Description should be minimum 5-6 characters!")
         isValid= false
     }
     if(taskVisible && matterTaskId==0){
-     // showToastMessage("Task is required!")
+      setValidationMessage("Task is required!")
       isValid=false
     }
    if(isCaptureTask && timeTrackingActivityId ===0){
-       // showToastMessage("Activity is required!")
+        setValidationMessage("Activity is required!")
         isValid= false
     }
     if(isBillable && billableHours === '00:00'){
      
-      //showToastMessage("For a billable time entry billable time should be > 0")
+      setValidationMessage("For a billable time entry billable time should be > 0")
       isValid= false
   }
   
     if(totalHours ==='00:00'){
      
-      //showToastMessage("Total hours should be > 0")
+      setValidationMessage("Total hours should be > 0")
       isValid= false
   }
     if(matterId  === 0){
-     //  showToastMessage("Select a Matter")
+       setValidationMessage("Select a Matter")
        isValid= false
    }
   
@@ -384,7 +387,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     const billableTimeInMinutes = convertToMinutes(billableHours)
     
     if(billableTimeInMinutes > totalTimeInMinutes){
-      showToastMessage("Billable time can't be greater than total time!")
+      setValidationMessage("Billable time can't be greater than total time!")
    
         isValid= false
     }
@@ -453,6 +456,7 @@ const setMinAndMaxDate =  () =>{
     </IonHeader>
    
     <IonContent>
+   
       <div className="form-container">
         <IonItem>
           <IonLabel position="stacked">Matter</IonLabel>
@@ -622,19 +626,10 @@ const setMinAndMaxDate =  () =>{
           presentation="time"
         />
       </div>
+    
     </IonContent>
     <IonLoading isOpen={ busy} message={"Please wait..."} />
-    {validationMessage.length > 0 && (
-          <IonCard>
-            <IonCardContent>
-              <IonIcon className="validationError" icon={alertCircle}></IonIcon>
-              <span className="validationError" color="warning">
-                {' '}
-                {validationMessage}
-              </span>
-            </IonCardContent>
-          </IonCard>
-        )}
+       <ValidationMessage message={validationMessage}/>
   </IonPage>
   );
 };

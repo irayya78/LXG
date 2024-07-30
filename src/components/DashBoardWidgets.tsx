@@ -6,10 +6,11 @@ interface DashboardCardProps {
   icon: any;
   content: React.ReactNode;
   busy: boolean;
-  onClick: () => void;
+  bgicon:any
+  onClick: () => any;
 }
 
-const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, icon, content, busy, onClick }) => (
+const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, icon, content, busy, bgicon, onClick }) => (
   <IonCard button onClick={onClick} className="dashboard-card">
     <IonCardHeader className="Ionic-header">
       <IonCardTitle className="dashboard-card-title">
@@ -23,8 +24,13 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, icon, content, 
       ) : (
         content
       )}
+      
     </IonCardContent>
+    <div className='bgIcon'>
+   <img src={bgicon} alt="img" />
+ </div>
   </IonCard>
+ 
 );
 
 export default DashboardWidgets;

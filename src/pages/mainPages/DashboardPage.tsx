@@ -101,7 +101,7 @@ console.log("render")
   }
 
   return (
-    <IonPage>
+    <IonPage style={{background:"#fff"}}>
      
       <IonHeader color="primary">
         <IonToolbar color="primary">
@@ -110,7 +110,7 @@ console.log("render")
         </IonToolbar>
       </IonHeader>
       <CommonPullToRefresh onRefresh={renderDashboardData}>
-      <IonContent>
+      <IonContent className="page-content">
       <div className="ion-padding" style={{ textAlign: 'center' }}>
       <h2 className="greeting-text">{greeting}, {session.user?.FirstName}</h2>
       <small style={{ display: 'block', fontSize: '0.6em', marginTop: '0',color:'gray' }}>{currentDate}</small>
@@ -122,6 +122,7 @@ console.log("render")
            title="Timesheet"
            icon={timer}
            busy={busy}
+           bgicon={"https://cdn0.iconfinder.com/data/icons/linely-time/64/fast_speed_time_duration_stopwatch-64.png"}
            onClick={() => setTimesheetChartOpen(true)}
            content={
             <>
@@ -137,6 +138,7 @@ console.log("render")
              title="Matters"
              icon={briefcase}
              busy={busy}
+             bgicon={"https://cdn4.iconfinder.com/data/icons/web-ui-9/512/608-_breifcase__suitcase__bag_-64.png"}
              onClick={() => navigation.push('/layout/matter')}
              content={<p>Assigned on {dashboardData.MatterCount} new matter(s)</p>}
             />
@@ -148,6 +150,7 @@ console.log("render")
              title="Expenses"
              icon={briefcase}
              busy={busy}
+             bgicon={"https://cdn4.iconfinder.com/data/icons/wallet-7/512/wallet-money-09-64.png"}
              onClick={() => navigation.push('/layout/expense')}
              content={
               <>
@@ -161,6 +164,7 @@ console.log("render")
              title="Approvals"
              icon={notifications}
              busy={busy}
+             bgicon={"https://cdn1.iconfinder.com/data/icons/miscellaneous-268-line/128/endorsement_approval_support_favor_testimonial_feedback-64.png"}
              onClick={getExpanseToApproveOrReject}
              content={<p>{dashboardData.NotificationCount} Approval(s)</p>}
             />

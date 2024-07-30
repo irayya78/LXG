@@ -107,15 +107,16 @@
   border-bottom: 1px solid #ccc;
   padding:8px 5px;
   font-weight: bold;
-
+   padding-left: 15px;
 
 }
 
 .icon {
   font-size: 1.5rem; /* Adjust the size of the icon */
   margin-right: 8px; /* Space between icon and title */
-
+display: none;
   color: #3dc2ff;
+  
 
 }
 
@@ -416,7 +417,7 @@
 .Billable-nonbillable-hrs{font-size: x-small; color: gray; text-align: right;}
 .Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 5px 0px 0px;}
 .Billable-nonbillable-hrs span:last-child{color:red; padding:0px 0px 0px 5px;}
-/*.matter-Code-font{font-size: x-small; color:#000;}*/
+
 
 
 .work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }
@@ -468,6 +469,11 @@
   border-bottom: 1px solid #ddd;
   overflow: hidden;
   white-space:nowrap;
+  height: 4vmax;
+  background: linear-gradient(180deg, #FFFFFF, #D7E2FF )!important;
+  border-bottom: 1px solid #88A6F3;
+ font-size: small;
+
 }
 .font-bold{
   font-weight: bold;
@@ -486,8 +492,15 @@
 .filterButton {
   display: flex;
   align-items: center;
- background-color: #e1eafc;
-
+  border-bottom: none !important;
+  background:#3880ff;
+  color: #fff;
+  margin-right: -10px;
+ 
+ 
+}
+.btns{
+  margin-right: -5px;
 }
 
 .filterIcon {
@@ -507,6 +520,8 @@
 }
 .total-exp{
   color: #3880ff;
+  font-size: x-small;
+  font-weight: 600;
 }
 
 .text-center{
@@ -517,4 +532,49 @@
 .view-lable{
   margin:10px
 }
+
+.validationLabel{
+  
+  font-weight: bold;
+  display:block;
+  width: 98%;
+  text-align: center;
+  align-items: center;
+  color:red;
+  font-size: small;
+  bottom: 5px;
+  box-sizing: border-box;
+  position:fixed;
+  z-index: 99999;
+  background:#ffe4e1;
+  padding: 10px 0px;
+  border-radius: 10px;
+margin-left: 4px;
+border:0.9px solid #ffddca;
+}
+.validationIcon{
+  font-size: 20px;
+  margin-bottom: -6px;;
+ }
+.bgIcon{
+  position: absolute;
+  bottom: -15px;
+  text-align: right;
+  right: 0px;
+  opacity: 0.17;
+  background-size: 100%;
+  height: 80px;
+}
+.page-content {
+  transition: filter 0.3s ease-in-out; 
+}
+
+.blur-background {
+  filter: blur(2px);
+}
+
+.ion-fab {
+  z-index: 1000; 
+}
+
 

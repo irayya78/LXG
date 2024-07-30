@@ -46,6 +46,7 @@ import {
     const [tagedUsers, setTagedUsers] = useState<UserModel[]>([]);
     const [showUserSearch, setShowUserSearch] = useState<boolean>(false);
     const { searchUsers } = useExpenseManagement();
+    const [selectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
     const isTimeSheetTaggingAllowed=session.user?.AllowTaggingTimesheet
     const trackingId=match.params.trackingId;
     useIonViewDidEnter(() => {
@@ -245,7 +246,16 @@ import {
               <IonToolbar color="primary" >
                 <IonButtons slot="start">
                   <IonButton onClick={() => setShowUserSearch(false)}>Close</IonButton>
+                 
                 </IonButtons>
+                <IonButton slot='end'
+                 disabled={selectedUsers.length===0} 
+                 onClick={() => handleSelectUsers(selectedUsers)
+                
+                }>Save</IonButton>
+
+               
+                
                 <IonTitle>Tag Users</IonTitle>
               </IonToolbar>
             </IonHeader>
@@ -259,7 +269,7 @@ import {
                 ></IonInput>
               </IonItem>
       
-              <UserList users={users} onUsersSelect={handleSelectUsers} />
+              <UserList users={users} onUsersSelect={setSelectedUsers} />
             </IonContent>
           </IonModal>
           </div>
