@@ -24,11 +24,14 @@ ion-segment-button {
     border-radius: 10px;
     --padding-top: 0px;
     --padding-bottom: 0px; 
+ 
    
     
   }
+
  .md .segment-button-checked{ 
     background-color: rgb(252, 252, 255);
+    border-bottom: none;
     
     }
  .ios .segment-button-checked{background: #fff!important;  border-bottom: 2px solid blue; }

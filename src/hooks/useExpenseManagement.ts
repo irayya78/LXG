@@ -4,6 +4,9 @@ import axiosInstance from '../apiHelper/axiosInstance';
 import { DataAccessCheckModal, ExpenseDocumentModel, ExpenseModel, getBlankUserObject } from '../types/types';
 import { useUIUtilities } from './useUIUtilities';
 import { Directory, Encoding, Filesystem } from '@capacitor/filesystem';
+import { isPlatform } from '@ionic/react';
+import { setPlatformHelpers } from 'ionicons/dist/types/stencil-public-runtime';
+import { Capacitor } from '@capacitor/core';
 
 
 
@@ -194,59 +197,114 @@ const useExpenseManagement = () => {
            
     };
 
-    const downloadDocument = async (documentId: number): Promise<boolean> => {
+    const getExpenseDocument = async (documentId: number)=> {
         try {
-            const response = await axiosInstance.get(`DownloadDocument/${documentId}`, {
-                responseType: 'blob',
-            });
-    
-            const contentDisposition = response.headers['content-disposition'];
-            let fileName = 'document';
-            if (contentDisposition && contentDisposition.indexOf('attachment') !== -1) {
-                const fileNameMatch = contentDisposition.match(/filename="(.+)"/);
-                if (fileNameMatch && fileNameMatch.length === 2) {
-                    fileName = fileNameMatch[1];
-                }
-            }
-    
-            const blob = new Blob([response.data], { type: response.headers['content-type'] });
-            const reader = new FileReader();
-    
-            reader.onloadend = async () => {
-                const base64data = (reader.result as string).split(',')[1];
-    
-                try {
-                    await Filesystem.writeFile({
-                        path: fileName,
-                        data: base64data,
-                        directory: Directory.Documents,
-                        encoding: Encoding.UTF8
-                    });
-    
-                    console.log(`File downloaded: ${fileName}`);
-                } catch (writeError) {
-                    console.error('Error writing file:', writeError);
-                }
-            };
-    
-            reader.onerror = (readError) => {
-                console.error('Error reading blob:', readError);
-            };
-    
-            reader.readAsDataURL(blob);
-    
-            return true;
-        } catch (error) {
-            console.error('Error downloading document:', error);
-            return false;
+            const response = await axiosInstance.get(`DownloadDocument/${documentId}`)
+            const { data } = response;
+            console.log(data)
+      const file = {
+      FileByteArray: data.fileByteArray,
+      ContentType: data.contentType,
+      Name: data.name
+    };
+    console.log(file)
+    await downloadDocument(file);
+
+        }catch{
+            
         }
     };
     
     
+    // Function to download document
+    const downloadDocument = async (file: { FileByteArray: string; ContentType: string; Name: string }) => {
+        const { FileByteArray, ContentType, Name } = file;
+      
+        let base64Data = FileByteArray;
+        if (base64Data.startsWith('data:')) {
+          base64Data = base64Data.split(',')[1];
+        }
+
+        const byteCharacters = atob(base64Data);
+      
+        const byteNumbers = new Array(byteCharacters.length);
+        for (let i = 0; i < byteCharacters.length; i++) {
+          byteNumbers[i] = byteCharacters.charCodeAt(i);
+        }
+        const byteArray = new Uint8Array(byteNumbers);
+      
+       
+        const blob = new Blob([byteArray], { type: ContentType });
+       console.log("blob",blob)
+       console.log(isPlatform)
+
+        if (isPlatform('desktop')) {
+           
+            const blobUrl = URL.createObjectURL(blob);
+            const link = window.document.createElement('a');
+            link.href = blobUrl;
+            link.download = Name;
+            window.document.body.appendChild(link);
+            link.click();
+            window.document.body.removeChild(link);
+            URL.revokeObjectURL(blobUrl);
+          } else if (Capacitor.isNativePlatform()) {
+          
+            const base64Data = await blobToBase64(blob);
+            console.log("inside this function :-",base64Data)
+        
+            await Filesystem.writeFile({
+              path: Name,
+              data: base64Data,
+              directory: Directory.Documents,
+              encoding: Encoding.UTF8
+            });
+          } else {
+            console.warn('Unsupported platform');
+          }
+      };
+      
+
+      const blobToBase64 = (blob: Blob): Promise<string> => {
+        return new Promise((resolve, reject) => {
+          const reader = new FileReader();
+          reader.readAsDataURL(blob);
+          reader.onloadend = () => {
+            const base64data = reader.result?.toString().split(',')[1];
+            if (base64data) {
+              resolve(base64data);
+            } else {
+              reject(new Error("Conversion to base64 failed."));
+            }
+          };
+          reader.onerror = reject;
+        });
+      };
+
+    
+    // const blobToBase64 = (blob: Blob): Promise<string> => {
+    //     return new Promise((resolve, reject) => {
+    //       const reader = new FileReader();
+    //       reader.readAsDataURL(blob);
+    //       reader.onloadend = () => {
+    //         const base64data = reader.result?.toString().split(',')[1];
+    //         if (base64data) {
+    //           resolve(base64data);
+    //         } else {
+    //           reject(new Error("Conversion to base64 failed."));
+    //         }
+    //       };
+    //       reader.onerror = reject;
+    //     });
+    //   };
+
+
+
+    
     
     
     return {
-        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers,downloadDocument
+        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers,getExpenseDocument
     };
 };
 

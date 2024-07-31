@@ -310,7 +310,7 @@ console.log(matterId)
         isOpen={busy}
       ></IonLoading>
       <IonContent className="page-content" >
-     
+      <div className="inputsFileds">
         <IonItem>
           <IonLabel position="stacked">Matter</IonLabel>
           <IonInput
@@ -414,7 +414,7 @@ console.log(matterId)
             Attach Receipt
           </IonButton>
         </div>
-
+        </div>
         <IonActionSheet
           isOpen={showActionSheet}
           onDidDismiss={() => setShowActionSheet(false)}

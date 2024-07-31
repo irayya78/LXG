@@ -63,6 +63,7 @@ const ExpensePage: React.FC = () => {
        const period = getPeriodName(value)
        setSelectedPeriod(period)
        const expList= await getExpenses(value);
+       
        setExpenseSummary(expList)     
        setExpenses(expList);
        setIsLoading(false);
@@ -73,7 +74,7 @@ const ExpensePage: React.FC = () => {
          setDateFilterId(DateFilters.ThisMonth)
           const period= getPeriodName(dateFilterId)
          setSelectedPeriod(period)
-        getExpense();
+        // getExpense();
         })();
       });
 

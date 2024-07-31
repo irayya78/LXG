@@ -37,15 +37,5 @@
 
 /* FabMenu.css */
 
-.fab-menu-container {
-  position: relative;
-}
-
-
-
-.menu-open ion-app, .menu-open ion-content, .menu-open ion-header {
-  filter: blur(10px); /* Apply blur to entire app content */
-}
-
 
 

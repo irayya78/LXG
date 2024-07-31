@@ -20,7 +20,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
   
   const navigation =useIonRouter();
   const session=useSessionManager();
-  const{deleteExpense, getExpense, getBlankExpenseObject,canEditOrDeleteExpense,downloadDocument} = useExpenseManagement()
+  const{deleteExpense, getExpense, getBlankExpenseObject,canEditOrDeleteExpense,getExpenseDocument} = useExpenseManagement()
 
   const[showAlert, setShowAlert] = useState<boolean>(false)
 
@@ -76,7 +76,7 @@ const ViewExpense: React.FC<ViewExpenseParams> = ({match}) => {
 
   const handelDownloadDocument = async(docId:number)=>{
 
-    await downloadDocument(docId)
+    await getExpenseDocument(docId)
     
   }
 
