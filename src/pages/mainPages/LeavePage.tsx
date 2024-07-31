@@ -1,15 +1,17 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { 
-    IonButtons, IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonAvatar, IonButton, IonLoading, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonAlert, 
+    IonContent, IonHeader, IonPage, IonTitle, IonToolbar, IonList, IonItem, IonLabel, IonText, IonButton, IonLoading, IonIcon, IonItemOption, IonItemOptions, IonItemSliding, IonAlert, 
     useIonRouter,
-    useIonViewDidEnter
+    useIonViewDidEnter,
+    IonButtons,
+    IonMenuButton,
+    IonMenu
   } from '@ionic/react';
 import MyProfileHeader from '../../components/MyProfileHeader';
-
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
-import { LeaveModel } from '../../types/types';
-import { calendarOutline, checkmarkCircle, chevronForwardOutline, informationCircleOutline, list, pencil, trash } from 'ionicons/icons';
+import { HolidayListModel, LeaveModel } from '../../types/types';
+import { calendarOutline, checkmarkCircle, informationCircleOutline, pencil, starSharp, trash } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { isPlatform } from '@ionic/react';
@@ -17,7 +19,7 @@ import { messageManager } from '../../components/MassageManager';
 
 const LeavePage: React.FC = () => {
     const navigation = useIonRouter();
-    const { getLeaves,getLeaveStatusColor} = useLeaveManagement();
+    const { getLeaves,getLeaveStatusColor,getSummary,deleteLeave,getHolidayList} = useLeaveManagement();
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const [leaves, setLeaves] = useState<LeaveModel[]>([]);
     const [credit, setCredit] = useState<number>(0);
@@ -25,12 +27,18 @@ const LeavePage: React.FC = () => {
     const [balance, setBalance] = useState<number>(0);
     const {sortDataByDate} = useUIUtilities();
     const isIos = isPlatform('ios');
-    const { showToastMessage, showAlertMessage, showConfirmMessage } = messageManager();
-
+    const { showToastMessage, showAlertMessage } = messageManager();
+    const [ leaveToDelete, setLeaveToDelete] = useState<LeaveModel | null>(null);
+    const [showAlert, setShowAlert] = useState(false);
+    const [holidays, setHolidays] = useState<HolidayListModel[]>([]);
+    
     useIonViewDidEnter(() => {
         (async () => {
             setIsLoading(true)
             await getLeavesList ();
+            let holidays = await getHolidayList();
+            const sortedholidayList: any = sortDataByDate(holidays, 'HolidayDate', 'asc');
+            setHolidays(sortedholidayList);
             setIsLoading(false)
         })();
     });
@@ -40,35 +48,19 @@ const LeavePage: React.FC = () => {
             const Leavelist= await getLeaves();
             const sortedLeavelist: any = sortDataByDate(Leavelist, 'FromDate', 'desc');
             setLeaves(sortedLeavelist);
-            await getSummary(Leavelist);
+            const summary = await getSummary(Leavelist);
+            await setLeaveSummary(summary);
+
         }catch (error) {
             console.error('Error fetching expenses:', error);
         } 
-        // finally {
-        //     setIsLoading(false); // Stop loading
-        // }
     }
     
-    const getSummary = async(leaveList: LeaveModel[]) =>{
-        let credit: number = 0
-        let deduct: number = 0
-        let balance: number = 0
-
-        leaveList.forEach((element: any) => {
-            const leaveCount: number = Number(element.LeaveCount);
-    
-            if (element.LeaveTransactionId === 1) {
-                credit += leaveCount;
-            } else if (element.LeaveTransactionId === 2 && element.LeaveStatusId !== 3) {
-                deduct += leaveCount;
-            }
-        });
-    
-        balance = credit - deduct;
-        setCredit(credit);
-        setDeduct(deduct);
-        setBalance(balance);
-    }
+    const setLeaveSummary = async (summary: { credit: number; deduct: number; balance: number }) => {
+        setCredit(summary.credit);
+        setDeduct(summary.deduct);
+        setBalance(summary.balance);
+    };
     
     // Navigation For Edit Leave Window 
     const editLeaveByLeaveId = (leave : LeaveModel): void =>{
@@ -80,59 +72,92 @@ const LeavePage: React.FC = () => {
     }
 
     // Navigation For Delete Leave Window 
-    const deleteLeaveByLeaveId = (leave : LeaveModel): void =>{
+    const showDeleteConfirm = (leave : LeaveModel): void =>{
         if(leave.LeaveStatusId != 2){
-            navigation.push(`/layout/leave/delete/${leave.LeaveId}`, 'forward', 'push');
+            setLeaveToDelete(leave);
+            setShowAlert(true);
         }else{
             showAlertMessage("Can't delete! The leave has been approved!");
         }
     }
 
-    const viewHolidayList = ():void=>{       
-        navigation.push(`/layout/leave/viewHolidayList`, 'forward', 'push');
-    }
-
-    const viewLeave = (LeaveId: Number): void => {
-        navigation.push(`/layout/leave/view/${LeaveId}`, 'forward', 'push');
+    const confirmDeleteLeave = async () => {
+        if (leaveToDelete) {
+            try {
+                await deleteLeave(leaveToDelete.LeaveId);
+                showToastMessage("Leave deleted successfully!");
+                setLeaves(leaves.filter(e => e.LeaveId !== leaveToDelete.LeaveId));
+                navigation.push('/layout/leave','back','push');
+            } catch (error) {
+                console.error('Error deleting leave:', error);
+            } finally {
+                setShowAlert(false);
+                setLeaveToDelete(null);
+            }
+        }
     };
+
 
     return (
         
         <IonPage>
+            
+            <IonMenu maxEdgeStart={40} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
+        <IonHeader>
+          <IonToolbar color="secondary">
+            <IonTitle>Holiday List</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            {holidays.map((holiday, index) => (
+              <IonItem key={index}>
+                <IonLabel><IonIcon color='warning' size="small" icon={starSharp}/>&nbsp;<span className='small-font' slot=''>{`${holiday.HolidayName}`}</span></IonLabel>
+                <IonLabel><span slot=''>{`${holiday.HolidayDate}`}</span></IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        </IonContent>
+      </IonMenu>
+
             <IonHeader>
                 <IonToolbar color="primary">
                     <IonTitle>Leave</IonTitle>
                     <MyProfileHeader/>
                 </IonToolbar>
+                <IonToolbar color="none" className="nobottomborder filterBar">
+                    <IonLabel slot="start">
+                        <IonLabel><span className="font-bold">#Rec: {leaves.length}</span> | 
+                            Credit:&nbsp;<span className="billable-hours">{credit}</span>&nbsp;|
+                            Deduction:&nbsp;<span className="nonbillable-hours">{deduct}</span>&nbsp;|
+                            Balance:&nbsp;<span className="font-bold total-exp">{balance}</span>
+                        </IonLabel>
+                    </IonLabel>
+
+                    <IonButtons slot='end' className='btns'>
+                        <IonMenuButton className='customIonMenuButton'/>
+                    </IonButtons>
+                </IonToolbar>
             </IonHeader>
-            <CommonPullToRefresh onRefresh={getLeavesList}>
-                <IonContent>
+            
+            <IonContent id="content-1">
+                <CommonPullToRefresh onRefresh={getLeavesList}>
                     <IonLoading isOpen={isLoading}  message={'Please wait...'}duration={0}/>
-                    <IonItem color="light" className="nobottomborder"> 
-                       <IonList className='nopadding' slot="start">
-                            <IonLabel className="font-grey-color greyback"><span className="font-bold">#Rec: {leaves.length}</span>&nbsp;|
-                                Credit(s):&nbsp;<span className="billable-hours">{credit}</span>&nbsp;|
-                                Deduction(s):&nbsp;<span className="nonbillable-hours">{deduct}</span>&nbsp;|
-                                Balance:&nbsp;<span className="font-bold total-exp">{balance}</span>
-                            </IonLabel>
-                            
-                        </IonList>
-                        {/* <IonIcon icon={list} slot="end" onClick={()=> viewHolidayList()}/>  */}
-                       
-                       
-                    </IonItem>
+                    
 
                     <IonList id="leave-list">
                         {leaves && leaves.map((leave: LeaveModel)=>(
                         <IonItemSliding key={leave.LeaveId.toString()}>
                             
-                           <IonItem className='ion-text-wrap' key={leave.LeaveId.toString()} button onClick={() => viewLeave(leave.LeaveId)}> 
+                           <IonItem className='ion-text-wrap' key={leave.LeaveId.toString()}> 
                                 
                                 <IonButton className="time-text" fill="clear" slot="end">
                                     <IonText className="total-time" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
                                    
                                 </IonButton>  
-                               {isIos ? null :<IonIcon className="action-item" icon={pencil} slot="end"/>}
+                               {/* {isIos ? null : */}
+                               <IonIcon className="action-item" icon={pencil} slot="end" onClick={() => editLeaveByLeaveId(leave)}/>
+                                {/* } */}
                                 <IonLabel className="ion-text-wrap">
                                 
                                     <span className="font-bold action-item"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number) }} />&nbsp;{leave.LeaveType.leaveTypeName}</span>&nbsp;-&nbsp;
@@ -149,7 +174,7 @@ const LeavePage: React.FC = () => {
                                 </IonItemOption>
                             </IonItemOptions>
 
-                            <IonItemOptions onClick={() => deleteLeaveByLeaveId(leave)} side="end">
+                            <IonItemOptions onClick={() => showDeleteConfirm(leave)} side="end">
                                 <IonItemOption color="danger">
                                     <IonIcon icon={trash}></IonIcon>
                                 </IonItemOption>
@@ -161,9 +186,31 @@ const LeavePage: React.FC = () => {
                         
                     </IonList>
                     <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} />
-                                       
-                </IonContent>
-            </CommonPullToRefresh>
+
+                    <IonAlert
+                        isOpen={showAlert}
+                        onDidDismiss={() => setShowAlert(false)}
+                        header={'Delete Leave'}
+                        message={'Are you sure you want to delete this leave?'}
+                        buttons={[
+                            {
+                                text: 'Cancel',
+                                role: 'cancel',
+                                cssClass: 'secondary',
+                                handler: () => {
+                                    setShowAlert(false);
+                                }
+                            },
+                            {
+                                text: 'Okay',
+                                handler: confirmDeleteLeave
+                            }
+                        ]}
+                    />
+
+                    </CommonPullToRefresh>                 
+            </IonContent>
+            
             <FabMenu />
         </IonPage>
         

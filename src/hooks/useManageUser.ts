@@ -57,7 +57,8 @@ export const useManageUser = () => {
           DisplayExpenseApprover:customer?.displayExpenseApprover||false,
           TimerTimeInterval:customer?.timerTimeInterval||null,
           AllowTaggingTimesheet:customer?.allowTaggingTimesheet,
-          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable
+          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
+          DisplayLeaveApprover:customer?.displayLeaveApprover||false
           
         };
 
@@ -133,7 +134,8 @@ export const useManageUser = () => {
           DisplayExpenseApprover: customer?.displayExpenseApprover || false,
           TimerTimeInterval: customer?.timerTimeInterval || null,
           AllowTaggingTimesheet: customer?.allowTaggingTimesheet,
-          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable
+          DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
+          DisplayLeaveApprover:customer?.displayLeaveApprover||false
         };
   
         setUserSession(userObj);

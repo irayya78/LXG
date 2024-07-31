@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonPage, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from '@ionic/react';
-import { LeaveModel,UserModel, MatterModel,DropDownItem, } from '../../types/types';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonMenu, IonMenuButton, IonPage, IonPopover, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from '@ionic/react';
+import { LeaveModel,UserModel,DropDownItem, } from '../../types/types';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { RouteComponentProps } from 'react-router';
 import { useSessionManager } from "../../sessionManager/SessionManager";
 import { useUIUtilities } from '../../hooks/useUIUtilities';
-import { messageManager } from "../../components/MassageManager";
 import ApproverList from '../../components/SearchUserProps';
 import useExpenseManagement from "../../hooks/useExpenseManagement";
+import ValidationMessage from '../../components/ValidationMessageProps';
 
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
 const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
-  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD}=useUIUtilities();
+  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,sortDataByDate}=useUIUtilities();
   const [leaveId, setLeaveId] = useState<Number>(0);
   const [leaveTypeId, setLeaveTypeId] = useState<number>(0);
-  const { getBlankLeaveObject,getLeave,saveLeave,getLeaveCount} = useLeaveManagement();
+  const { getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList,getLeaves,getSummary} = useLeaveManagement();
   const [leaveTypes, setLeaveTypes] = useState<DropDownItem[]>([]);
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [caption, setCaption] = useState("Apply Leave");
@@ -29,22 +29,25 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const session = useSessionManager();
   const [leaveCount, setLeaveCount] = useState<Number>(0);
   const [disableSaveButton, setDisableSaveButton] = useState<boolean>(true);
-  const { showToastMessage } = messageManager();
-  const [approverSearch, setApproverSearch] = useState<string>("");
   const {searchUsers } = useExpenseManagement();
   const [approvers, setApprovers] = useState<UserModel[]>([]);
   const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
   const [approverName,setApproverName] = useState<string>('');
+  const [leaveSummary, setLeaveSummary] = useState<any>({ credit: 0, deduct: 0, balance: 0 });
+  const [validationMessage,setValidationMessage]=useState<string>("");
+  const isLeaveApprover=session.user?.DisplayLeaveApprover;
+
+
 
   useEffect(() => {
     validateForm();
-  }, [leaveTypeId,fromDate,toDate,description]);
+  }, [leaveTypeId,description,toDate,fromDate]);
 
   useIonViewDidEnter(() => {
     (async () => {
       let paramLeaveId = Number(match.params.leaveId);
       let leave: LeaveModel = getBlankLeaveObject();
-  
+
       if(paramLeaveId>0){  
         setIsLoading(true);     
         setCaption("Update Leave");    
@@ -53,7 +56,9 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       }
      
       leave = await getLeave(paramLeaveId);
-      
+      const Leavelist= await getLeaves();
+      const summary = await getSummary(Leavelist);
+      setLeaveSummary(summary);
       await setLeaveData(leave);
       setIsLoading(false);
       
@@ -73,7 +78,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setLeaveTypeId(Number(lev.LeaveTypeId))
     setFromDate(fromDate) 
     setToDate(toDate)
-    setDescription(lev.Description)
+    setDescription(lev.Description ?lev.Description:"")
     const fromSessionId = lev.LeaveId > 0 ? lev.FromSessionId : 1;
     const toSessionId = lev.LeaveId > 0 ? lev.ToSessionId : 1;
     setFromSessionId(fromSessionId)
@@ -82,12 +87,13 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setLeaveCount(lev.LeaveCount)
     setSelectedApproverId(Number(lev.ApproverId))
     setApproverName(lev.ApproverName)
+    fetchLeaveCount(fromDate,toDate,fromSessionId,toSessionId)
    }
   
 
    const saveNewLeave= async () => {
 
-    if (!validateForm()) {
+    if (!validateForm) {
       return;
     }
 
@@ -102,7 +108,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       leave.ToDate = (toDate)
       leave.ToSessionId = (toSessionId)
       leave.LeaveCount = Number(leaveCount)
-      leave.Description = (description)
+      leave.Description = description
       leave.ApproverId = Number(ApproverId)
     }
 
@@ -110,7 +116,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       setIsLoading(true);
       const saved = await saveLeave(leave);
       if (saved) {
-        navigation.goBack();
+        navigation.push("/layout/leave");
       } else {
         console.error("Failed to save leave");
       }
@@ -122,30 +128,37 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
    }
    
    const validateForm = () => {
+    setValidationMessage("");
     let isValid = true;
     
-    if (leaveTypeId === 0) {
-      showToastMessage("Leave Type is required!");
-      isValid = false;
-    }
     if(!fromDate){
+      setValidationMessage("From Date is required!");
       isValid = false;
     }
     if(!toDate){
+      setValidationMessage("To Date is required!");
       isValid = false;
     }
-    if(!description){
+
+    if(description.length < 1){
+      setValidationMessage("Description should be minimum 5-6 characters!");
        isValid=false;
     }
-    if(!leaveCount && leaveCount > 0){
+    
+    if (leaveTypeId === 0) {
+      setValidationMessage("Select Leave Type");
+      isValid = false;
+    }
+
+    if(fromDate > toDate){
+      setValidationMessage("Please choose a valid date range!");
       isValid=false;
     }
-    console.log(description,"dec")
-    console.log(fromDate,"FD")
-    console.log(toDate,"TD")
-    console.log(leaveTypeId,"LTI")
-    console.log('hafday/fullday',fromSessionId)
-    console.log(leaveCount,'leavecount')
+
+    if(isLeaveApprover && ApproverId===0){
+      setValidationMessage("Select Approver!");
+      isValid=false;
+    }
 
     setDisableSaveButton(!isValid);
     return isValid;
@@ -170,7 +183,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   }
   
   const fetchLeaveCount = async (fromDate: string, toDate: string, fromSessionId: Number, toSessionId: Number) => {
-   
+   console.log("reder")
     const model :LeaveModel = getBlankLeaveObject() ;
     {
         model.UserId = Number(session.user?.UserId)
@@ -213,54 +226,55 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setApprovers([]);
   };
 
+ 
 
   return (
     <IonPage>
+
       <IonHeader>
         <IonToolbar color='primary'>
           <IonButtons slot="start">
             <IonBackButton defaultHref="/layout/leave" />
           </IonButtons>
-            
           <IonButtons slot="end">
-          <IonButton 
-          slot="end"
-          onClick={saveNewLeave} 
-          disabled={disableSaveButton}
-          shape="round">Save 
-          </IonButton>
+            <IonButton
+              slot="end"
+              onClick={saveNewLeave}
+              disabled={disableSaveButton}
+              shape="round"
+            >Save
+            </IonButton>
           </IonButtons>
-          
+
           <IonTitle>{caption}</IonTitle>
 
         </IonToolbar>
+
       </IonHeader>
-      
-      <IonLoading message="Please wait..." isOpen={isLoading} duration={0}/>
-      
-      <IonContent fullscreen>
-        {/* Leave Type Input(ddl) */}
+
+      <IonLoading message="Please wait..." isOpen={isLoading} duration={0} />
+
+      <IonContent id="main-content" className="page-content" fullscreen>
         <IonItem>
           <IonLabel position="stacked">Leave Type </IonLabel>
-          <IonSelect 
+          <IonSelect
             value={leaveTypeId}
             placeholder="Choose Leave Type"
             okText="OK"
             cancelText="Cancel"
             onIonChange={(e) => { setLeaveTypeId(e.detail.value); }}
-           // onIonFocus={fetchLeaveCount} 
           >
             {leaveTypes.map((leave) => (
               <IonSelectOption
                 key={leave.Value}
                 value={leave.Value}
-              > 
-              {leave.Text}
+              >
+                {leave.Text}
               </IonSelectOption>
             ))}
           </IonSelect>
         </IonItem>
-        
+
         {/* From Date Input */}
         <IonItem>
           <IonLabel position="stacked">From Date</IonLabel>
@@ -271,27 +285,24 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             onIonChange={(e) => handleFromDate(e.detail.value as string)}
           >
           </IonInput>
-          
-          {/* From Session Input */}
-          <IonSelect 
+
+          <IonSelect
             value={fromSessionId}
             okText="OK"
             cancelText="Cancel"
-            onIonChange={(e) => { handleFromSessionId(e.detail.value)}}
+            onIonChange={(e) => { handleFromSessionId(e.detail.value) }}
           >
             {leaveSessionCollection.map((levSession) => (
               <IonSelectOption
                 key={levSession.Value}
                 value={levSession.Value}
               >
-              {levSession.Text}
+                {levSession.Text}
               </IonSelectOption>
             ))}
           </IonSelect>
-          
         </IonItem>
-        
-        {/* To Date Input */}
+
         <IonItem>
           <IonLabel position="stacked">To Date</IonLabel>
           <IonInput
@@ -301,56 +312,59 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             onIonChange={(e) => handleToDate(e.detail.value as string)}
           />
 
-          {/* To Date Input */}
-          <IonSelect 
+          <IonSelect
             value={toSessionId}
             okText="OK"
             cancelText="Cancel"
-            onIonChange={(e) => { handleToSessionId(e.detail.value);}}           
+            onIonChange={(e) => { handleToSessionId(e.detail.value); }}
           >
-          {leaveSessionCollection.map((levSession) => (
-            <IonSelectOption
-              key={levSession.Value}
-              value={levSession.Value}
-            >
-            {levSession.Text}
-            </IonSelectOption>
+            {leaveSessionCollection.map((levSession) => (
+              <IonSelectOption
+                key={levSession.Value}
+                value={levSession.Value}
+              >
+                {levSession.Text}
+              </IonSelectOption>
             ))}
           </IonSelect>
         </IonItem>
 
-        {/* Leave Count Input*/}
         <IonItem>
           <IonLabel position="stacked">#Leave(s)</IonLabel>
           <IonInput value={leaveCount as number} readonly></IonInput>
         </IonItem>
 
-        {/* Approver Input*/}
+        {isLeaveApprover ? 
+        
         <IonItem>
           <IonLabel position="stacked">Approver</IonLabel>
           <IonInput
-                value={approverName}
-                placeholder="Search for an approver..."
-                onIonInput={(e: any) => searchApprovers(e.target.value)}
-              ></IonInput>
+            value={approverName}
+            placeholder="Search for an approver..."
+            onIonInput={(e: any) => searchApprovers(e.target.value)}
+          ></IonInput>
         </IonItem>
+        
+        :null}
+        
 
         <ApproverList
-              approvers={approvers}
-              onApproverSelect={handleSelectApprover}
-            />
+          approvers={approvers}
+          onApproverSelect={handleSelectApprover}
+        />
 
-        {/* Description Input*/}
         <IonItem>
           <IonLabel position="stacked">Description</IonLabel>
-          <IonInput
-          value={description}
-          onIonInput={(e)=>setDescription(e.target.value as string)}
+          <IonTextarea
+            value={description}
+            placeholder="Enter min 5 characters"
+            onIonInput={(e) => setDescription(e.detail.value!)}
+            rows={3}
           />
-
         </IonItem>
-
-      </IonContent>
+     
+      </IonContent> 
+      <ValidationMessage message={validationMessage}/>
     </IonPage>
   );
 };

@@ -34,7 +34,7 @@ import TimesheetChartModal from "../charts/TimesheetChart";
 import withSessionCheck from "../../components/WithSessionCheck";
 import ContentLoader from "react-content-loader";
 import DashboardWidgets from "../../components/DashBoardWidgets";
-
+import { useHistory } from 'react-router-dom';
 
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
@@ -67,9 +67,7 @@ console.log("render")
   const [busy, setBusy] = useState<boolean>(false);
   const [isTimesheetChartOpen, setTimesheetChartOpen] = useState(false);
   const greeting = getGreeting();
-  const getExpanseToApproveOrReject = async () => {
-   
-  }
+  
   useIonViewDidEnter(() => {
     (async () => {
     
@@ -80,6 +78,10 @@ console.log("render")
     })();
   });
  
+
+  const getExpanseToApproveOrReject = async () => {
+    navigation.push(`/layout/view-approvals`, 'forward', 'push');
+  }
 
   const renderDashboardData = async () => {
    

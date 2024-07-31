@@ -2,7 +2,7 @@ import axiosInstance from '../apiHelper/axiosInstance';
 import { useSessionManager } from '../sessionManager/SessionManager';
 import { HolidayListModel, LeaveModel } from '../types/types';
 import { useUIUtilities } from './useUIUtilities';
-import { useCallback } from 'react';
+import { useCallback, useState } from 'react';
 
 const useLeaveManagement = () => {
     const session = useSessionManager();
@@ -85,7 +85,7 @@ const useLeaveManagement = () => {
           LeaveTypeId: 0,
           LeaveCount: 0,
           LeaveTransactionId: 0,
-          Description: '',
+          Description: ' ',
           ApproverComment: '',
           ApproverId: 0,
           ApproverName: '',
@@ -160,7 +160,7 @@ const useLeaveManagement = () => {
     const getHolidayList = async (): Promise<HolidayListModel[]> => {
       try {
           const response = await axiosInstance.get(`/GetHolidayList/${session.user?.CustomerId }/${session.user?.UserId}`);
-          console.log(response.data,"data");
+          
           return response.data.map((element: any) => {
             const holiday = getHolidaysBlankObj();
             holiday.HolidayDate = element.holidayDate;
@@ -175,9 +175,37 @@ const useLeaveManagement = () => {
       }
     };   
 
+    const getSummary = async(leaveList: LeaveModel[]) =>{
+      let credit: number = 0
+      let deduct: number = 0
+      let balance: number = 0
+
+      leaveList.forEach((element: any) => {
+          const leaveCount: number = Number(element.LeaveCount);
+  
+          if (element.LeaveTransactionId === 1) {
+              credit += leaveCount;
+          } else if (element.LeaveTransactionId === 2 && element.LeaveStatusId !== 3) {
+              deduct += leaveCount;
+          }
+      });
+  
+      balance = credit - deduct;
+      return {
+        credit, deduct, balance
+      };
+    }
+
+    const deleteLeave = async  (leaveId: Number): Promise<boolean>  => {
+
+      await axiosInstance.get( "/DeleteLeave/" + leaveId)
+      
+      return true
+    }
 
     return {
-        getLeaves,getLeaveStatusColor,getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList
+        getLeaves,getLeaveStatusColor,getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList,getHolidaysBlankObj
+        ,getSummary,deleteLeave
         
     };
 };

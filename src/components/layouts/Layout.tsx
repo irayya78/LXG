@@ -11,12 +11,10 @@ import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
-import ApplyLeave from '../../pages/Leave/ApplyLeave';
-import HolidayList from '../../pages/Leave/HolidayList';
-import ViewLeave from '../../pages/Leave/ViewLeave';
+import ApplyLeave from '../../pages/leave/ApplyLeave';
+import ViewLeave from '../../pages/leave/ViewLeave';
 import LeavePage from '../../pages/mainPages/LeavePage';
-
-
+import ApprovalList from '../../pages/approver/ApprovalList';
 
 
 const Layout: React.FC = () => {
@@ -38,11 +36,11 @@ const Layout: React.FC = () => {
           <Route path="/layout/expense/create" component={NewExpense} exact />
           <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
+          <Route path="/layout/leave" component={LeavePage} exact />
           <Route path="/layout/leave/create" component={ApplyLeave} exact />
           <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
-          <Route path="/layout/leave" component={LeavePage} exact />
-          <Route path="/layout/leave/viewHolidayList" component={HolidayList} exact/>
           <Route path="/layout/leave/view/:leaveId" component={ViewLeave} exact/>
+          <Route path="/layout/view-approvals" component={ApprovalList} exact/>
           <Redirect exact from="/layout" to="/layout/dashboard" />
         </IonRouterOutlet>
 

@@ -20,8 +20,8 @@ export interface UserSessionDetails {
     DisplayExpenseApprover:boolean,
     TimerTimeInterval:Number,
     AllowTaggingTimesheet:boolean,
-    DefaultTimeEntryAsBillable:boolean
-
+    DefaultTimeEntryAsBillable:boolean,
+    DisplayLeaveApprover:boolean
     
    
   }
@@ -185,6 +185,29 @@ export interface HolidayListModel{
   HolidayDate : string,
   HolidayName : string,
   Description : string
+}
+
+export interface NotificationModel{
+  CustomerId: Number,
+  Date: string,
+  Description: string,
+  IsActionable: boolean,
+  IsActive: boolean,
+  Module: ModuleModel,
+  ModuleId: Number,
+  NotificationId: Number,
+  PrimaryId: Number,
+  Subscriber:UserModel,
+  SubscriberUserId: Number,
+  User: UserModel,
+  UserId: Number,
+  Expense: ExpenseModel,
+  Leave: LeaveModel
+}
+
+export interface ModuleModel{
+  ModuleId: Number,
+  ModuleName: string
 }
 
 
