@@ -11,7 +11,9 @@ import {
   IonLoading,
   IonIcon,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonTabButton,
+  IonToggle
 } from '@ionic/react';
 import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
@@ -45,15 +47,15 @@ const LoginPage: React.FC = () => {
   return (
     <IonPage>
       <IonContent className="ion-padding login-content" scroll-y="false" ion-fixed>
-        <div className="login-background">
+        
           <IonCard className="login-card">
-            <IonCardContent>
+            <IonCardContent class="card-content">
               <div className="login-logo-container">
                 <img className="login-logo" alt="LegalXGen Logo" src="https://lx2.legalxgen.com/images/logo.png" />
               </div>
-
+              <IonLabel className='lablesLogin' >Username</IonLabel>
               <IonItem className="texts">
-                <IonLabel position="stacked">Username</IonLabel>
+               
                 <IonInput
                   type="text"
                   value={username}
@@ -62,10 +64,10 @@ const LoginPage: React.FC = () => {
                   required
                 />
               </IonItem>
-
+              <IonLabel className='lablesLogin'>Password</IonLabel>
               <IonItem className="texts">
-                <IonLabel position="stacked">Password</IonLabel>
-                <IonInput
+              
+                <IonInput className='inputFiled'
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onIonInput={(e) => setPassword(e.detail.value!)}
@@ -76,31 +78,34 @@ const LoginPage: React.FC = () => {
                   <IonIcon slot="icon-only" icon={showPassword ? eyeOutline : eyeOffOutline}></IonIcon>
                 </IonButton>
               </IonItem>
-
-              <IonItem lines="none">
-                <IonLabel>Remember me</IonLabel>
-                <IonCheckbox
-                  slot="end"
+           
+              <div className='remMe'>
+              <IonCheckbox
+                 title='Remember me'
+                 color={"success"}
+                 
                   checked={rememberMe}
                   onIonChange={(e) => setRememberMe(e.detail.checked)}
-                  
-                 
                 />
-              </IonItem>
+               <span className='lablesLogin'>Remember me ?</span>
+               
+             
+                </div>
+             
 
               <IonButton expand="full" shape="round" onClick={onLoginClick} disabled={isLoginDisabled}>
                 Login
               </IonButton>
               <div className='login-links'>
-              <IonItem lines="none" className="login-links">
-                <Link slot="start" color="primary" to={'/forgot-password'}>
+                <Link style={{color:"white",textDecoration:"none"}}to={'/forgot-password'}>
                   Forgot Password?
                 </Link>
-              </IonItem>
+            
               </div>
+             
             </IonCardContent>
           </IonCard>
-        </div>
+    
       </IonContent>
 
       <IonAlert

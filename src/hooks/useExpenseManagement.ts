@@ -1,4 +1,4 @@
-import { UserModel } from './../types/types';
+import { CategoryData, UserModel } from './../types/types';
 import { useSessionManager } from '../sessionManager/SessionManager';
 import axiosInstance from '../apiHelper/axiosInstance';
 import { DataAccessCheckModal, ExpenseDocumentModel, ExpenseModel, getBlankUserObject } from '../types/types';
@@ -47,7 +47,17 @@ const useExpenseManagement = () => {
         return exp
     }
     
-   
+   const getCategoryDetails= async(categoryId:number): Promise<CategoryData> =>{
+    let  categoryData:CategoryData ={billableToClient:false,billRequired:false}
+    try {
+      const {data}=  await axiosInstance.get(`/GetCategoryData/${categoryId}`)
+       categoryData.billRequired=data.billRequired
+       categoryData.billableToClient=data.billableToClient
+    } catch (error) {
+      console.error(error)
+    }
+    return categoryData;
+   }
       
     const saveExpense = async (model: FormData): Promise<boolean> => {
         try {
@@ -85,7 +95,7 @@ const useExpenseManagement = () => {
         return dataAccess
     
      }
-
+    
  
     const getExpenseObject =   (expense: any): ExpenseModel  => {
 
@@ -304,7 +314,7 @@ const useExpenseManagement = () => {
     
     
     return {
-        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers,getExpenseDocument
+        getExpenses,getExpense,getBlankExpenseObject,saveExpense,deleteExpense,canEditOrDeleteExpense,searchUsers,getExpenseDocument,getCategoryDetails
     };
 };
 

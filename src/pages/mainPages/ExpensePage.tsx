@@ -12,16 +12,17 @@ import {
 } from '@ionic/react';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
-import { DropDownItem, ExpenseModel } from '../../types/types';
+import { DropDownItem, ExpenseIconType, ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
-import { add, briefcaseOutline, calendarOutline, chevronForwardOutline, closeCircleOutline, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
+import { add, briefcase, briefcaseOutline, calendarOutline, cash, cashOutline, chevronForwardOutline, closeCircleOutline, fileTrayStacked, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
 import { messageManager } from '../../components/MassageManager';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import '../../theme/variables.css'
 import withSessionCheck from '../../components/WithSessionCheck';
-import FilterModal from '../../components/Filters';
+import { Icon } from 'ionicons/dist/types/components/icon/icon';
+
 
 const ExpensePage: React.FC = () => {
     const navigation = useIonRouter();
@@ -32,7 +33,7 @@ const ExpensePage: React.FC = () => {
     const [showAlert, setShowAlert] = useState(false);
     const [expenseToDelete, setExpenseToDelete] = useState<ExpenseModel | null>(null);
     const { showToastMessage, showAlertMessage, showConfirmMessage } = messageManager();
-    const { sortExpensesByDate } = useUIUtilities();
+    const {sortDataByDate} = useUIUtilities();
     const [showFilterAlert, setShowFilterAlert] = useState(false);
     const[dateFilterItems] = useState<DropDownItem[]>(getDateFilterItems())
     const[dateFilterId, setDateFilterId] = useState<number>(DateFilters.ThisMonth)
@@ -48,7 +49,8 @@ const ExpensePage: React.FC = () => {
         try {
           
           const expenseData = await getExpenses(dateFilterId);
-          setExpenseSummary(expenseData)     
+          setExpenseSummary(expenseData) 
+          sortDataByDate(expenseData,"Date","desc")
           setExpenses(expenseData);
         } catch (error) {
           console.error('Error fetching expenses:', error);
@@ -63,7 +65,6 @@ const ExpensePage: React.FC = () => {
        const period = getPeriodName(value)
        setSelectedPeriod(period)
        const expList= await getExpenses(value);
-       
        setExpenseSummary(expList)     
        setExpenses(expList);
        setIsLoading(false);
@@ -74,7 +75,7 @@ const ExpensePage: React.FC = () => {
          setDateFilterId(DateFilters.ThisMonth)
           const period= getPeriodName(dateFilterId)
          setSelectedPeriod(period)
-        // getExpense();
+        getExpense();
         })();
       });
 
@@ -143,7 +144,24 @@ const ExpensePage: React.FC = () => {
         console.log("re",reimbursedAmount)
       }
 
-
+    
+      const getIconAccordingToStatus=(approverStatusId:number)=>{
+        let expenseIconType:ExpenseIconType={color:"" ,icon:""}
+        switch(approverStatusId)
+        {
+            case 1:  expenseIconType={color:"secondary",icon:briefcase} 
+            break;
+            case 2:  expenseIconType={color:"warning",icon:briefcase}
+            break;
+            case 3:  expenseIconType={color:"success",icon:briefcase}
+            break;
+            case 4:  expenseIconType={color:"danger",icon:briefcase}
+            break;
+            default:  
+        }
+       
+        return expenseIconType
+      }
   
 
     return (
@@ -178,25 +196,25 @@ const ExpensePage: React.FC = () => {
             <IonContent>
            <CommonPullToRefresh onRefresh={getExpense}>
                     <IonList >
-                        {expenses && expenses.map((expense: ExpenseModel) => (
+                    {expenses && expenses.map((expense: ExpenseModel) => {
+                       const { color, icon } = getIconAccordingToStatus(expense.ApprovalStatusId);
+                        return (
                             <IonItemSliding key={expense.ExpenseId.toString()}>
-                                   <IonItem key={expense.ExpenseId?.toString()} button  onClick={() => viewExpense(expense.ExpenseId)}>
+                                <IonItem key={expense.ExpenseId?.toString()} button onClick={() => viewExpense(expense.ExpenseId)}>
                                     <IonLabel className="ion-text-wrap">
-                                    <span className="matter-Code-font">
-                                    <IonIcon icon={briefcaseOutline}/>&nbsp;
-                                    {expense.MatterCode} | {expense.MatterTitle}
+                                        <span className="matter-Code-font">
+                                            <IonIcon color={color} icon={icon} />&nbsp;
+                                            {expense.MatterCode} | {expense.MatterTitle}
                                         </span>
-                                        
                                         <span className="work-done-desc">
-                                        <IonIcon icon={calendarOutline}/> {expense.Date} - {expense.ExpenseCategory}
+                                            <IonIcon icon={calendarOutline} /> {expense.Date} - {expense.ExpenseCategory} {expense.PaymentId>0 ?<small  className ="billable-hours">-PAID</small>:null}
                                         </span>
-                                       
-                                        <h2 className="small-font"> <IonIcon icon={personCircleOutline}/>&nbsp;{expense.Client} </h2>
+                                        <h2 className="small-font"><IonIcon icon={personCircleOutline} />&nbsp;{expense.Client}</h2>
                                     </IonLabel>
                                     <IonText className="time-text" slot="end">
-                                        <p className="total-time">{(expense.AmountToDisplay)}</p>
+                                        <p className="total-time">{expense.AmountToDisplay}</p>
                                     </IonText>
-                                    {isIos ? null :<IonIcon className="action-item" icon={chevronForwardOutline} slot="end"/>}
+                                    {isIos ? null : <IonIcon className="action-item" icon={chevronForwardOutline} slot="end" />}
                                 </IonItem>
                                 <IonItemOptions side="end">
                                     <IonItemOption onClick={() => showDeleteConfirm(expense)} color="danger">
@@ -209,7 +227,9 @@ const ExpensePage: React.FC = () => {
                                     </IonItemOption>
                                 </IonItemOptions>
                             </IonItemSliding>
-                        ))}
+                        );
+                    })}
+
                     </IonList>
                     <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} />
                     <IonAlert

@@ -5,16 +5,6 @@ import { add, calendarOutline, cardOutline, timerOutline } from 'ionicons/icons'
 const FabMenu: React.FC = () => {
   const [fabMenu, setFabMenu] = useState(false);
 
-  // useEffect(() => {
-  //   const pageContent = document.querySelector('.page-content');
-  //   if (pageContent) {
-  //     if (fabMenu) {
-  //       pageContent.classList.add('blur-background');
-  //     } else {
-  //       pageContent.classList.remove('blur-background');
-  //     }
-  //   }
-  // }, [fabMenu]);
 
   return (
     <IonFab vertical="bottom" horizontal="end" slot="fixed">

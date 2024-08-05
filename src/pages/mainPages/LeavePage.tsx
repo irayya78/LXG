@@ -104,7 +104,7 @@ const LeavePage: React.FC = () => {
             
             <IonMenu maxEdgeStart={40} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
         <IonHeader>
-          <IonToolbar color="secondary">
+          <IonToolbar color="primary">
             <IonTitle>Holiday List</IonTitle>
           </IonToolbar>
         </IonHeader>

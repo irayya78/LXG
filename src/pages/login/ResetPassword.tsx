@@ -198,7 +198,7 @@ const ResetPassword: React.FC = () => {
         <IonAlert
           isOpen={errorAlert.show}
           onDidDismiss={() => setErrorAlert({ show: false, message: '' })}
-          header={'Error'}
+          header={'OOPS'}
           message={errorAlert.message}
           buttons={['OK']}
         />

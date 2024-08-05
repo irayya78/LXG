@@ -29,6 +29,7 @@ import {
   MatterModel,
   DropDownItem,
   UserModel,
+  CategoryData,
 } from "../../types/types";
 import { useMatterManagement } from "../../hooks/useMatterManagement";
 import useExpenseManagement from "../../hooks/useExpenseManagement";
@@ -60,7 +61,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
   const [showActionSheet, setShowActionSheet] = useState(false);
   const [matterCode, setMatterCode] = useState("");
-  const { getBlankExpenseObject, getExpense, saveExpense, searchUsers } =
+  const { getBlankExpenseObject, getExpense, saveExpense, searchUsers,getCategoryDetails } =
     useExpenseManagement();
   const [caption, setCaption] = useState("Create Expense");
   const [expenseId, setExpenseId] = useState<Number>(0);
@@ -73,6 +74,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [approverSearch, setApproverSearch] = useState<string>("");
   const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
   const [validationMessage,setValidationMessage]=useState<string>("");
+  const [billRequired,setBillRequired]=useState<boolean>(false)
   const displayApprover = session.user?.DisplayExpenseApprover;
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
   const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays
@@ -80,7 +82,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   useEffect(() => {
     validateForm();
     console.log(matterId)
-  }, [expenseCategoryId, matterId, amount, description]);
+  }, [expenseCategoryId, matterId, amount, description,ApproverId,expenseReceiptDoc,expenseDate]);
 
   //FOR SAVING THE EXPENSE
  const saveNewExpense = async () => {
@@ -186,23 +188,30 @@ console.log(matterId)
   const validateForm = () => {
     let isValid = true;
     setValidationMessage("")
+    if(billRequired&&expenseReceiptDoc.length <=0){
+      setValidationMessage ("Bill is required in this category!");
+      isValid = false;
+    }
     if (description.trim() === "") {
       setValidationMessage ("Description is required!");
       isValid = false;
     }
-
+  
+    if(displayApprover&&ApproverId!<=0){
+      setValidationMessage("Select a Approver!");
+    }
     if (!expenseDate) {
-     setValidationMessage("Expense date is required!");
+     setValidationMessage("Select a Date!");
       isValid = false;
     }
 
-    if (expenseCategoryId === 0) {
-      setValidationMessage("Select a category!");
-      isValid = false;
-    }
 
     if (amount <= 0) {
       setValidationMessage("Amount should be greater than 0!");
+      isValid = false;
+    }
+    if (expenseCategoryId === 0) {
+      setValidationMessage("Select a category!");
       isValid = false;
     }
 
@@ -275,12 +284,20 @@ console.log(matterId)
   const getMaxDate = () => {
     if (!allowFutureDatesExpenses) {
       const date = new Date();
-      date.setMonth(date.getMonth() + 1);
-      date.setDate(0); 
       return date.toISOString().substring(0, 10);
     }
     return undefined;
   };
+  
+
+  const handleCategoryChange= async(categoryId:number)=>{
+       
+       setExpenseCategoryId(categoryId);
+       setDescriptionForCategories(categoryId);
+       const data:CategoryData=  await getCategoryDetails(categoryId);
+       setBillableToClient(data.billableToClient);
+       setBillRequired(data.billRequired) 
+  }
 
   return (
     <IonPage>
@@ -344,9 +361,8 @@ console.log(matterId)
             placeholder="Choose category"
             okText="OK"
             cancelText="Cancel"
-            onIonChange={(e) => {
-              setExpenseCategoryId(e.detail.value);
-              setDescriptionForCategories(e.detail.value);
+            onIonChange={(e:any) => {
+              handleCategoryChange(e.detail.value)
             }}
           >
             {expenseCategories.map((expCategory) => (

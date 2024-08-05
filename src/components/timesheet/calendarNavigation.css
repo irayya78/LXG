@@ -3,6 +3,7 @@
 ion-segment{
     margin: 0px;
     background: linear-gradient(180deg, #307af8, #FFFFFF )!important;
+    color:black
   }
 
 .calender{
@@ -15,6 +16,7 @@ ion-segment-button {
     min-width: 30px;
     font-weight: bold;
     text-align: center; 
+   
    
   }
   
@@ -49,6 +51,7 @@ ion-segment-button {
 ion-segment-button span{
     font-size: xx-small;
     font-weight: normal;
+    color:black
     
     
 }
@@ -94,7 +97,7 @@ ion-buttons ion-button{
    
 }
 .segment-button-checked span {
-    font-weight: bolder;
+    font-weight:900;
     color: #0163aa;
     
   }

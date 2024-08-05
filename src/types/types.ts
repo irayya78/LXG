@@ -111,7 +111,7 @@ export interface ExpenseModel{
   CreatedBy: Number,
   CreatedByName: string,
   ExpenseCategories:DropDownItem[],
-  ApprovalStatusId: Number,
+  ApprovalStatusId: number,
   FileToUpload: any,
   FileAsBase64: string,
   FileName: string,
@@ -126,12 +126,15 @@ export interface ExpenseModel{
   
 
 }
-export interface ExpenseStatusModel {
-  iosIcon: string;
-  mdIcon: string;
+export type ExpenseIconType={
   color: string;
   icon:string;
 }
+export type CategoryData={
+  billRequired: boolean;
+  billableToClient:boolean;
+}
+
 export interface ExpenseDocumentModel{
   DocumentId: Number,
   DocumentName: string
