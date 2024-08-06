@@ -140,25 +140,23 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       isValid = false;
     }
 
-    if(description.length < 1){
+    if(description.length < 5){
       setValidationMessage("Description should be minimum 5-6 characters!");
        isValid=false;
     }
-    
+    if(isLeaveApprover && ApproverId ===0){
+      setValidationMessage("Select Approver!");
+      isValid=false;
+    }
+    if(fromDate > toDate){
+      setValidationMessage("Please choose a valid date range!");
+      isValid=false;
+    }
     if (leaveTypeId === 0) {
       setValidationMessage("Select Leave Type");
       isValid = false;
     }
 
-    if(fromDate > toDate){
-      setValidationMessage("Please choose a valid date range!");
-      isValid=false;
-    }
-
-    if(isLeaveApprover && ApproverId===0){
-      setValidationMessage("Select Approver!");
-      isValid=false;
-    }
 
     setDisableSaveButton(!isValid);
     return isValid;
@@ -183,7 +181,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   }
   
   const fetchLeaveCount = async (fromDate: string, toDate: string, fromSessionId: Number, toSessionId: Number) => {
-   console.log("reder")
+   
     const model :LeaveModel = getBlankLeaveObject() ;
     {
         model.UserId = Number(session.user?.UserId)
