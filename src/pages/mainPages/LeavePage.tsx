@@ -144,7 +144,6 @@ const LeavePage: React.FC = () => {
                 <CommonPullToRefresh onRefresh={getLeavesList}>
                     <IonLoading isOpen={isLoading}  message={'Please wait...'}duration={0}/>
                     
-
                     <IonList id="leave-list">
                         {leaves && leaves.map((leave: LeaveModel)=>(
                         <IonItemSliding key={leave.LeaveId.toString()}>
@@ -155,9 +154,8 @@ const LeavePage: React.FC = () => {
                                     <IonText className="total-time" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
                                    
                                 </IonButton>  
-                               {/* {isIos ? null : */}
                                <IonIcon className="action-item" icon={pencil} slot="end" onClick={() => editLeaveByLeaveId(leave)}/>
-                                {/* } */}
+
                                 <IonLabel className="ion-text-wrap">
                                 
                                     <span className="font-bold action-item"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number) }} />&nbsp;{leave.LeaveType.leaveTypeName}</span>&nbsp;-&nbsp;
@@ -185,7 +183,7 @@ const LeavePage: React.FC = () => {
                         
                         
                     </IonList>
-                    <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} />
+                    {/* <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} /> */}
 
                     <IonAlert
                         isOpen={showAlert}

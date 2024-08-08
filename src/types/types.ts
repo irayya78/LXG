@@ -181,7 +181,8 @@ export interface LeaveModel{
   LeaveStatus : string,
   // LeaveTrTypeCollection : DropDownItem[],
   // User: UserModel,
-  LeaveType : any
+  LeaveType : any,
+  UserName: string
 }
 
 export interface HolidayListModel{
@@ -191,21 +192,28 @@ export interface HolidayListModel{
 }
 
 export interface NotificationModel{
-  CustomerId: Number,
-  Date: string,
+  // CustomerId: Number,
+  // Date: string,
+  // Description: string,
+  // IsActionable: boolean,
+  // IsActive: boolean,
+  // Module: ModuleModel,
+  // ModuleId: Number,
+  // NotificationId: Number,
+  // PrimaryId: Number,
+  // Subscriber:UserModel,
+  // SubscriberUserId: Number,
+  // User: UserModel,
+  // UserId: Number,
+  // Expense: ExpenseModel,
+  // Leave: LeaveModel
+  Id: Number,
+  Name: string,
+  Type: string,
   Description: string,
-  IsActionable: boolean,
-  IsActive: boolean,
-  Module: ModuleModel,
-  ModuleId: Number,
-  NotificationId: Number,
-  PrimaryId: Number,
-  Subscriber:UserModel,
-  SubscriberUserId: Number,
-  User: UserModel,
-  UserId: Number,
-  Expense: ExpenseModel,
-  Leave: LeaveModel
+  Date: string,
+  DateToDisplay: string
+  
 }
 
 export interface ModuleModel{

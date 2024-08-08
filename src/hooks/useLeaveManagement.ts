@@ -62,7 +62,8 @@ const useLeaveManagement = () => {
             BuId : element.buId,
             LeaveTypeName : element.leaveType != null ? element.leaveType.leaveTypeName : '',
             LeaveSessionName : element.FromSessionId == 1 ? 'Full Day' : 'Hlaf Day',
-            LeaveStatus : leaveStatusText  
+            LeaveStatus : leaveStatusText ,
+            UserName : element.user != null ? element.user.associateName : ''
           }
         return Obj;
     }
@@ -100,7 +101,8 @@ const useLeaveManagement = () => {
           // User: any,
           LeaveType: undefined,
           BuId: 0,
-          LeaveStatus : ''
+          LeaveStatus : '',
+          UserName : ''
         }
         return obj;
     }
@@ -121,6 +123,7 @@ const useLeaveManagement = () => {
     const getLeave = async  (leaveId: Number): Promise<LeaveModel>  => {
 
         const resp = await axiosInstance.get( "/GetLeave/" + session.user?.CustomerId + "/" + leaveId)
+        console.log('raw resp',resp)
         const leave = getLeaveObject(resp.data)
         console.log('raw single',leave)
         return leave

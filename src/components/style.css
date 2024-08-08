@@ -591,5 +591,36 @@ margin: 5px;
   height: 80px;
 }
 
+.bottom-content {
+  /* flex: none;
+  position: fixed;
+  bottom: 0;
+  width: 100%; */
+  background-color: rgb(231, 230, 230);
+}
+
+.button-group ion-button {
+  flex: 1;
+  margin: 0 4px; /* Adjust margins for better spacing */
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 30px;
+}
+
+.comments{ 
+  background:aliceblue; 
+  border:1px solid #88A6F3; 
+  margin:10px  5%; 
+  border-radius: 10px; 
+  box-shadow:  0 10px 6px -6px #777;
+}
+
+.remove-border {
+  --inner-border-width: 0px !important; /* Remove the border for the specific class */
+}
+
 
 

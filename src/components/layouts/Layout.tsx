@@ -15,6 +15,7 @@ import ApplyLeave from '../../pages/leave/ApplyLeave';
 import ViewLeave from '../../pages/leave/ViewLeave';
 import LeavePage from '../../pages/mainPages/LeavePage';
 import ApprovalList from '../../pages/approver/ApprovalList';
+import ViewApprove from '../../pages/approver/ViewApprove';
 
 
 const Layout: React.FC = () => {
@@ -41,6 +42,7 @@ const Layout: React.FC = () => {
           <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
           <Route path="/layout/leave/view/:leaveId" component={ViewLeave} exact/>
           <Route path="/layout/view-approvals" component={ApprovalList} exact/>
+          <Route path="/layout/approval/view/:type/:id" component={ViewApprove} exact/>
           <Redirect exact from="/layout" to="/layout/dashboard" />
         </IonRouterOutlet>
 

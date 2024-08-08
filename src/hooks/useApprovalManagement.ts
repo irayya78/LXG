@@ -12,10 +12,12 @@ const useApprovalManagement = () => {
 
     const getApprovals = async (): Promise<NotificationModel[]> => {
         
-        const approvalList= await axiosInstance.get(`/GetLeaves/${session.user?.CustomerId}/${session.user?.UserId}`)
+        const approvalList= await axiosInstance.get(`/GetNotifications/${session.user?.CustomerId}/${session.user?.UserId}`)
+        console.log("approvalList",approvalList);
         const approvalArray: NotificationModel[] = [];
         if(approvalList.data != null && approvalList.data.length > 0){
             approvalList.data.forEach((element : any) => {
+                console.log("element",element);
                 const tempapproval : NotificationModel = getApprovalObject(element)
                 approvalArray.push(tempapproval)
             })
@@ -28,21 +30,28 @@ const useApprovalManagement = () => {
         let Obj : NotificationModel = getBlankApprovalObject()
 
         Obj = {
-            CustomerId : Number(element.CustomerId),
-            Date : element.Date,
-            Description : element.Description,
-            IsActionable : element.IsActionable,
-            IsActive : element.IsActive,
-            Module : (element.Module),
-            ModuleId : element.ModuleId,
-            NotificationId : element.NotificationId,
-            PrimaryId : element.PrimaryId,
-            Subscriber : element.Subscriber,
-            SubscriberUserId : element.SubscriberUserId,
-            User : element.User,
-            UserId : element.UserId,
-            Expense : element.Expense,
-            Leave : element.Leave
+            Id: element.id !== null ? element.id : 0,
+            Name: element.associateName,
+            Type: element.type,
+            Description: element.description,
+            Date: element.date,
+            DateToDisplay:element.dateToDisplay
+            // CustomerId : Number(element.customerId),
+            // Date : element.date,
+            // Description : element.description,
+            // IsActionable : element.isActionable,
+            // IsActive : element.isActive,
+            // Module : (element.module),
+            // ModuleId : element.moduleId,
+            // NotificationId : element.notificationId,
+            // PrimaryId : element.primaryId,
+            // Subscriber : element.subscriber,
+            // SubscriberUserId : element.subscriberUserId,
+            // User : element.user ,
+            // // !== null ? {UserId:element.leave.approver., FirstName:expense.approvedByUser.firstName, FullName:expense.approvedByUser.associateName, LastName:expense.approvedByUser.lastName, Password: "", EmailOTP:"", Email:"" } : getBlankUserObject(),
+            // UserId : element.userId,
+            // Expense : element.expense,
+            // Leave : element.leave
         }
             
         return Obj;
@@ -51,29 +60,46 @@ const useApprovalManagement = () => {
     const getBlankApprovalObject = (): NotificationModel  => {
 
         const obj : NotificationModel =  {
-            CustomerId: 0,
-            Date: '',
+            Id: 0,
+            Name: '',
+            Type: '',
             Description: '',
-            IsActionable: false,
-            IsActive: false,
-            Module: {ModuleId:0, ModuleName:""},
-            ModuleId: 0,
-            NotificationId: 0,
-            PrimaryId: 0,
-            Subscriber: getBlankUserObject(),
-            SubscriberUserId: 0,
-            User: getBlankUserObject(),
-            UserId: 0,
-            Expense: getBlankExpenseObject(),
-            Leave: getBlankLeaveObject()
+            Date: '',
+            DateToDisplay:''
         }
       
         return obj;
     };
+
+    const expenseApprovalAction = async (id: string, statusId: number, comment: string) => {
+        console.log("C",comment)
+        try {
+            await axiosInstance.get(`/ExpenseApprovalAction/${id}/${statusId}/${session?.user?.UserId}/${comment}`);
+            return true;
+        } catch (error) {
+            console.error('Error approvaling expense:', error);
+            return false;
+        }
+    };
+
+    const leaveApprovalAction = async (id: string, statusId: number, comment: string) => {
+        comment.length <=0 ?comment="Hi":comment=comment
+        console.log("c",comment)
+    
+        try {
+            await axiosInstance.get(`/LeaveApprovalAction/${id}/${statusId}/${session?.user?.UserId}/${comment}`);
+            return true;
+        } catch (error) {
+            console.error('Error approvaling leave:', error);
+            return false;
+        }
+    };
+    
+
     
 
     return {
-        getApprovals
+        getApprovals,expenseApprovalAction,leaveApprovalAction
         
     };
 };
