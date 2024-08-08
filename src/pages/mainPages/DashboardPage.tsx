@@ -21,7 +21,8 @@ import {
   notifications,
   card,
   briefcase,
-  timer
+  timer,
+  menuOutline
 } from "ionicons/icons";
 import { useEffect, useState } from "react";
 import MyProfileHeader from "../../components/MyProfileHeader";
@@ -30,25 +31,15 @@ import { useSessionManager } from "../../sessionManager/SessionManager";
 import { useDashboardManagement } from "../../hooks/useDashboardManagement";
 import CommonPullToRefresh from "../../components/CommonPullToRefreshProps";
 import FabMenu from "../../components/layouts/FabIcon";
-import TimesheetChartModal from "../charts/TimesheetChart";
 import withSessionCheck from "../../components/WithSessionCheck";
-import ContentLoader from "react-content-loader";
 import DashboardWidgets from "../../components/DashBoardWidgets";
-import { useHistory } from 'react-router-dom';
+import { DashboardModel } from "../../types/types";
+import DynamicChartModal from "../charts/DynamicChart";
 
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
   const navigation = useIonRouter();
-  const [dashboardData, setDashboardData] = useState<any>({
-    MatterCount: 0,
-    DocumentUploaded: 0,
-    ExpenseAmount: 0,
-    ReimbursedAmount: 0,
-    TotalTime: "0:00",
-    NonBillableTime: 0,
-    BillableTime: 0,
-    NotificationCount: 0
-  });
+
 console.log("render")
   const {
     convertDecimalToHHMMFormat,
@@ -57,7 +48,7 @@ console.log("render")
     getCurrentDateAsString,
     connvertDateToMMMDDYYYY
   } = useUIUtilities();
-  const { getUserDashboardData,getGreeting } = useDashboardManagement();
+  const { getUserDashboardData1,getGreeting } = useDashboardManagement();
   const [billableHours, setBillableHours] = useState<string>("0:00");
   const [nonBillableHours, setNonBillableHours] = useState<string>("0:00");
   const [percentBillable, setPercentBillable] = useState<string>("");
@@ -65,7 +56,11 @@ console.log("render")
   const [currentDate, setCurrentDate] = useState<any>("");
   const [percentReimbursed, setPercentReimbursed] = useState<number>(0);
   const [busy, setBusy] = useState<boolean>(false);
-  const [isTimesheetChartOpen, setTimesheetChartOpen] = useState(false);
+  const [isChartOpen, setChartOpen] = useState(false);
+  const [tittle,setTittle]=useState<string>("")
+  const [dashboardData, setDashboardData] = useState<DashboardModel[]>([]);
+  const [chartData,setChartData] =useState<DashboardModel>();
+ 
   const greeting = getGreeting();
   
   useIonViewDidEnter(() => {
@@ -73,35 +68,23 @@ console.log("render")
     
       setCurrentDate(connvertDateToMMMDDYYYY(getCurrentDateAsString()))
       setBusy(true)
-    await  renderDashboardData();
+     await  renderDashboardData();
     setBusy(false)
     })();
   });
  
-
-  const getExpanseToApproveOrReject = async () => {
-    navigation.push(`/layout/view-approvals`, 'forward', 'push');
+ 
+ const renderDashboardData = async () => {
+    const dashboardData1:DashboardModel[] = await getUserDashboardData1()
+    setDashboardData(dashboardData1);
+ 
   }
 
-  const renderDashboardData = async () => {
-   
-    const dashboardData = await getUserDashboardData()
-    
-    const billableHoursAsNum = dashboardData.BillableTime
-    const nonBillableHoursAsNum = dashboardData.NonBillableTime
-    const totalTimeAsNum = convertHHMMFormatToDecimal(String(dashboardData.TotalTime))
-    const percentBillable = totalTimeAsNum > 0 ? (Number(billableHoursAsNum) / totalTimeAsNum) * 100 : 0
-    const percentNonBillable = totalTimeAsNum > 0 ? (Number(nonBillableHoursAsNum) / totalTimeAsNum) * 100 : 0
-    const percentageReimbursed = dashboardData.ExpenseAmount > 0 ? (Number(dashboardData.ReimbursedAmount) / dashboardData.ExpenseAmount) * 100 : 0
-
-    setBillableHours(convertDecimalToHHMMFormat(Number(billableHoursAsNum)))
-    setNonBillableHours(convertDecimalToHHMMFormat(Number(nonBillableHoursAsNum)))
-    setPercentReimbursed(percentageReimbursed)
-    setPercentNonBillable(formatNumber(percentNonBillable))
-    setPercentBillable(formatNumber(percentBillable))
-    setDashboardData(dashboardData)
+  const handelCardClick=(data:DashboardModel)=>(event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => 
+  {
+    setChartData(data)
+    setChartOpen(true)
   }
-
   return (
     <IonPage style={{background:"#fff"}}>
      
@@ -119,72 +102,31 @@ console.log("render")
       </div>
         <IonGrid>
           <IonRow>
-            <IonCol size="6">
+          {dashboardData.map((data, index) => (
+            <IonCol size="6" key={index}>
             <DashboardWidgets
-           title="Timesheet"
-           icon={timer}
-           busy={busy}
-           bgicon={"https://cdn0.iconfinder.com/data/icons/linely-time/64/fast_speed_time_duration_stopwatch-64.png"}
-           onClick={() => setTimesheetChartOpen(true)}
-           content={
-            <>
-              <p style={{ color: "#3880ff" }}>{dashboardData.TotalTime} hr(s)</p>
-              <p className="billable-hours">B: {billableHours} ({percentBillable}%)</p>
-              <p className="nonbillable-hours">NB: {nonBillableHours} ({percentNonBillable}%)</p>
-            </>
-          }
-        />
+                key={index}
+                title={data.name}
+                isClickAble={data.isClickAble}
+                bgicon={data.cardIconURL}   
+                content={data.content} 
+                onClick={handelCardClick(data)} 
+                />
+           
             </IonCol>
-            <IonCol size="6">
-            <DashboardWidgets
-             title="Matters"
-             icon={briefcase}
-             busy={busy}
-             bgicon={"https://cdn4.iconfinder.com/data/icons/web-ui-9/512/608-_breifcase__suitcase__bag_-64.png"}
-             onClick={() => navigation.push('/layout/matter')}
-             content={<p>Assigned on {dashboardData.MatterCount} new matter(s)</p>}
-            />
-            </IonCol>
-          </IonRow>
-          <IonRow>
-            <IonCol size="6">
-            <DashboardWidgets
-             title="Expenses"
-             icon={briefcase}
-             busy={busy}
-             bgicon={"https://cdn4.iconfinder.com/data/icons/wallet-7/512/wallet-money-09-64.png"}
-             onClick={() => navigation.push('/layout/expense')}
-             content={
-              <>
-              <p><span style={{ color: "#3880ff" }}>₹ {formatNumber(dashboardData.ExpenseAmount)}</span></p>
-              <p className="exp-reimbursed">Rei: {formatNumber(dashboardData.ReimbursedAmount)} ({formatNumber(percentReimbursed)}%)</p>
-             </>}
-            />
-            </IonCol>
-            <IonCol size="6">
-            <DashboardWidgets
-             title="Approvals"
-             icon={notifications}
-             busy={busy}
-             bgicon={"https://cdn1.iconfinder.com/data/icons/miscellaneous-268-line/128/endorsement_approval_support_favor_testimonial_feedback-64.png"}
-             onClick={getExpanseToApproveOrReject}
-             content={<p>{dashboardData.NotificationCount} Approval(s)</p>}
-            />
-            </IonCol>
-          </IonRow>
+             ))}
+           </IonRow>
         </IonGrid>
        
       </IonContent>
       </CommonPullToRefresh>
-      <TimesheetChartModal
-        isOpen={isTimesheetChartOpen}
-        onClose={() => setTimesheetChartOpen(false)}
-        data={{
-          billableHours: billableHours,
-          nonBillableHours: nonBillableHours,
-          totalTime: dashboardData.TotalTime,
-        }}
+
+      <DynamicChartModal
+        isOpen={isChartOpen}
+        onClose={() => setChartOpen(false)}
+        data={chartData}
       />
+
       <FabMenu/>
     </IonPage>
   );

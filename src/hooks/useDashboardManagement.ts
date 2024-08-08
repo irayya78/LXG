@@ -1,6 +1,6 @@
 import axiosInstance from "../apiHelper/axiosInstance";
 import { useSessionManager } from "../sessionManager/SessionManager";
-import { UserSessionDetails } from "../types/types";
+import { DashboardModel, ReportModel, UserSessionDetails } from "../types/types";
 
 export function useDashboardManagement() {
 
@@ -10,7 +10,8 @@ export function useDashboardManagement() {
 
 const getUserDashboardData = async  () : Promise<any> => {
     
-        const resp = await axiosInstance.get("/GetUserDashboardData/" + session.user?.UserId)
+        const resp = await axiosInstance.get("/GetUserDashboardData1/" + session.user?.UserId)
+        console.log("Report response:-",resp.data)
         const dashboardData : any =  
         {
                 BillableTime : resp.data.billableTime,
@@ -25,6 +26,44 @@ const getUserDashboardData = async  () : Promise<any> => {
 
         return dashboardData
    };
+
+   const getUserDashboardData1 = async (): Promise<DashboardModel[]> => {
+  
+      const { data } = await axiosInstance.get(`GetUserDashboardData1/${session.user?.UserId}/${session.user?.CustomerId}`);
+      console.log("Report response:-", data);
+  
+      const dashboards: DashboardModel[] = data.map((report: ReportModel) => mapReportToDashboard(report));
+      return dashboards;
+  }
+  
+  const mapReportToDashboard = (report: ReportModel): DashboardModel => {
+    if (!report.reportData) {
+      throw new Error("Report data is missing");
+    }
+  
+    const reportSummaryItems = report.reportData.reportSummary?.reportSummaryItems || [];
+    const rows = report.reportData.rows || [];
+
+  
+    return {
+      name: report.name ?? "Unknown",
+      recordCount:report.reportData?.reportSummary?.recordCount||0,
+      content: reportSummaryItems, 
+      cardIconURL: report.mobileAppCardIconURL ?? "",
+      chartTypeId: report.chartTypeId ?? null,
+      charTypeColor: report.chartTypeColor ?? null,
+       isClickAble: report.enableOnClickFunctionInMobile,
+       rows: rows
+       
+       
+    };
+  };
+  
+
+
+
+
+
 
    const getGreeting = () => {
         const currentHour = new Date().getHours();
@@ -41,7 +80,7 @@ const getUserDashboardData = async  () : Promise<any> => {
 
     
 return {
-        getUserDashboardData ,getGreeting
+        getUserDashboardData ,getGreeting,getUserDashboardData1
   };
 
   

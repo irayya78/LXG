@@ -1,36 +1,43 @@
 import React from 'react';
-import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon, IonSpinner } from '@ionic/react';
+import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon } from '@ionic/react';
+import { expandOutline } from 'ionicons/icons';
+import { ReportSummaryItem } from '../types/types';
 
 interface DashboardCardProps {
   title: string;
-  icon: any;
-  content: React.ReactNode;
-  busy: boolean;
-  bgicon:any
-  onClick: () => any;
+  content: ReportSummaryItem[];
+  isClickAble: boolean;
+  bgicon: string;
+  onClick: (event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => void;
 }
 
-const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, icon, content, busy, bgicon, onClick }) => (
-  <IonCard button onClick={onClick} className="dashboard-card">
+const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, content, isClickAble, bgicon, onClick }) => (
+  <IonCard 
+    button={isClickAble} 
+    onClick={isClickAble ? onClick : onClick} 
+    className="dashboard-card"
+  >
     <IonCardHeader className="Ionic-header">
       <IonCardTitle className="dashboard-card-title">
-        <IonIcon icon={icon} className="icon" />
-        {title}
+   
+        {title} 
       </IonCardTitle>
     </IonCardHeader>
     <IonCardContent className="Card-content">
-      {busy ? (
-        <IonSpinner name="dots" />
+     {content.length >0  ? (
+        content.map((item, index) => (
+          <p key={index}>
+            <strong className=''>{item.label}:</strong> {item.value}
+          </p>
+        ))
       ) : (
-        content
+        <p>No data available</p>
       )}
-      
     </IonCardContent>
     <div className='bgIcon'>
-   <img src={bgicon} alt="img" />
- </div>
+      <img src={bgicon} alt="Background Icon" />
+    </div>
   </IonCard>
- 
 );
 
 export default DashboardWidgets;

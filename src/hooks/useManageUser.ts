@@ -58,7 +58,8 @@ export const useManageUser = () => {
           TimerTimeInterval:customer?.timerTimeInterval||null,
           AllowTaggingTimesheet:customer?.allowTaggingTimesheet,
           DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
-          DisplayLeaveApprover:customer?.displayLeaveApprover||false
+          DisplayLeaveApprover:customer?.displayLeaveApprover||false,
+          ChartThemColors:customer?.chartTheme?.colorCodes||""
           
         };
 
@@ -135,7 +136,8 @@ export const useManageUser = () => {
           TimerTimeInterval: customer?.timerTimeInterval || null,
           AllowTaggingTimesheet: customer?.allowTaggingTimesheet,
           DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
-          DisplayLeaveApprover:customer?.displayLeaveApprover||false
+          DisplayLeaveApprover:customer?.displayLeaveApprover||false,
+          ChartThemColors:customer?.chartTheme?.colorCodes||""
         };
   
         setUserSession(userObj);

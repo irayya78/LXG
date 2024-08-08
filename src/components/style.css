@@ -142,7 +142,7 @@ display: none;
 }
 
 .Ionic-header{padding: 0px!important;}
-.Card-content{padding: 10px 15px; margin-top: 10px;}
+.Card-content{padding: 10px 15px; margin-top: 10px; color: #3880ff;}
 
 .validation-message {
   color: red;
@@ -591,6 +591,7 @@ margin: 5px;
   height: 80px;
 }
 
+<<<<<<< Updated upstream
 .bottom-content {
   /* flex: none;
   position: fixed;
@@ -622,5 +623,13 @@ margin: 5px;
   --inner-border-width: 0px !important; /* Remove the border for the specific class */
 }
 
+=======
+.clickIcon{
+position: fixed;
+float: right;
+right: 0px;
+font-size: small;
+}
+>>>>>>> Stashed changes
 
 

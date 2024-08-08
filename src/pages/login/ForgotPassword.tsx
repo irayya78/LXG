@@ -58,7 +58,7 @@ const ForgotPasswordPage: React.FC = () => {
         <IonInput
           value={email}
           placeholder="Email"
-          onIonInput={(e: any) => setEmail(e.target.value)}
+          onIonInput={(e: CustomEvent) => setEmail(e.detail.value)}
           type="email"
           style={{ borderBottom: "2px solid #ccc", padding: "10px 5px", transition: "border-color 0.3s" }}
         />

@@ -1,3 +1,4 @@
+import React from "react";
 
 export interface UserSessionDetails {
     UserId: Number;
@@ -22,6 +23,7 @@ export interface UserSessionDetails {
     AllowTaggingTimesheet:boolean,
     DefaultTimeEntryAsBillable:boolean,
     DisplayLeaveApprover:boolean
+    ChartThemColors:string
     
    
   }
@@ -221,6 +223,59 @@ export interface ModuleModel{
   ModuleName: string
 }
 
+export interface ReportSummaryItem {
+  label: string;
+  value: number; 
+}
 
+export interface ReportData {
+  reportSummary: {
+    recordCount: number;
+    reportSummaryItems: ReportSummaryItem[] | null;
+  };
+  rows: {
+    cells: {
+      name: string;
+      value: string;
+      isNumericValue: boolean;
+      dataFormatter: any;
+      displayValue: string;
+    }[];
+  }[];
+}
 
- 
+export interface ReportModel {
+  chartType: string;
+  chartTypeColor: string | null;
+  chartTypeIconClass: string | null;
+  chartTypeId: number;
+  enableOnClickFunctionInMobile: boolean;
+  mobileAppCardIconURL: string | null;
+  mobileCompatible: boolean;
+  name: string | null;
+  reportData: ReportData | null; 
+  reportId: number;
+}
+
+export interface DashboardModel {
+  name: string;
+  content: ReportSummaryItem[] ;
+  recordCount:number|null
+  cardIconURL: string;
+  chartTypeId: number | null;
+  charTypeColor: string | null;
+  isClickAble: boolean;
+  rows:Row[]
+}
+
+interface Cell {
+  name: string;
+  value: string;
+  isNumericValue: boolean;
+  dataFormatter: any;
+  displayValue: string;
+}
+
+interface Row {
+  cells: Cell[];
+}
