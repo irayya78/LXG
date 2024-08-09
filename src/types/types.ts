@@ -22,10 +22,10 @@ export interface UserSessionDetails {
     TimerTimeInterval:Number,
     AllowTaggingTimesheet:boolean,
     DefaultTimeEntryAsBillable:boolean,
-    DisplayLeaveApprover:boolean
-    ChartThemColors:string
-    
-   
+    DisplayLeaveApprover:boolean,
+    ChartThemColors:string,
+    BackDateLeaveAllowedDays:number,
+    FutureDateLeaveAllowedDays:number
   }
 
   export interface LoginModel {

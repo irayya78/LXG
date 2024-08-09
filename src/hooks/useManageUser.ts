@@ -59,7 +59,10 @@ export const useManageUser = () => {
           AllowTaggingTimesheet:customer?.allowTaggingTimesheet,
           DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
           DisplayLeaveApprover:customer?.displayLeaveApprover||false,
-          ChartThemColors:customer?.chartTheme?.colorCodes||""
+          ChartThemColors:customer?.chartTheme?.colorCodes||"",
+          BackDateLeaveAllowedDays:customer?.disabledPastLeaveDays||0,
+          FutureDateLeaveAllowedDays:customer?.disabledFutureLeaveDays||0
+          
           
         };
 
@@ -137,7 +140,9 @@ export const useManageUser = () => {
           AllowTaggingTimesheet: customer?.allowTaggingTimesheet,
           DefaultTimeEntryAsBillable:customer?.defaultTimeEntryAsBillable,
           DisplayLeaveApprover:customer?.displayLeaveApprover||false,
-          ChartThemColors:customer?.chartTheme?.colorCodes||""
+          ChartThemColors:customer?.chartTheme?.colorCodes||"",
+          BackDateLeaveAllowedDays:customer?.disabledPastLeaveDays||0,
+          FutureDateLeaveAllowedDays:customer?.disabledFutureLeaveDays||0
         };
   
         setUserSession(userObj);

@@ -12,7 +12,7 @@ import ValidationMessage from '../../components/ValidationMessageProps';
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
 const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
-  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,sortDataByDate}=useUIUtilities();
+  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,sortDataByDate,convertToYYYYMMDD}=useUIUtilities();
   const [leaveId, setLeaveId] = useState<Number>(0);
   const [leaveTypeId, setLeaveTypeId] = useState<number>(0);
   const { getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList,getLeaves,getSummary} = useLeaveManagement();
@@ -36,8 +36,9 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const [leaveSummary, setLeaveSummary] = useState<any>({ credit: 0, deduct: 0, balance: 0 });
   const [validationMessage,setValidationMessage]=useState<string>("");
   const isLeaveApprover=session.user?.DisplayLeaveApprover;
-
-
+  const [maxDayAllowed,setMaxDayAllowed]=useState<string>("")
+  const [minDayAllowed,setMinDayAllowed]=useState<string>("")
+ 
 
   useEffect(() => {
     validateForm();
@@ -61,9 +62,27 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       setLeaveSummary(summary);
       await setLeaveData(leave);
       setIsLoading(false);
-      
+     
+      setMinAndMaxDate();
     })();
   });
+
+
+
+  const setMinAndMaxDate =  () =>{
+  
+        let startDate : Date = new Date()
+        startDate.setDate(startDate.getDate() - Number(session.user?.BackDateLeaveAllowedDays))
+        const dateToSet = convertToYYYYMMDD(startDate)
+        setMinDayAllowed(dateToSet)
+ 
+         let endDate : Date = new Date()
+         endDate.setDate(endDate.getDate() + Number(session.user?.FutureDateLeaveAllowedDays))
+        const endDateToSet = convertToYYYYMMDD(endDate)
+        setMaxDayAllowed(endDateToSet)
+  
+    
+  }
 
    const setLeaveData= async(lev: LeaveModel) => {
 
@@ -157,7 +176,6 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       isValid = false;
     }
 
-
     setDisableSaveButton(!isValid);
     return isValid;
 
@@ -201,6 +219,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
 
       const count = await getLeaveCount(model);
       setLeaveCount (count);
+      setAutoDescription(leaveTypeId, count);  // Automatically update the description when leave count changes
     } catch (error) {
       console.error("Error fetching leave count:", error);
     }
@@ -224,7 +243,13 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setApprovers([]);
   };
 
- 
+  const setAutoDescription = (leaveTypeId: number, leaveCount: Number) => {
+    const selectedLeaveType = leaveTypes.find(leave => leave.Value === leaveTypeId);
+    const leaveTypeName = selectedLeaveType?.Text || "Leave";
+    const autoDescription = `Requesting to grant ${leaveCount} day(s) of ${leaveTypeName}.`;
+    setDescription(autoDescription);
+  }
+
 
   return (
     <IonPage>
@@ -260,7 +285,9 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             placeholder="Choose Leave Type"
             okText="OK"
             cancelText="Cancel"
-            onIonChange={(e) => { setLeaveTypeId(e.detail.value); }}
+            onIonChange={(e) => { setLeaveTypeId(e.detail.value); 
+              setAutoDescription(e.detail.value, leaveCount);  // Automatically update the description when leave type changes
+            }}
           >
             {leaveTypes.map((leave) => (
               <IonSelectOption
@@ -281,6 +308,9 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             value={fromDate}
             defaultValue={fromDate}
             onIonChange={(e) => handleFromDate(e.detail.value as string)}
+          
+            min={minDayAllowed}
+            max={maxDayAllowed}
           >
           </IonInput>
 
@@ -308,6 +338,8 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             value={toDate}
             defaultValue={toDate}
             onIonChange={(e) => handleToDate(e.detail.value as string)}
+            max={maxDayAllowed}
+            min={minDayAllowed}
           />
 
           <IonSelect
