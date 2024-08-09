@@ -102,7 +102,7 @@
   flex-direction: column;
   justify-content: space-between;
   border:  1px solid #e4e4e4 ;
-  border-radius: 10%;
+  border-radius: 10px;
  
 }
 
@@ -117,14 +117,6 @@
 
 }
 
-.icon {
-  font-size: 1.5rem; /* Adjust the size of the icon */
-  margin-right: 8px; /* Space between icon and title */
-display: none;
-  color: #3dc2ff;
-  
-
-}
 
 .billable-hours, .nonbillable-hours, .exp-reimbursed {
   margin: 0; 
@@ -134,15 +126,13 @@ display: none;
 @media (max-width: 576px) {
   .dashboard-card-title {
     font-size: 1rem;
+    font-weight: bolder;
   }
 
-  .icon {
-    font-size: 1.5rem;
-  }
 }
 
 .Ionic-header{padding: 0px!important;}
-.Card-content{padding: 10px 15px; margin-top: 10px; color: #3880ff;}
+.Card-content{padding: 10px 15px; margin-top: 10px; color: rgb(105, 98, 98);}
 
 .validation-message {
   color: red;
@@ -591,18 +581,10 @@ margin: 5px;
   height: 80px;
 }
 
-<<<<<<< Updated upstream
-.bottom-content {
-  /* flex: none;
-  position: fixed;
-  bottom: 0;
-  width: 100%; */
-  background-color: rgb(231, 230, 230);
-}
 
 .button-group ion-button {
   flex: 1;
-  margin: 0 4px; /* Adjust margins for better spacing */
+  margin: 0 4px; 
 }
 
 .button-group {
@@ -620,16 +602,10 @@ margin: 5px;
 }
 
 .remove-border {
-  --inner-border-width: 0px !important; /* Remove the border for the specific class */
+  --inner-border-width: 0px !important; 
 }
 
-=======
-.clickIcon{
-position: fixed;
-float: right;
-right: 0px;
-font-size: small;
-}
->>>>>>> Stashed changes
+
+
 
 

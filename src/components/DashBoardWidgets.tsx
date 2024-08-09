@@ -9,9 +9,13 @@ interface DashboardCardProps {
   isClickAble: boolean;
   bgicon: string;
   onClick: (event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => void;
+  htmlData:any
 }
 
-const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, content, isClickAble, bgicon, onClick }) => (
+const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, content, isClickAble, bgicon, onClick,htmlData }) =>{
+
+ return(
+  
   <IonCard 
     button={isClickAble} 
     onClick={isClickAble ? onClick : onClick} 
@@ -27,17 +31,22 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, content, isClic
      {content.length >0  ? (
         content.map((item, index) => (
           <p key={index}>
-            <strong className=''>{item.label}:</strong> {item.value}
+            <strong className=''>{item.label}:</strong> {item.value} 
           </p>
         ))
       ) : (
-        <p>No data available</p>
+       <><div dangerouslySetInnerHTML={{ __html: htmlData }} /></>
       )}
+      
     </IonCardContent>
+    <div>
+    
+    </div>
     <div className='bgIcon'>
+      
       <img src={bgicon} alt="Background Icon" />
     </div>
   </IonCard>
 );
-
+}
 export default DashboardWidgets;

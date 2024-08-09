@@ -362,10 +362,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       setValidationMessage("Task is required!")
       isValid=false
     }
-   if(isCaptureTask && timeTrackingActivityId ===0){
-        setValidationMessage("Activity is required!")
-        isValid= false
-    }
+ 
     if(isBillable && billableHours === '00:00'){
      
       setValidationMessage("For a billable time entry billable time should be > 0")
@@ -377,6 +374,10 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       setValidationMessage("Total hours should be > 0")
       isValid= false
   }
+  if(isCaptureTask && timeTrackingActivityId ===0){
+    setValidationMessage("Activity is required!")
+    isValid= false
+}
     if(matterId  === 0){
        setValidationMessage("Select a Matter")
        isValid= false

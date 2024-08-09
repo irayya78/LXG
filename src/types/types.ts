@@ -229,6 +229,7 @@ export interface ReportSummaryItem {
 }
 
 export interface ReportData {
+  htmlData: any |null;
   reportSummary: {
     recordCount: number;
     reportSummaryItems: ReportSummaryItem[] | null;
@@ -266,6 +267,7 @@ export interface DashboardModel {
   charTypeColor: string | null;
   isClickAble: boolean;
   rows:Row[]
+  htmlData:any|null
 }
 
 interface Cell {

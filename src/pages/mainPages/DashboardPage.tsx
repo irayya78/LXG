@@ -87,7 +87,7 @@ console.log("render")
   }
   return (
     <IonPage style={{background:"#fff"}}>
-     
+     <IonLoading isOpen={ busy} message={"Please wait..."} />
       <IonHeader color="primary">
         <IonToolbar color="primary">
           <IonTitle>Dashboard</IonTitle>
@@ -110,6 +110,7 @@ console.log("render")
                 isClickAble={data.isClickAble}
                 bgicon={data.cardIconURL}   
                 content={data.content} 
+                htmlData={data.htmlData}
                 onClick={handelCardClick(data)} 
                 />
            

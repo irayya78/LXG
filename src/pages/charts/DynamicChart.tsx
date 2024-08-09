@@ -99,10 +99,13 @@ const session =useSessionManager();
 
   const renderChart = () => {
     if (!data) return null;
-    if (data.chartTypeId === 3) {
-      return <Pie data={chartData} options={options} />;
-    } else{
-      return <Bar  data={chartData} options={options} />;
+    if (data.chartTypeId === 6) {
+      return <Doughnut data={chartData} options={options} />;
+    } else if(data.chartTypeId===3){
+      return <Pie  data={chartData} options={options} />;
+    }else{
+     return <Bar data={chartData} options={options}></Bar>
+     
     }
    
   };
@@ -122,7 +125,7 @@ const session =useSessionManager();
       <IonContent>
         <IonLoading isOpen={loading} message="Please wait..." />
         {!loading && (
-          <div style={{ height: "300px", padding: "20px" }}>
+          <div style={{ height: "400px", padding: "30px" }}>
             {renderChart()}
            {/* <small>{data?.recordCount}</small> */}
           </div>

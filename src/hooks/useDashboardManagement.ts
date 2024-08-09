@@ -1,6 +1,6 @@
 import axiosInstance from "../apiHelper/axiosInstance";
 import { useSessionManager } from "../sessionManager/SessionManager";
-import { DashboardModel, ReportModel, UserSessionDetails } from "../types/types";
+import { DashboardModel, ReportModel, ReportSummaryItem, UserSessionDetails } from "../types/types";
 
 export function useDashboardManagement() {
 
@@ -43,21 +43,31 @@ const getUserDashboardData = async  () : Promise<any> => {
   
     const reportSummaryItems = report.reportData.reportSummary?.reportSummaryItems || [];
     const rows = report.reportData.rows || [];
-
+  
+    // const rowContent: ReportSummaryItem[] = rows.map(row => {
+    //   const label = row.cells.map(cell => cell.displayValue).join(" - ");
+    //   return {
+    //     label: label,
+      
+    //   } as ReportSummaryItem;
+    // });
+  
+    const content: ReportSummaryItem[] = [...reportSummaryItems];
   
     return {
       name: report.name ?? "Unknown",
-      recordCount:report.reportData?.reportSummary?.recordCount||0,
-      content: reportSummaryItems, 
+      recordCount: report.reportData?.reportSummary?.recordCount || 0,
+      content: content,
       cardIconURL: report.mobileAppCardIconURL ?? "",
       chartTypeId: report.chartTypeId ?? null,
       charTypeColor: report.chartTypeColor ?? null,
-       isClickAble: report.enableOnClickFunctionInMobile,
-       rows: rows
-       
-       
+      isClickAble: report.enableOnClickFunctionInMobile,
+      rows: rows,
+     htmlData:report?.reportData?.htmlData ?? null
     };
   };
+  
+  
   
 
 
