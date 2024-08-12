@@ -8,6 +8,7 @@ import { useUIUtilities } from '../../hooks/useUIUtilities';
 import ApproverList from '../../components/SearchUserProps';
 import useExpenseManagement from "../../hooks/useExpenseManagement";
 import ValidationMessage from '../../components/ValidationMessageProps';
+import { messageManager } from '../../components/MassageManager';
 
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
@@ -36,13 +37,14 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const [leaveSummary, setLeaveSummary] = useState<any>({ credit: 0, deduct: 0, balance: 0 });
   const [validationMessage,setValidationMessage]=useState<string>("");
   const isLeaveApprover=session.user?.DisplayLeaveApprover;
+  const { showToastMessage } = messageManager();
   const [maxDayAllowed,setMaxDayAllowed]=useState<string>("")
   const [minDayAllowed,setMinDayAllowed]=useState<string>("")
  
 
   useEffect(() => {
     validateForm();
-  }, [leaveTypeId,description,toDate,fromDate,ApproverId]);
+  }, [leaveTypeId,description,toDate,fromDate]);
 
   useIonViewDidEnter(() => {
     (async () => {
@@ -115,7 +117,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     if (!validateForm) {
       return;
     }
-
+    
     const leave :LeaveModel = getBlankLeaveObject()     
     {
       leave.UserId = Number(session.user?.UserId)
@@ -130,12 +132,14 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       leave.Description = description
       leave.ApproverId = Number(ApproverId)
     }
-    setIsLoading(true);
+
     try {
-   
+      setIsLoading(true);
+      
       const saved = await saveLeave(leave);
       if (saved) {
-        navigation.push("/layout/leave",'forward','push');
+        navigation.push("/layout/leave");
+        showToastMessage("Leave saved successfully!");
       } else {
         console.error("Failed to save leave");
       }
@@ -234,7 +238,6 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       setApprovers(approversList);
     } else {
       setApprovers([]);
-     
     }
   };
 
@@ -242,8 +245,6 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setSelectedApproverId(selectedApprover.UserId);
     setApproverName(selectedApprover.FullName);
     setApprovers([]);
-   
-    
   };
 
   const setAutoDescription = (leaveTypeId: number, leaveCount: Number) => {
@@ -311,7 +312,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             value={fromDate}
             defaultValue={fromDate}
             onIonChange={(e) => handleFromDate(e.detail.value as string)}
-           
+          
             min={minDayAllowed}
             max={maxDayAllowed}
           >
