@@ -6,6 +6,8 @@ import useExpenseManagement from '../../hooks/useExpenseManagement';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { checkmarkCircleOutline, closeOutline, colorFill } from 'ionicons/icons';
 import useApprovalManagement from '../../hooks/useApprovalManagement';
+import { useUIUtilities } from '../../hooks/useUIUtilities';
+import { messageManager } from '../../components/MassageManager';
 
 
 interface ViewApprovalParams extends RouteComponentProps<{type: string; id: string; }> {}
@@ -14,12 +16,13 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
     const {getExpense,getBlankExpenseObject} = useExpenseManagement();
     const [expense, setExpense] = useState<ExpenseModel>(getBlankExpenseObject())
-    const { getBlankLeaveObject,getLeave,getLeaveStatusColor} = useLeaveManagement();
+    const { getBlankLeaveObject,getLeave} = useLeaveManagement();
     const [leave, setLeave] = useState<LeaveModel>(getBlankLeaveObject());
     const [isExpense ,setType] = useState<boolean>(false);
     const navigation = useIonRouter();
     const [comment, setComment] = useState<string>('');
     const {expenseApprovalAction,leaveApprovalAction} = useApprovalManagement();
+    const{showToastMessage}=messageManager()
 
     useIonViewDidEnter(() => {
         (async () => {
@@ -42,16 +45,19 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
         let isSuccess = false; 
         if(isExpense){
             const expenseAprroval = await expenseApprovalAction(id,statusId,commentToUse);
-            isSuccess = expenseAprroval;            
+            isSuccess = expenseAprroval; 
+                 
         }
         else{
             const leaveAprroval = await leaveApprovalAction(id,statusId,commentToUse);
             isSuccess = leaveAprroval;
         }
         if (isSuccess) {
-            navigation.push("/layout/view-approvals");
+            navigation.push("/layout/dashboard/view-approvals",'forward','push');
+            showToastMessage('Action Successfully Done')
+            
           } else {
-            console.error("Failed to save leave");
+            navigation.push("/layout/dashboard/view-approvals",'back');
           }  
       }
 

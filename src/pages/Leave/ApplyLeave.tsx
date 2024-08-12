@@ -130,12 +130,12 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       leave.Description = description
       leave.ApproverId = Number(ApproverId)
     }
-
+    setIsLoading(true);
     try {
-      setIsLoading(true);
+   
       const saved = await saveLeave(leave);
       if (saved) {
-        navigation.push("/layout/leave");
+        navigation.push("/layout/leave",'forward','push');
       } else {
         console.error("Failed to save leave");
       }
