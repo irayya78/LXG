@@ -127,7 +127,7 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
                     </IonItem>
                     
                     <IonItem className='remove-border comments' color={'comments'}>
-                        <IonLabel position="stacked">Comment</IonLabel>
+                        <IonLabel position="stacked" className='large-text'>Comment</IonLabel>
                         <IonTextarea
                             value={comment}
                             placeholder="Enter min 5 characters"

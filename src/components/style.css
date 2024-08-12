@@ -600,7 +600,12 @@ margin: 5px;
   border-radius: 10px; 
   box-shadow:  0 10px 6px -6px #777;
 }
-
+.remove-border {
+  --inner-border-width: 0px;
+}
+.large-text {
+  font-size: 1.3em !important; 
+}
 
 
 
