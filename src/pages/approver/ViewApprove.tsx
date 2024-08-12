@@ -62,16 +62,16 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
             <IonHeader>
                 <IonToolbar color="secondary">
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="/layout/view-approvals" />
+                        <IonBackButton defaultHref="/layout/dashboard/view-approvals" />
                     </IonButtons>
-                    <IonTitle></IonTitle>
+                    <IonTitle>Approver Details</IonTitle>
                 </IonToolbar>
             </IonHeader>
 
             <IonContent>
                 <IonLoading isOpen={isLoading} message={'Please wait...'}duration={0}/>
                 
-                <IonList>
+                <IonList className='detail-none'>
                     <IonItem>
                         <IonLabel>Submitted By</IonLabel>
                         <IonLabel>{isExpense ? expense.CreatedByName : leave.UserName }</IonLabel>

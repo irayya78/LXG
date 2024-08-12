@@ -26,7 +26,6 @@ const LeavePage: React.FC = () => {
     const [deduct, setDeduct] = useState<number>(0);
     const [balance, setBalance] = useState<number>(0);
     const {sortDataByDate} = useUIUtilities();
-    const isIos = isPlatform('ios');
     const { showToastMessage, showAlertMessage } = messageManager();
     const [ leaveToDelete, setLeaveToDelete] = useState<LeaveModel | null>(null);
     const [showAlert, setShowAlert] = useState(false);
@@ -84,7 +83,7 @@ const LeavePage: React.FC = () => {
     const confirmDeleteLeave = async () => {
         if (leaveToDelete) {
             try {
-                await deleteLeave(leaveToDelete.LeaveId);
+               await deleteLeave(leaveToDelete.LeaveId);
                 showToastMessage("Leave deleted successfully!");
                 setLeaves(leaves.filter(e => e.LeaveId !== leaveToDelete.LeaveId));
                 navigation.push('/layout/leave','back','push');
@@ -102,23 +101,7 @@ const LeavePage: React.FC = () => {
         
         <IonPage>
             
-            <IonMenu maxEdgeStart={40} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
-        <IonHeader>
-          <IonToolbar color="primary">
-            <IonTitle>Holiday List</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {holidays.map((holiday, index) => (
-              <IonItem key={index}>
-                <IonLabel><IonIcon color='warning' size="small" icon={starSharp}/>&nbsp;<span className='small-font' slot=''>{`${holiday.HolidayName}`}</span></IonLabel>
-                <IonLabel><span slot=''>{`${holiday.HolidayDate}`}</span></IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </IonContent>
-      </IonMenu>
+     
 
             <IonHeader>
                 <IonToolbar color="primary">
@@ -181,7 +164,7 @@ const LeavePage: React.FC = () => {
                        </IonItemSliding>
                         ))}
                         
-                        
+                       
                     </IonList>
                     {/* <IonLoading isOpen={isLoading} message={'Please wait...'} duration={0} /> */}
 
@@ -210,6 +193,23 @@ const LeavePage: React.FC = () => {
             </IonContent>
             
             <FabMenu />
+            <IonMenu maxEdgeStart={20} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
+        <IonHeader>
+          <IonToolbar color="primary">
+            <IonTitle>Holiday List</IonTitle>
+          </IonToolbar>
+        </IonHeader>
+        <IonContent>
+          <IonList>
+            {holidays.map((holiday, index) => (
+              <IonItem key={index}>
+                <IonLabel><IonIcon color='warning' size="small" icon={starSharp}/>&nbsp;<span className='small-font' slot=''>{`${holiday.HolidayName}`}</span></IonLabel>
+                <IonLabel><span slot=''>{`${holiday.HolidayDate}`}</span></IonLabel>
+              </IonItem>
+            ))}
+          </IonList>
+        </IonContent>
+      </IonMenu>
         </IonPage>
         
       

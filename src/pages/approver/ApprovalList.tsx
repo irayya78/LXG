@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from "@ionic/react";
+import { IonBackButton, IonButtons, IonContent, IonHeader, IonIcon, IonItem, IonLabel, IonList, IonLoading, IonPage, IonText, IonTitle, IonToolbar, isPlatform, useIonRouter, useIonViewDidEnter } from "@ionic/react";
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useApprovalManagement from '../../hooks/useApprovalManagement';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
@@ -12,7 +12,7 @@ const  ApprovalList: React.FC = () => {
     const { formatDateToDDMMYYYY} = useUIUtilities();
     const [approvals, setApprovals] = useState<NotificationModel[]>([]);
     const navigation = useIonRouter();
-
+    const isIos = isPlatform('ios');
     const expenseCount = approvals.filter(approval => approval.Type === 'Exp').length;
     const leaveCount = approvals.filter(approval => approval.Type !== 'Exp').length;
 
@@ -38,7 +38,7 @@ const  ApprovalList: React.FC = () => {
     }
 
     const viewApprove = (Id: Number,Type: string):void => {
-         navigation.push(`/layout/approval/view/${Type}/${Id}`, 'forward', 'push');
+         navigation.push(`/layout/dashboard/approval/view/${Type}/${Id}`, 'forward', 'push');
     }
     return (
         <IonPage>
@@ -70,7 +70,7 @@ const  ApprovalList: React.FC = () => {
                         <IonItem className='ion-text-wrap' key={approval.Id.toString()} button  onClick={() => viewApprove(approval.Id,approval.Type)}>
                             
                             <IonText className="total-time time-text" slot="end"> {approval.Description}</IonText>
-                             {/* <IonIcon slot='end' icon={chevronForwardOutline }></IonIcon> */}
+
                             
                             <IonLabel className="ion-text-wrap">
                                 <span className="font-bold action-item"><IonIcon  icon={approval.Type === 'Exp' ?  cashOutline: calendarOutline}/> {approval.Type}</span>
@@ -79,8 +79,10 @@ const  ApprovalList: React.FC = () => {
                                 <span className="work-done-desc"><IonIcon icon={personCircleOutline}/> {approval.Name}</span>
                                 
                             </IonLabel>
+                            {isIos ? null : <IonIcon className="action-item" icon={chevronForwardOutline} slot="end" />}
                         </IonItem>
                     ))}
+          
                     </IonList>
                 </CommonPullToRefresh>
             </IonContent>

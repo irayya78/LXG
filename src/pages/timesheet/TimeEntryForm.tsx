@@ -104,7 +104,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
   useEffect(()=>{
     validateForm();
-  },[description, taskVisible, matterTaskId, isCaptureTask, timeTrackingActivityId, isBillable, billableHours, totalHours, matterId])
+  },[description, taskVisible, matterTaskId, isCaptureTask, timeTrackingActivityId, isBillable, billableHours, totalHours, matterId,trackingDate])
 
   console.log("renderTime",);
   //resting state's after saving the time
@@ -377,7 +377,11 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   if(isCaptureTask && timeTrackingActivityId ===0){
     setValidationMessage("Activity is required!")
     isValid= false
-}
+  }
+  if(!trackingDate){
+    setValidationMessage("Select a Date!")
+    isValid =false
+  }
     if(matterId  === 0){
        setValidationMessage("Select a Matter")
        isValid= false

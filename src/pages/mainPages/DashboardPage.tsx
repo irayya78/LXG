@@ -98,7 +98,7 @@ console.log("render")
       </IonHeader>
       <CommonPullToRefresh onRefresh={renderDashboardData}>
       <IonContent className="page-content">
-      <IonButton  fill="clear" color={"primary"} size="small" shape="round" slot="" onClick={(e)=>{navigation.push('/layout/view-approvals','forward')}}><IonIcon icon={notificationsCircle}></IonIcon></IonButton>
+      <IonButton  fill="clear" color={"primary"} size="small" shape="round" slot="" onClick={(e)=>{navigation.push('/layout/dashboard/view-approvals','forward','push')}}><IonIcon icon={notificationsCircle}></IonIcon></IonButton>
       <div className="ion-padding" style={{ textAlign: 'center' }}>
       <h2 className="greeting-text">{greeting}, {session.user?.FirstName}</h2>
       <small style={{ display: 'block', fontSize: '0.6em', marginTop: '0',color:'gray' }}>{currentDate}</small>

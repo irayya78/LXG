@@ -42,7 +42,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
 
   useEffect(() => {
     validateForm();
-  }, [leaveTypeId,description,toDate,fromDate]);
+  }, [leaveTypeId,description,toDate,fromDate,ApproverId]);
 
   useIonViewDidEnter(() => {
     (async () => {
@@ -234,6 +234,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       setApprovers(approversList);
     } else {
       setApprovers([]);
+     
     }
   };
 
@@ -241,6 +242,8 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     setSelectedApproverId(selectedApprover.UserId);
     setApproverName(selectedApprover.FullName);
     setApprovers([]);
+   
+    
   };
 
   const setAutoDescription = (leaveTypeId: number, leaveCount: Number) => {
@@ -308,7 +311,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             value={fromDate}
             defaultValue={fromDate}
             onIonChange={(e) => handleFromDate(e.detail.value as string)}
-          
+           
             min={minDayAllowed}
             max={maxDayAllowed}
           >

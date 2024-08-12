@@ -82,7 +82,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   useEffect(() => {
     validateForm();
     console.log(matterId)
-  }, [expenseCategoryId, matterId, amount, description,ApproverId,expenseReceiptDoc,expenseDate]);
+  }, [expenseCategoryId, matterId, amount, description,ApproverId,expenseReceiptDoc,expenseDate,billRequired]);
 
   //FOR SAVING THE EXPENSE
  const saveNewExpense = async () => {
@@ -102,7 +102,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   formData.append("CreatedBy", session.user?.UserId.toString() || "");
   formData.append("BillableToClient", billableToClient ? "true" : "false");
   formData.append("ApproverId", ApproverId?.toString() || "");
-console.log(matterId)
+
   // Append photos to FormData
   expenseReceiptDoc.forEach((file: File) => {
     formData.append("FileToUpload", file);
@@ -116,7 +116,7 @@ console.log(matterId)
     if (saved) {
       navigation.push('/layout/expense','back','push');
     } else {
-      console.error("Failed to save expense");
+      navigation.push('/layout/expense','back','push');
     }
   } catch (error) {
     console.error("Error saving expense:", error);
@@ -187,8 +187,8 @@ console.log(matterId)
   // Save button enable and disable function 
   const validateForm = () => {
     let isValid = true;
-    setValidationMessage("")
-    if(billRequired&&expenseReceiptDoc.length <=0){
+     setValidationMessage("")
+    if(billRequired&&expenseReceiptDoc.length <= 0 ){
       setValidationMessage ("Bill is required in this category!");
       isValid = false;
     }
@@ -291,12 +291,14 @@ console.log(matterId)
   
 
   const handleCategoryChange= async(categoryId:number)=>{
-       
+       console.log("categoryId",categoryId)
        setExpenseCategoryId(categoryId);
        setDescriptionForCategories(categoryId);
        const data:CategoryData=  await getCategoryDetails(categoryId);
        setBillableToClient(data.billableToClient);
        setBillRequired(data.billRequired) 
+      
+
   }
 
   return (
@@ -362,7 +364,7 @@ console.log(matterId)
             okText="OK"
             cancelText="Cancel"
             onIonChange={(e:any) => {
-              handleCategoryChange(e.detail.value)
+              handleCategoryChange(e.target.value)
             }}
           >
             {expenseCategories.map((expCategory) => (

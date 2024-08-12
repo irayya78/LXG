@@ -185,9 +185,6 @@ const ExpensePage: React.FC = () => {
                               <IonLabel className='filterName'>{selectedPeriod}</IonLabel>
                         </IonButton>
                         </IonButtons>
-                        
-                       
-
 
             </IonToolbar>
             </IonHeader>
@@ -256,11 +253,6 @@ const ExpensePage: React.FC = () => {
                </CommonPullToRefresh>
             </IonContent>
         
-            {/* <IonFab vertical="bottom" horizontal="end" slot="fixed">
-          <IonFabButton onClick={(e)=>{navigation.push("/layout/expense/create" ,"forward")}}>
-          <IonIcon icon={add} />
-         </IonFabButton>
-          </IonFab> */}
           <FabMenu/>
             <IonAlert
                         isOpen={showAlert}
