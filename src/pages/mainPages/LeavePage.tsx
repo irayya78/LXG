@@ -11,11 +11,12 @@ import MyProfileHeader from '../../components/MyProfileHeader';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { HolidayListModel, LeaveModel } from '../../types/types';
-import { calendarOutline, checkmarkCircle, informationCircleOutline, pencil, starSharp, trash } from 'ionicons/icons';
+import { calendarClear, calendarNumber, calendarNumberOutline, calendarOutline, checkmarkCircle, flag, flame, happySharp, informationCircleOutline, leaf, leafOutline, leafSharp, moonSharp, pencil, snowOutline, starSharp, sunnySharp, trash } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { isPlatform } from '@ionic/react';
 import { messageManager } from '../../components/MassageManager';
+import { fireEvent } from '@testing-library/react';
 
 const LeavePage: React.FC = () => {
     const navigation = useIonRouter();
@@ -118,7 +119,7 @@ const LeavePage: React.FC = () => {
                     </IonLabel>
 
                     <IonButtons slot='end' className='btns'>
-                        <IonMenuButton className='customIonMenuButton'/>
+                        <IonMenuButton><IonIcon className="customMenuBtn" icon={calendarOutline}></IonIcon></IonMenuButton>
                     </IonButtons>
                 </IonToolbar>
             </IonHeader>
@@ -194,22 +195,24 @@ const LeavePage: React.FC = () => {
             
             <FabMenu />
             <IonMenu maxEdgeStart={20} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
-        <IonHeader>
-          <IonToolbar color="primary">
-            <IonTitle>Holiday List</IonTitle>
-          </IonToolbar>
-        </IonHeader>
-        <IonContent>
-          <IonList>
-            {holidays.map((holiday, index) => (
-              <IonItem key={index}>
-                <IonLabel><IonIcon color='warning' size="small" icon={starSharp}/>&nbsp;<span className='small-font' slot=''>{`${holiday.HolidayName}`}</span></IonLabel>
-                <IonLabel><span slot=''>{`${holiday.HolidayDate}`}</span></IonLabel>
-              </IonItem>
-            ))}
-          </IonList>
-        </IonContent>
-      </IonMenu>
+                <IonHeader>
+                    <IonToolbar color="primary">
+                        <IonTitle>Holiday's</IonTitle>
+                    </IonToolbar>
+                </IonHeader>
+
+                <IonContent>
+                    <IonList>
+                        {holidays.map((holiday, index) => (
+                        <IonItem key={index}>                
+                                <IonIcon size='small' icon={snowOutline} style={{ paddingRight: '3px' }} color='warning'/>  
+                                <IonLabel className='font-bold text-ellipses action-item' color="primary">{`${holiday.HolidayName}`}</IonLabel>
+                                <IonLabel className="small-font" style={{color:'grey'}} slot='end'>{`${holiday.HolidayDate}`}</IonLabel>
+                        </IonItem>
+                        ))}
+                    </IonList>
+                </IonContent>
+            </IonMenu>                            
         </IonPage>
         
       

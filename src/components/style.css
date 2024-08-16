@@ -606,7 +606,22 @@ margin: 5px;
 .large-text {
   font-size: 1.3em !important; 
 }
+.text-ellipses {
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  max-width: fit-content;
+}
 
+.align-center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 10%; /* Ensures that the content is centered within the full width */
+}
+.customMenuBtn{
+  font-size:smaller !important;
+}
 
 
 
