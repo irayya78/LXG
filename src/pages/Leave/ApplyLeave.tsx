@@ -233,11 +233,12 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   //For searching Approver's
   const searchApprovers = async (searchValue: string) => {
     setApproverName(searchValue);
-    if (searchValue.length > 2) {
+    if (searchValue.length > 3) {
       const approversList = await searchUsers(searchValue);
       setApprovers(approversList);
     } else {
       setApprovers([]);
+      setSelectedApproverId(0);
     }
   };
 

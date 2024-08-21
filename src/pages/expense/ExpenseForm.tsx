@@ -202,6 +202,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   
     if(displayApprover&&ApproverId!<=0){
       setValidationMessage("Select a Approver!");
+      isValid = false;
     }
     if (!expenseDate) {
      setValidationMessage("Select a Date!");
@@ -239,11 +240,13 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   //For searching Approver's
   const searchApprovers = async (searchValue: string) => {
     setApproverSearch(searchValue);
-    if (searchValue.length > 2) {
+    if (searchValue.length > 3) {
       const approversList = await searchUsers(searchValue);
       setApprovers(approversList);
     } else {
       setApprovers([]);
+      setSelectedApproverId(0)
+      
     }
   };
 
