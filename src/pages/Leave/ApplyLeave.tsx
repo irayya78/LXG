@@ -32,7 +32,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const [disableSaveButton, setDisableSaveButton] = useState<boolean>(true);
   const {searchUsers } = useExpenseManagement();
   const [approvers, setApprovers] = useState<UserModel[]>([]);
-  const [ApproverId, setSelectedApproverId] = useState<number | null>(null);
+  const [ApproverId, setSelectedApproverId] = useState<number>(0);
   const [approverName,setApproverName] = useState<string>('');
   const [leaveSummary, setLeaveSummary] = useState<any>({ credit: 0, deduct: 0, balance: 0 });
   const [validationMessage,setValidationMessage]=useState<string>("");
@@ -44,7 +44,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
 
   useEffect(() => {
     validateForm();
-  }, [leaveTypeId,description,toDate,fromDate]);
+  }, [leaveTypeId,description,toDate,fromDate,ApproverId]);
 
   useIonViewDidEnter(() => {
     (async () => {

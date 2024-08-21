@@ -59,7 +59,7 @@ const MatterPage: React.FC = () => {
                  <IonIcon icon={calendarOutline}/> {matter.OpenDate} | {matter.PracticeArea}
                 </h5>
                
-                <h2 className="small-font"><IonIcon icon={personCircleOutline}/>&nbsp;{matter.ClientName}</h2>
+                <h2 className="small-font ellipsis"><IonIcon icon={personCircleOutline}/>&nbsp;{matter.ClientName}</h2>
               </IonLabel>
             </IonItem>
           ))}

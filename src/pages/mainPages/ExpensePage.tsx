@@ -206,7 +206,7 @@ const ExpensePage: React.FC = () => {
                                         <span className="work-done-desc">
                                             <IonIcon icon={calendarOutline} /> {expense.Date} - {expense.ExpenseCategory} {expense.PaymentId>0 ?<small  className ="billable-hours">-PAID</small>:null}
                                         </span>
-                                        <h2 className="small-font"><IonIcon icon={personCircleOutline} />&nbsp;{expense.Client}</h2>
+                                        <h2 className="small-font ellipsis"><IonIcon icon={personCircleOutline} />&nbsp;{expense.Client}</h2>
                                     </IonLabel>
                                     <IonText className="time-text" slot="end">
                                         <p className="total-time">{expense.AmountToDisplay}</p>
