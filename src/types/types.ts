@@ -228,11 +228,16 @@ export interface ReportSummaryItem {
   value: number; 
 }
 
+export interface FormattedSummery{
+
+  ROWHTML:string[]
+}
 export interface ReportData {
   htmlData: any |null;
   reportSummary: {
     recordCount: number;
     reportSummaryItems: ReportSummaryItem[] | null;
+    formattedSummary:FormattedSummery[]
   };
   rows: {
     cells: {
@@ -260,7 +265,7 @@ export interface ReportModel {
 
 export interface DashboardModel {
   name: string;
-  content: ReportSummaryItem[] ;
+  content: FormattedSummery[];
   recordCount:number|null
   cardIconURL: string;
   chartTypeId: number | null;

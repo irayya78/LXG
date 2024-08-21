@@ -15,14 +15,13 @@ import {
   IonTabButton,
   IonToggle
 } from '@ionic/react';
-import { eyeOffOutline, eyeOutline } from 'ionicons/icons';
+import { eyeOffOutline, eyeOutline, image } from 'ionicons/icons';
 import { useManageUser } from '../../hooks/useManageUser';
 // import './login.css';
 import { Link } from 'react-router-dom';
 import { useSessionManager } from '../../sessionManager/SessionManager';
-import { messageManager } from '../../components/MassageManager';
 
-
+import LoginLogo from './LoginLogo';
 const LoginPage: React.FC = () => {
   const { loginInfo, setLoginInfo } = useSessionManager();
   const [username, setUsername] = useState(loginInfo?.username || '');
@@ -44,14 +43,16 @@ const LoginPage: React.FC = () => {
     await handleLogin(username, password, setIsLoading, setShowAlert, setAlertMessage);
   };
 
+ 
+
   return (
     <IonPage>
-      <IonContent className="ion-padding login-content" scroll-y="false" ion-fixed>
+      <IonContent className="ion-padding login-content" >
         
           <IonCard className="login-card">
             <IonCardContent class="card-content">
               <div className="login-logo-container">
-                <img className="login-logo" alt="LegalXGen Logo" src="https://lx2.legalxgen.com/images/logo.png" />
+               <LoginLogo/>
               </div>
               <IonLabel className='lablesLogin' >Username</IonLabel>
               <IonItem className="texts">
@@ -71,7 +72,6 @@ const LoginPage: React.FC = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={password}
                   onIonInput={(e) => setPassword(e.detail.value!)}
-                  //clearInput
                   required
                 />
                 <IonButton fill="clear" slot="end" onClick={() => setShowPassword(!showPassword)}>
@@ -83,11 +83,13 @@ const LoginPage: React.FC = () => {
               <IonCheckbox
                  title='Remember me'
                  color={"success"}
-                 
+                labelPlacement='fixed'
                   checked={rememberMe}
                   onIonChange={(e) => setRememberMe(e.detail.checked)}
                 />
-               <span className='lablesLogin'>Remember me ?</span>
+                <div>
+               <span style={{color:"white",fontSize:"14px",marginTop:"1px"}}> Remember me ?</span>
+               </div>
                
              
                 </div>

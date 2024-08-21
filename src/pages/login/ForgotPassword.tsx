@@ -5,6 +5,7 @@ import { useManageUser } from '../../hooks/useManageUser';
 // import './forgotPassword.css';
 import { UserModel } from '../../types/types';
 import { useHistory } from 'react-router-dom';
+import LoginLogo from './LoginLogo';
 
 const ForgotPasswordPage: React.FC = () => {
 
@@ -50,7 +51,7 @@ const ForgotPasswordPage: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <div className="loginlogo">
-          <img alt="LegalXGen Logo" src="https://lx2.legalxgen.com/images/logo.png" />
+        <LoginLogo/>
         </div>
         <div className="inputarea">
       <IonText className="reset-pwd-text">Enter your email we'll help you to reset your password.</IonText>

@@ -4,7 +4,7 @@ import { RouteComponentProps } from 'react-router';
 import { ExpenseModel, LeaveModel } from '../../types/types';
 import useExpenseManagement from '../../hooks/useExpenseManagement';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
-import { checkmarkCircleOutline, closeOutline, colorFill } from 'ionicons/icons';
+import { checkmark, checkmarkCircle, checkmarkCircleOutline, closeCircle, closeOutline, colorFill } from 'ionicons/icons';
 import useApprovalManagement from '../../hooks/useApprovalManagement';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { messageManager } from '../../components/MassageManager';
@@ -137,8 +137,8 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
                     </IonItem>
 
                     <IonItem className="button-group remove-border">
-                        <IonButton expand="full" onClick={() => doApprovalAction(match.params.id,4)} color="danger"> <IonIcon slot="start" icon={closeOutline}  />Reject</IonButton>
-                        <IonButton expand="full" onClick={() => doApprovalAction(match.params.id,3)} color="success"><IonIcon slot="start" icon={checkmarkCircleOutline}  />Approve</IonButton>
+                        <IonButton shape='round' expand="block" onClick={() => doApprovalAction(match.params.id,4)} color="danger"> <IonIcon slot="start" icon={closeCircle}  />Reject</IonButton>
+                        <IonButton shape='round' expand="block" onClick={() => doApprovalAction(match.params.id,3)} color="success"><IonIcon color='light' slot="start" icon={checkmarkCircle}  />Approve</IonButton>
                     </IonItem>
                 </IonList>
             </IonContent>

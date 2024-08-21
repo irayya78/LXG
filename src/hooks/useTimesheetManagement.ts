@@ -284,7 +284,7 @@ const navigateCalendar = async(selectedDate: string, navDirection: number) : Pro
 const getTimesheetReport = async(groupById : number, dateFilterId: number) : Promise<any[]> =>{
 
     const resp = await axiosInstance.post("/GetTimesheetReport/" + session.user?.CustomerId + "/" + session.user?.UserId + "/" + groupById + "/" + dateFilterId)
-    
+    console.log("timesheet Respone from srver:-",resp.data);
     if(resp.data != null){   
         
         let tsArray : any[] = [];

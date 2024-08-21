@@ -1,11 +1,11 @@
 import React from 'react';
 import { IonCard, IonCardHeader, IonCardTitle, IonCardContent, IonIcon } from '@ionic/react';
 import { expandOutline } from 'ionicons/icons';
-import { ReportSummaryItem } from '../types/types';
+import { FormattedSummery, ReportSummaryItem } from '../types/types';
 
 interface DashboardCardProps {
   title: string;
-  content: ReportSummaryItem[];
+  content: FormattedSummery[];
   isClickAble: boolean;
   bgicon: string;
   onClick: (event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => void;
@@ -28,16 +28,9 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title, content, isClic
       </IonCardTitle>
     </IonCardHeader>
     <IonCardContent className="Card-content">
-     {content.length >0  ? (
-        content.map((item, index) => (
-          <p key={index}>
-            <strong className=''>{item.label}:</strong> {item.value} 
-          </p>
-        ))
-      ) : (
-       <><div dangerouslySetInnerHTML={{ __html: htmlData }} /></>
-      )}
-      
+      {content.map((content, index) => (
+        <div key={index} dangerouslySetInnerHTML={{ __html: content }} />
+      ))}
     </IonCardContent>
     <div>
     

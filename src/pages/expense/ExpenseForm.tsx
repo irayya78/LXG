@@ -69,6 +69,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const { getCurrentDateAsYYYYMMDD, convertDateToYYYYMMDD } = useUIUtilities();
   const [busy, setBusy] = useState<boolean>(false);
   const [expenseReceiptDoc, setExpenseReceiptDoc] = useState<File[]>([]);
+  const [documentLength,setDocumentLength]=useState<number>(0);
   const [disableSaveButton, setDisableSaveButton] = useState<boolean>(true);
   const [approvers, setApprovers] = useState<UserModel[]>([]);
   const [approverSearch, setApproverSearch] = useState<string>("");
@@ -161,6 +162,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
     setBillableToClient(expense.BillableToClient);
     setSelectedApproverId(expense.ApproverId);
     setApproverSearch(expense.ApproverName)
+    setDocumentLength(expense.ExpenseDocuments.length)
   };
 
 
@@ -187,8 +189,9 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   // Save button enable and disable function 
   const validateForm = () => {
     let isValid = true;
+    console.log("value of Doc Length:-",documentLength);
      setValidationMessage("")
-    if(billRequired&&expenseReceiptDoc.length <= 0 ){
+    if(billRequired&&expenseReceiptDoc.length <= 0&& documentLength <= 0){
       setValidationMessage ("Bill is required in this category!");
       isValid = false;
     }

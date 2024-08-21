@@ -19,7 +19,7 @@ import {
     useIonRouter,
     useIonViewDidEnter,
   } from '@ionic/react';
-  import { trashOutline, pencilOutline, personAddOutline, closeCircleOutline, pricetagSharp, pricetagsOutline, pricetagOutline, backspace, arrowBackSharp, arrowBack } from 'ionicons/icons';
+  import { trashOutline, pencilOutline, personAddOutline, closeCircleOutline, pricetagSharp, pricetagsOutline, pricetagOutline, backspace, arrowBackSharp, arrowBack, closeSharp } from 'ionicons/icons';
   import React, { useState } from 'react';
   import { TimesheetModel, UserModel } from '../../types/types';
   import { useTimesheetManagement } from '../../hooks/useTimesheetManagement';
@@ -245,13 +245,13 @@ import {
             <IonHeader >
               <IonToolbar color="primary" >
                 <IonButtons slot="start">
-                  <IonButton onClick={() => setShowUserSearch(false)}>Close</IonButton>
+                  <IonButton onClick={() => setShowUserSearch(false)}><IonIcon icon={closeSharp}></IonIcon></IonButton>
                  
                 </IonButtons>
-                <IonButton slot='end'
+                <IonButton slot='end' shape='round'  expand='block' 
                  disabled={selectedUsers.length===0} 
                  onClick={() => handleSelectUsers(selectedUsers)
-                
+                 
                 }>Save</IonButton>
 
                

@@ -1,6 +1,6 @@
 import axiosInstance from "../apiHelper/axiosInstance";
 import { useSessionManager } from "../sessionManager/SessionManager";
-import { DashboardModel, ReportModel, ReportSummaryItem, UserSessionDetails } from "../types/types";
+import { DashboardModel, FormattedSummery, ReportModel, ReportSummaryItem, UserSessionDetails } from "../types/types";
 
 export function useDashboardManagement() {
 
@@ -41,18 +41,11 @@ const getUserDashboardData = async  () : Promise<any> => {
       throw new Error("Report data is missing");
     }
   
-    const reportSummaryItems = report.reportData.reportSummary?.reportSummaryItems || [];
+ 
     const rows = report.reportData.rows || [];
   
-    // const rowContent: ReportSummaryItem[] = rows.map(row => {
-    //   const label = row.cells.map(cell => cell.displayValue).join(" - ");
-    //   return {
-    //     label: label,
-      
-    //   } as ReportSummaryItem;
-    // });
   
-    const content: ReportSummaryItem[] = [...reportSummaryItems];
+    const content: FormattedSummery[] = report.reportData?.reportSummary?.formattedSummary||[];
   
     return {
       name: report.name ?? "Unknown",
