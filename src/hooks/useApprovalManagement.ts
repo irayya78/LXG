@@ -36,22 +36,6 @@ const useApprovalManagement = () => {
             Description: element.description,
             Date: element.date,
             DateToDisplay:element.dateToDisplay
-            // CustomerId : Number(element.customerId),
-            // Date : element.date,
-            // Description : element.description,
-            // IsActionable : element.isActionable,
-            // IsActive : element.isActive,
-            // Module : (element.module),
-            // ModuleId : element.moduleId,
-            // NotificationId : element.notificationId,
-            // PrimaryId : element.primaryId,
-            // Subscriber : element.subscriber,
-            // SubscriberUserId : element.subscriberUserId,
-            // User : element.user ,
-            // // !== null ? {UserId:element.leave.approver., FirstName:expense.approvedByUser.firstName, FullName:expense.approvedByUser.associateName, LastName:expense.approvedByUser.lastName, Password: "", EmailOTP:"", Email:"" } : getBlankUserObject(),
-            // UserId : element.userId,
-            // Expense : element.expense,
-            // Leave : element.leave
         }
             
         return Obj;

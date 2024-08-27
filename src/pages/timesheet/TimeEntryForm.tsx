@@ -470,7 +470,7 @@ const setMinAndMaxDate =  () =>{
           <IonInput
             value={matterCode}
             placeholder="Search your matter here..."
-            onIonInput={(e: any) => searchMatter(e.target.value)}
+            onIonInput={(e: any) => searchMatter(e.detail.value)}
           ></IonInput>
 
         </IonItem>

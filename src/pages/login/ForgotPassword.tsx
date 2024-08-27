@@ -51,7 +51,7 @@ const ForgotPasswordPage: React.FC = () => {
       </IonHeader>
       <IonContent className="ion-padding">
         <div className="loginlogo">
-        <LoginLogo/>
+       <img src='https://lx2.legalxgen.com/images/logo.png' alt='LOGO'></img>
         </div>
         <div className="inputarea">
       <IonText className="reset-pwd-text">Enter your email we'll help you to reset your password.</IonText>
@@ -61,7 +61,7 @@ const ForgotPasswordPage: React.FC = () => {
           placeholder="Email"
           onIonInput={(e: CustomEvent) => setEmail(e.detail.value)}
           type="email"
-          style={{ borderBottom: "2px solid #ccc", padding: "10px 5px", transition: "border-color 0.3s" }}
+          style={{ borderBottom: "1px solid #3880ff", transition: "border-color 0.3s"}}
         />
         <IonIcon icon={mailOpen} />
       </div>

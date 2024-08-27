@@ -51,15 +51,9 @@ console.log("render")
     connvertDateToMMMDDYYYY
   } = useUIUtilities();
   const { getUserDashboardData1,getGreeting } = useDashboardManagement();
-  const [billableHours, setBillableHours] = useState<string>("0:00");
-  const [nonBillableHours, setNonBillableHours] = useState<string>("0:00");
-  const [percentBillable, setPercentBillable] = useState<string>("");
-  const [percentNonBillable, setPercentNonBillable] = useState<string>("");
   const [currentDate, setCurrentDate] = useState<any>("");
-  const [percentReimbursed, setPercentReimbursed] = useState<number>(0);
   const [busy, setBusy] = useState<boolean>(false);
   const [isChartOpen, setChartOpen] = useState(false);
-  const [tittle,setTittle]=useState<string>("")
   const [dashboardData, setDashboardData] = useState<DashboardModel[]>([]);
   const [chartData,setChartData] =useState<DashboardModel>();
  
@@ -82,8 +76,11 @@ console.log("render")
  
   }
 
-  const handelCardClick=(data:DashboardModel)=>(event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => 
-  {
+  const handelCardClick=(data:DashboardModel)=>(event: React.MouseEvent<HTMLIonCardElement, MouseEvent>) => {
+  
+   if(data.name=='My Approvals'){
+    return navigation.push('/layout/dashboard/view-approvals','root','replace')
+   }
     setChartData(data)
     setChartOpen(true)
   }
@@ -98,7 +95,7 @@ console.log("render")
       </IonHeader>
       <CommonPullToRefresh onRefresh={renderDashboardData}>
       <IonContent className="page-content">
-      {/* <IonButton  fill="clear" color={"primary"} size="small" shape="round" slot="" onClick={(e)=>{navigation.push('/layout/dashboard/view-approvals','forward','push')}}><IonIcon icon={notificationsCircle}></IonIcon></IonButton> */}
+    
       <div className="ion-padding" style={{ textAlign: 'center' }}>
       <h2 className="greeting-text">{greeting}, {session.user?.FirstName}</h2>
       <small style={{ display: 'block', fontSize: '0.6em', marginTop: '0',color:'gray' }}>{currentDate}</small>

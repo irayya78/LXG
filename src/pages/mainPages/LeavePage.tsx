@@ -11,7 +11,7 @@ import MyProfileHeader from '../../components/MyProfileHeader';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { HolidayListModel, LeaveModel } from '../../types/types';
-import { calendarClear, calendarNumber, calendarNumberOutline, calendarOutline, checkmarkCircle, flag, flame, happySharp, informationCircleOutline, leaf, leafOutline, leafSharp, moonSharp, pencil, snowOutline, starSharp, sunnySharp, trash } from 'ionicons/icons';
+import { calendar, calendarClear, calendarNumber, calendarNumberOutline, calendarOutline, checkmarkCircle, flag, flame, happySharp, informationCircleOutline, leaf, leafOutline, leafSharp, moonSharp, pencil, snowOutline, starSharp, sunnySharp, trash } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { isPlatform } from '@ionic/react';
@@ -106,7 +106,7 @@ const LeavePage: React.FC = () => {
 
             <IonHeader>
                 <IonToolbar color="primary">
-                    <IonTitle>Leave</IonTitle>
+                    <IonTitle>Leaves</IonTitle>
                     <MyProfileHeader/>
                 </IonToolbar>
                 <IonToolbar color="none" className="nobottomborder filterBar">
@@ -116,12 +116,14 @@ const LeavePage: React.FC = () => {
                             Deduction:&nbsp;<span className="nonbillable-hours">{deduct}</span>&nbsp;|
                             Balance:&nbsp;<span className="font-bold total-exp">{balance}</span>
                         </IonLabel>
+                        
                     </IonLabel>
-
-                    <IonButtons slot='end' className='btns'>
-                        <IonMenuButton><IonIcon className="customMenuBtn" icon={calendarOutline}></IonIcon></IonMenuButton>
+                    <IonButtons slot='end' className='menuBtn'>
+                    <IonMenuButton><IonIcon size='small' color='warning' className="customMenuBtn" icon={calendar}></IonIcon></IonMenuButton>
                     </IonButtons>
+                  
                 </IonToolbar>
+               
             </IonHeader>
             
             <IonContent id="content-1">

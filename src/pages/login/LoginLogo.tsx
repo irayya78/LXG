@@ -3,7 +3,7 @@ import React from 'react';
 
 const  LoginLogo: React.FC = () => {
 
- return(<img src='https://legalxgen.blob.core.windows.net/customerlogos/lxdoc5733af3acd7a4c258ad8b3c120771b29.png'></img>);
+ return(<img src='https://legalxgen.blob.core.windows.net/mob-res/MobileLogo.png'></img>);
 };
 
 export default LoginLogo; 

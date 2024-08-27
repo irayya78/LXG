@@ -67,13 +67,13 @@ const  ApprovalList: React.FC = () => {
                         
                     {approvals && approvals.map((approval: NotificationModel)=>(
                         
-                        <IonItem className='ion-text-wrap' key={approval.Id.toString()} button  onClick={() => viewApprove(approval.Id,approval.Type)}>
+                        <IonItem className='ion-text-wrap ligthGreen' key={approval.Id.toString()} button  onClick={() => viewApprove(approval.Id,approval.Type)}>
                             
                             <IonText className="total-time time-text" slot="end"> {approval.Description}</IonText>
 
                             
                             <IonLabel className="ion-text-wrap">
-                                <span className="font-bold action-item"><IonIcon  icon={approval.Type === 'Exp' ?  cashOutline: calendarOutline}/> {approval.Type}</span>
+                                <span className="font-bold action-item"><IonIcon   icon={approval.Type === 'Exp' ?  cashOutline: calendarOutline}/> {approval.Type}</span>
                                 <span className="work-done-desc"> {formatDateToDDMMYYYY(approval.Date)}</span>
                                 <br/>
                                 <span className="work-done-desc"><IonIcon icon={personCircleOutline}/> {approval.Name}</span>

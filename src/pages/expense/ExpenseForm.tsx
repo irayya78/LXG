@@ -192,7 +192,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
     console.log("value of Doc Length:-",documentLength);
      setValidationMessage("")
     if(billRequired&&expenseReceiptDoc.length <= 0&& documentLength <= 0){
-      setValidationMessage ("Bill is required in this category!");
+      setValidationMessage ("A receipt must be attached for this category to continue.");
       isValid = false;
     }
     if (description.trim() === "") {
@@ -240,7 +240,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   //For searching Approver's
   const searchApprovers = async (searchValue: string) => {
     setApproverSearch(searchValue);
-    if (searchValue.length > 3) {
+    if (searchValue.length > 2) {
       const approversList = await searchUsers(searchValue);
       setApprovers(approversList);
     } else {

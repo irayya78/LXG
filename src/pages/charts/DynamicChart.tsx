@@ -9,6 +9,7 @@ import {
   IonButtons,
   IonIcon,
   IonLoading,
+  IonItem,
 } from "@ionic/react";
 import { Pie, Doughnut, Bar } from "react-chartjs-2";
 import { Chart, registerables } from 'chart.js';
@@ -16,6 +17,7 @@ import ChartDataLabels from 'chartjs-plugin-datalabels';
 import { closeOutline } from "ionicons/icons";
 import { DashboardModel } from "../../types/types";
 import { useSessionManager } from "../../sessionManager/SessionManager";
+import FabMenu from "../../components/layouts/FabIcon";
 
 Chart.register(...registerables, ChartDataLabels);
 
@@ -71,9 +73,9 @@ const session =useSessionManager();
         datasets: [
             {
                 data: data.rows.map(row => 
-                    parseFloat(row.cells.find(cell => cell.name === valueField)?.value || "0")
+                    (row.cells.find(cell => cell.name === valueField)?.value || "0")
                 ),
-                backgroundColor: ["#FF6384", "#36A2EB"],
+                backgroundColor: [ "#36A2EB","#FF6384"],
 
                 // themeColors?.split(',')
             },
@@ -127,9 +129,19 @@ const session =useSessionManager();
         {!loading && (
           <div style={{ height: "400px", padding: "30px" }}>
             {renderChart()}
-           {/* <small>{data?.recordCount}</small> */}
+            
           </div>
+        
         )}
+        <IonItem className="chart-content remove-border" color={'comment'}> 
+        <div className="chart-data">
+            {data?.content && (
+              <div className="" dangerouslySetInnerHTML={{ __html: data.content }} />
+            )}
+          
+          </div>
+         
+        </IonItem>
       </IonContent>
     </IonModal>
   );

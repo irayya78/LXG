@@ -3,7 +3,6 @@
   overflow: auto;
 } */
 
-
 .profilHeader {
     width: 40px; 
     height: 40px; 
@@ -84,51 +83,13 @@
   font-weight: 600;
 
 }
-.card-labels{
-  font-size: small;
-}
-.greeting-text {
-  font-size: 1.2rem;
-  font-weight: 500;
-  color: #333; 
-  text-align: center;
-  margin: 0;
-  padding: 10px 0; 
-}
-
-.dashboard-card {
-  
-  height: 130px;
-  margin: 8px; 
-  display: flex;
-  flex-direction: column;
-  justify-content: space-between;
-  border:  1px solid #e4e4e4 ;
-  border-radius: 15px;
- 
-}
-
-.dashboard-card-title {
-  display: flex;
-  align-items: center;
-  font-size: 1.2rem; 
-  border-bottom: 1px solid #ccc;
-  padding:8px 5px;
-  font-weight: bold;
-   padding-left: 15px;
-   white-space: nowrap; 
-  overflow: hidden;       
-  text-overflow: ellipsis;
-   
-
-}
 
 
 .billable-hours, .nonbillable-hours, .exp-reimbursed {
   margin: 0; 
 }
  
-/* Ensure the page works on different devices */
+
 @media (max-width: 576px) {
   .dashboard-card-title {
     font-size: 1rem;
@@ -137,8 +98,7 @@
 
 }
 
-.Ionic-header{padding: 0px!important;}
-.Card-content{padding: 10px 15px; margin-top: 10px; color: rgb(105, 98, 98);}
+
 
 .validation-message {
   color: red;
@@ -275,14 +235,7 @@
  
 }
 
-.card-content{
-display: flex;
-flex-direction: column;
-justify-content: center;
-align-content: center;
-width: fit-content;
-  
-}
+
 
 
 .login-card {
@@ -442,12 +395,9 @@ margin: 8px;
     font-size: small !important;
 }
 .btninlinemarg{margin-inline-start: 0px;}
-.total-time{ font-size: small; text-align: right; color: #3880ff; font-weight: bold;}
 .Billable-nonbillable-hrs{font-size: x-small; color: gray; text-align: right;}
 .Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 5px 0px 0px;}
 .Billable-nonbillable-hrs span:last-child{color:red; padding:0px 0px 0px 5px;}
-
-
 
 .work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }
 
@@ -588,12 +538,14 @@ margin: 8px;
  }
 .bgIcon{
   position: absolute;
-  bottom: -15px;
-  text-align: right;
-  right: 0px;
-  opacity: 0.17;
-  background-size: 100%;
-  height: 80px;
+  bottom: -5px;
+  text-align: left;
+    right: 0px;
+    background-size: 100%;
+  width: 80px;
+  padding-right: 6px;
+  z-index: 90;
+  
 }
 
 
@@ -634,13 +586,139 @@ margin: 8px;
   display: flex;
   justify-content: center;
   align-items: center;
-  width: 10%; /* Ensures that the content is centered within the full width */
+  width: 100%; 
 }
 .customMenuBtn{
   font-size:smaller !important;
 }
+.greeting-text {
+  font-size: 1.2rem;
+  font-weight: 500;
+  color: #333; 
+  text-align: center;
+  margin: 0;
+  padding: 10px 0; 
+}
+.card-header{
+  padding: 0px !important;
+}
+.card-content{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-content: center;
+  padding: 10px;
+  margin: 1px;  
+  font-weight:500;
+  line-height: 25px !important;
+  z-index: 100;
+  vertical-align: top !important;
+  margin-bottom: 15px;
+  margin-top: 5px;
+ }
+
+  
+.card-labels {
+  font-size: 11px;
+  overflow: hidden;
+  white-space: nowrap;   
+  text-overflow: ellipsis; 
+  font-weight: bolder;
+}
+
+.dashboard-card {
+  height: 130px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border: 1.5px solid #e4e4e4 !important;
+  border-radius: 12px;
+  margin: 9px !important;
+  box-shadow:none !important;
+  transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+}
+
+.card-icon{
+  font-size:16px ;
+  margin-right: 3px;
+  color: #3880ff;
+ 
+}
 
 
+.dashboard-card-title {
+  display: flex;
+  align-items: center;
+  font-size: 1rem; 
+  border-bottom: 1.8px solid #ccc;
+  padding:8px 5px;
+   font-weight: bold;
+   padding-left: 15px;
+   white-space: nowrap; 
+  overflow: hidden;       
+  text-overflow: ellipsis;
+  padding-left: 2px;
+  font-size: 0.8rem;
+
+}
+
+.billable-time{
+  color: #36A2EB ; font-weight: bolder; font-size:small;
+}
+.non-billable-time{
+  color:#FF6384 ; font-weight: bolder; font-size: small;
+}
+.total{  text-align: right;  color:gray; font-weight: bolder; font-size: small;}
+.total-time{  text-align: right;  color:#3880ff; font-weight: bolder; font-size: small;}
 
 
+.chart-content{
+  background:aliceblue; 
+  border:1px solid #88A6F3; 
+  margin:10px  5%; 
+  border-radius: 10px; 
+  box-shadow:  0 10px 6px -6px #777;
+  padding: 10px;
 
+}
+.chart-data{
+  padding: 15px;
+  display: flex;
+  justify-content: center;
+  line-height: 25px;
+  margin-left: 60px;
+}
+.chart-data span.total-time{ padding-left: 100px!important;}
+@media (max-width: 400px) {
+ 
+  .dashboard-card {
+    margin: 6px 0;
+    padding: 0px;
+    border-radius: 10px;
+  }
+
+  .card-content {
+    line-height: 20px;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+
+  .card-labels {
+    font-size: 10px;
+  }
+
+  .total, .billable-time, .non-billable-time {
+    font-size: 0.80rem;
+   
+  }
+
+
+}
+
+.menuBtn{
+  display:  flex;
+  flex-direction: column;
+  justify-content: start;
+  align-content: center;
+  padding: 2.5PX;
+}

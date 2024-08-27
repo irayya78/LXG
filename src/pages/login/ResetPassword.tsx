@@ -6,10 +6,11 @@ import { useIonRouter } from '@ionic/react';
 import { useManageUser } from '../../hooks/useManageUser';
 import { useLocation } from 'react-router-dom';
 import Footer from '../../components/layouts/Footer';
+import { useSessionManager } from '../../sessionManager/SessionManager';
 
 const ResetPassword: React.FC = () => {
   const { resetPassword } = useManageUser();
-  
+  const { user, clearUserSession, loginInfo, setLoginInfo } = useSessionManager();
   const navigation = useIonRouter();
   
   // Get the state passed from ForgotPassword component
@@ -190,6 +191,8 @@ const ResetPassword: React.FC = () => {
               text: 'OK',
               handler: () => {
                 navigation.push('/login', 'root', 'replace');
+                clearUserSession();
+                window.location.reload();
               }
             }
           ]}
