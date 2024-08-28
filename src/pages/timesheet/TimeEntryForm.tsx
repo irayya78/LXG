@@ -59,7 +59,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [matters, setMatters] = useState<MatterModel[]>([]);
   const [tasksOnMatter, setTasksOnMatter] = useState<DropDownItem[]>([]);
   const [task, setTask] = useState<string>("");
-  const [isBillable, setBillable] = useState<boolean>(false);
+  const [isBillable, setBillable] = useState<boolean>(session.user?.DefaultTimeEntryAsBillable ?? false);
   const [fromTime, setFromTime] = useState<string>('00:00');
   const [toTime, setToTime] = useState<string>('00:00');
   const [totalHours, setTotalHours] = useState<string>('00:00');
@@ -70,6 +70,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [caption, setCaption] = useState<string>("Time-Entry");
   const [trackingDate, setTrackingDate] = useState<string>(getCurrentDateAsYYYYMMDD);
   const [matterTaskId, setMatterTaskId] = useState<number>(0);
+  const [parentId, setParentId] = useState<number>(0);
   const [suppressSearch, setSuppressSearch] = useState<boolean>(false);
   const [trackingId, setTrackingId] = useState<number>(0);
   const [matterId, setMatterId] = useState<number>(0);
@@ -89,7 +90,6 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [maxDate,setMaxDate]=useState<string>("");
   const isCaptureTask = session.user?.CaptureActivity;
   const isCaptureFromTimeToTime =  session.user?.CaptureFromAndToTime;
-  const isBillableByDefault=session.user?.DefaultTimeEntryAsBillable;
   const getTimeInterval =session.user?.TimerTimeInterval;
   const minuteInterval = getTimeInterval ? getTimeInterval : '00,15,30,45';
   const isAnyPickerOpen = showFromTimePicker || showToTimePicker || showTotalHoursPicker || showBillableHoursPicker;
@@ -98,10 +98,14 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     if (isCaptureFromTimeToTime) {
       calculateAndSetTotalHours(fromTime, toTime);
     }
-    
-  }, [fromTime, toTime, isCaptureFromTimeToTime]);
   
-
+  }, [fromTime, toTime, isCaptureFromTimeToTime]);
+  useEffect(()=>{
+    const paramTrackingId = Number(match.params.trackingId);
+    if (paramTrackingId > 0) {
+      setTimesheetData(paramTrackingId);
+    }
+  },[])
   useEffect(()=>{
     validateForm();
   },[description, taskVisible, matterTaskId, isCaptureTask, timeTrackingActivityId, isBillable, billableHours, totalHours, matterId,trackingDate])
@@ -171,12 +175,12 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     (async () => {
       console.log('id',paramTrackingId)
     
-      if (paramTrackingId > 0) {
-        setBusy(true)
-        setCaption("Update TimeSheet");
-        setTimesheetData(paramTrackingId);
+      // if (paramTrackingId > 0) {
+      //   setBusy(true)
+      //   setCaption("Update TimeSheet");
+      //  await setTimesheetData(paramTrackingId);
        
-      }
+      // }
       try {
         await inView();
         setBusy(false)
@@ -190,7 +194,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
       .then(() => { })
       .catch((error) => console.error(error));
     
-  });
+  },[]);
 
   //when will Leave Reset the States
   useIonViewWillLeave(() => {
@@ -216,9 +220,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
        
       setDisableTotalTime(true);
     }
-    if(isBillableByDefault){
-      setBillable(true)
-    }
+  
      setMinAndMaxDate();
   }
 
@@ -295,7 +297,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
         InvoiceId:0,
         MatterActivityName: "",
         TimeTrackingActivityName:"",
-        ParentId:0
+        ParentId:parentId
     }
 
     const isSuccess = await saveTimesheet(timesheetObj)
@@ -318,22 +320,6 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const setTimesheetData = async (trackingId: number) => {
    
     const timesheet = await getTimesheetByTrackingId(trackingId);
-   
-     console.log('single Timesheet',timesheet)
-    if (timesheet.MatterActivityId > 0) {
-      const tasks = await getAssignedTasks(timesheet.MatterId);
-      setTasksOnMatter(tasks);
-      setTaskVisible(tasks != null && tasks.length > 0);
-      setSuppressSearch(true);
-    }
-
-    if (isCaptureFromTimeToTime) {
-      const fTime = getTimeAsHHMM(timesheet.FromTime);
-      const tTime = getTimeAsHHMM(timesheet.ToTime);
-      setFromTime(fTime);
-      setToTime(tTime);
-    }
-
     setTotalHours(timesheet.TrackedTime);
     setBillableHours(timesheet.BillableHour);
     setTrackingId(timesheet.TrackingId);
@@ -347,7 +333,21 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     setBackTodate(convertToDDMMYYYYWithoutSeparator(timesheet.TrackingDate));
     setTimeTrackingActivityId(isCaptureTask ? timesheet.TimeTrackingActivityId : 0);
     setMatterTaskId(timesheet.MatterActivityId);
-  
+    setParentId(timesheet.ParentId)
+
+    if (timesheet.MatterActivityId > 0) {
+      const tasks = await getAssignedTasks(timesheet.MatterId);
+      setTasksOnMatter(tasks);
+      setTaskVisible(tasks != null && tasks.length > 0);
+      setSuppressSearch(true);
+    }
+
+    if (isCaptureFromTimeToTime) {
+      const fTime = getTimeAsHHMM(timesheet.FromTime);
+      const tTime = getTimeAsHHMM(timesheet.ToTime);
+      setFromTime(fTime);
+      setToTime(tTime);
+    }
   };
 
   const validateForm = () =>{

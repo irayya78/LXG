@@ -45,7 +45,7 @@ const  ApprovalList: React.FC = () => {
             <IonHeader>
                 <IonToolbar color="secondary">
                     <IonButtons slot="start">
-                        <IonBackButton defaultHref="/layout/dashboard" />
+                        <IonBackButton defaultHref="/layout/dashboard"/>
                     </IonButtons>
                     <IonTitle>Approvals</IonTitle>
                 </IonToolbar>
