@@ -175,12 +175,12 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     (async () => {
       console.log('id',paramTrackingId)
     
-      // if (paramTrackingId > 0) {
-      //   setBusy(true)
-      //   setCaption("Update TimeSheet");
-      //  await setTimesheetData(paramTrackingId);
+      if (paramTrackingId > 0) {
+        setBusy(true)
+        setCaption("Update TimeSheet");
+       await setTimesheetData(paramTrackingId);
        
-      // }
+      }
       try {
         await inView();
         setBusy(false)
