@@ -22,6 +22,7 @@ import {
   IonLoading,
   IonText,
   IonImg,
+  IonSearchbar,
 } from "@ionic/react";
 import { calendar, camera, close, image, informationCircle, informationCircleOutline, trash } from "ionicons/icons";
 import {
@@ -336,13 +337,12 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       ></IonLoading>
       <IonContent className="page-content" >
       <div className="inputsFileds">
-        <IonItem>
-          <IonLabel position="stacked">Matter</IonLabel>
-          <IonInput
+        <IonItem className="matter-search">
+          <IonSearchbar className="matter-search-bar"
             value={matterCode}
             placeholder="Search your matter here..."
             onIonInput={(e: any) => searchMatter(e.target.value)}
-          ></IonInput>
+          ></IonSearchbar>
         </IonItem>
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />

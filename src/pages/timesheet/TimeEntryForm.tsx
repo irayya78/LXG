@@ -24,7 +24,8 @@ import {
   IonIcon,
   useIonViewWillLeave,
   IonCard,
-  IonCardContent
+  IonCardContent,
+  IonSearchbar
 } from "@ionic/react";
 import { RouteComponentProps } from "react-router";
 import { useMatterManagement } from "../../hooks/useMatterManagement";
@@ -463,15 +464,13 @@ const setMinAndMaxDate =  () =>{
     <IonContent>
    
       <div className="form-container">
-        <IonItem>
-          <IonLabel position="stacked">Matter</IonLabel>
-         
-       
-          <IonInput
+        <IonItem className=''>
+
+          <IonSearchbar className='matter-search-bar'
             value={matterCode}
             placeholder="Search your matter here..."
             onIonInput={(e: any) => searchMatter(e.detail.value)}
-          ></IonInput>
+          ></IonSearchbar>
 
         </IonItem>
 

@@ -136,7 +136,7 @@ const session =useSessionManager();
         <IonItem className="chart-content remove-border" color={'comment'}> 
         <div className="chart-data">
             {data?.content && (
-              <div className="" dangerouslySetInnerHTML={{ __html: data.content }} />
+              <div className="chart-data-labels" dangerouslySetInnerHTML={{ __html: data.content }} />
             )}
           
           </div>
