@@ -137,8 +137,8 @@ const  ViewApprove: React.FC<ViewApprovalParams> = ({match}) => {
                     </IonItem>
 
                     <IonItem className="button-group remove-border">
-                        <IonButton shape='round' expand="block" onClick={() => doApprovalAction(match.params.id,4)} color="danger"> <IonIcon slot="start" icon={closeCircle}  />Reject</IonButton>
-                        <IonButton shape='round' expand="block" onClick={() => doApprovalAction(match.params.id,3)} color="success"><IonIcon color='light' slot="start" icon={checkmarkCircle}  />Approve</IonButton>
+                        <IonButton className='actionBtn' expand="block" onClick={() => doApprovalAction(match.params.id,4)} color="danger"> <IonIcon slot="start" icon={closeCircle}  />Reject</IonButton>
+                        <IonButton  className='actionBtn'  expand="block" onClick={() => doApprovalAction(match.params.id,3)} color="success"><IonIcon color='light' slot="start" icon={checkmarkCircle}  />Approve</IonButton>
                     </IonItem>
                 </IonList>
             </IonContent>
