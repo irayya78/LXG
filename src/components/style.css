@@ -730,6 +730,7 @@ margin: 8px;
   padding: 2.5PX;
 }
 
+<<<<<<< Updated upstream
 .matter-search-bar{
  border-radius: 20px;
   color: gray;
@@ -748,3 +749,12 @@ margin: 8px;
   line-height: 30px;
   border-radius: 10px;
 }
+=======
+.blue{
+  color:blue;
+}
+
+.orange{
+  color: orange;
+}
+>>>>>>> Stashed changes

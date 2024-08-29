@@ -376,7 +376,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
           <IonInput
             value={approverName}
             placeholder="Search for an approver..."
-            onIonInput={(e: any) => searchApprovers(e.target.value)}
+            onIonInput={(e: any) => searchApprovers(e.detail.value)}
           ></IonInput>
         </IonItem>
         

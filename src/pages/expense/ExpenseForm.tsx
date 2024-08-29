@@ -341,8 +341,13 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
           <IonSearchbar className="matter-search-bar"
             value={matterCode}
             placeholder="Search your matter here..."
+<<<<<<< Updated upstream
             onIonInput={(e: any) => searchMatter(e.target.value)}
           ></IonSearchbar>
+=======
+            onIonInput={(e: any) => searchMatter(e.detail.value)}
+          ></IonInput>
+>>>>>>> Stashed changes
         </IonItem>
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
@@ -370,7 +375,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
             okText="OK"
             cancelText="Cancel"
             onIonChange={(e:any) => {
-              handleCategoryChange(e.target.value)
+              handleCategoryChange(e.detail.value)
             }}
           >
             {expenseCategories.map((expCategory) => (
@@ -390,7 +395,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
             type="number"
             value={amount}
             placeholder="Enter Amount"
-            onIonInput={(e: any) => setAmount(Number(e.target.value))}
+            onIonInput={(e: any) => setAmount(Number(e.detail.value))}
             
           ></IonInput>
         </IonItem>
@@ -402,7 +407,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
               <IonInput
                 value={approverSearch}
                 placeholder="Search for an approver..."
-                onIonInput={(e: any) => searchApprovers(e.target.value)}
+                onIonInput={(e: any) => searchApprovers(e.detail.value)}
               ></IonInput>
             </IonItem>
            

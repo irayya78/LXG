@@ -484,7 +484,7 @@ const setMinAndMaxDate =  () =>{
             type="date"
             max={maxDate}
             min={minDate}
-            onIonChange={(e) => setTrackingDate(e.target.value as string)}
+            onIonChange={(e) => setTrackingDate(e.detail.value as string)}
           />
         </IonItem>
 

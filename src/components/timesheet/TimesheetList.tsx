@@ -24,12 +24,17 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
         props.onEditTimesheet(timesheet);
       };
     
-    
+      const getIconColor = (parentId: number | null, trackingId: number): string => {
+        const userHasTaggedOthers = !(parentId != null && parentId !== trackingId);
+        return userHasTaggedOthers ? 'blue' : 'orange';
+        
+      };
+      
       return (
           <IonList  id="time-list">
           {   
               props.timeEntries && (props.timeEntries.map((timeEntry: TimesheetModel) =>(
-  
+                
                 <IonItemSliding key={timeEntry.TrackingId.toString()}>
                <IonItem key={timeEntry.TrackingId.toString()} onClick={() => handleViewTimesheet(timeEntry)}>
                 <IonLabel>
@@ -44,7 +49,7 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                   <IonText className="time-text" slot="end" > 
                   
                     <p className="total-time">  <small>   {timeEntry.ParentId > 0 && (
-                  <IonIcon icon={pricetag}/>
+                  <IonIcon icon={pricetag} className={getIconColor(timeEntry.ParentId, timeEntry.TrackingId)} />
                      )}</small>{timeEntry.TrackedTime}  </p>
                     <p className="Billable-nonbillable-hrs">B: <span>{timeEntry.BillableHour}</span> | &nbsp;NB:<span>{timeEntry.NonBillableHour}</span>
                     </p> 
