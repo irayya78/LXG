@@ -341,13 +341,9 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
           <IonSearchbar className="matter-search-bar"
             value={matterCode}
             placeholder="Search your matter here..."
-<<<<<<< Updated upstream
-            onIonInput={(e: any) => searchMatter(e.target.value)}
-          ></IonSearchbar>
-=======
             onIonInput={(e: any) => searchMatter(e.detail.value)}
-          ></IonInput>
->>>>>>> Stashed changes
+          ></IonSearchbar>
+
         </IonItem>
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
