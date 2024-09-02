@@ -209,6 +209,22 @@ const convertToDDMMYYYYWithoutSeparator = (dateValue: string) =>{
   const dateAsDDMMYYYY = dd + mm + tmpArray[2]
   return dateAsDDMMYYYY
 } 
+// const convertToDDMMYYYYWithoutSeparator = (parameterDate: string): string => {
+//   // Ensure parameterDate is in 'DDMMYYYY' format
+//   if (parameterDate.length !== 8) {
+//     throw new Error('Parameter date must be in DDMMYYYY format.');
+//   }
+
+//   const day = parameterDate.substring(0, 2);
+//   const month = parameterDate.substring(2, 4);
+//   const year = parameterDate.substring(4, 8);
+
+//   // Format as 'DDMMYYYY' without any separators
+//   const dtDDMMYYYYWithoutSeparator = `${day}${month}${year}`;
+
+//   return dtDDMMYYYYWithoutSeparator;
+// };
+
 
 //For Timesheet Date in per
 const convertParameterDateToYYYYMMDD = (parameterDate: string): string => {
@@ -225,6 +241,22 @@ const convertParameterDateToYYYYMMDD = (parameterDate: string): string => {
   const dtYYYYMMDD = `${year}-${month}-${day}`;
 
   return dtYYYYMMDD;
+};
+
+const convertParameterDateToDDMMYYYY = (parameterDate: string): string => {
+  // Ensure parameterDate is in 'DDMMYYYY' format
+  if (parameterDate.length !== 8) {
+    throw new Error('Parameter date must be in DDMMYYYY format.');
+  }
+
+  const day = parameterDate.substring(0, 2);
+  const month = parameterDate.substring(2, 4);
+  const year = parameterDate.substring(4, 8);
+
+  // Format as 'DD/MM/YYYY'
+  const dtDDMMYYYY = `${day}/${month}/${year}`;
+
+  return dtDDMMYYYY;
 };
 
 
@@ -264,6 +296,7 @@ const getTimeAsHHMM = (time : string ) : string =>{
 }
 
 const getDateToDisplay = (dateValue: string) : string =>{
+  console.log("what is reving",dateValue)
   const date = new Date(dateValue);
   const month =  Number( date.getMonth())  + 1
 
@@ -344,10 +377,38 @@ enum DateFilters {
   LastFinancialYear = 18,
   
 }
+const getCurrentDate = (): string => {
+  const now = new Date();
+  return new Intl.DateTimeFormat('en-GB', {
+    day: '2-digit',
+    month: '2-digit',
+    year: 'numeric',
+  }).format(now);
+};
+
+function convertToDateFormat(input: string): string {
+  // Parse the input string as a Date object
+  const date = new Date(input);
+
+  // Check if the input string was a valid date
+  if (isNaN(date.getTime())) {
+      throw new Error("Invalid date format");
+  }
+
+  // Extract day, month, and year from the Date object
+  const day = date.getDate().toString().padStart(2, '0');
+  const month = (date.getMonth() + 1).toString().padStart(2, '0');
+  const year = date.getFullYear().toString();
+
+  // Format and return the date as DD/mm/yyyy
+  return `${day}/${month}/${year}`;
+}
 
 
   return {
     convertDateAsYYYYMMDD,
+    convertToDateFormat,
+    getCurrentDate,
     getDateToDisplay,
     convertDateToYYYYMMDD,
     getCurrentDateAsYYYYMMDD,
@@ -374,6 +435,7 @@ enum DateFilters {
     DateFilters,
     convertToYYYYMMDD,
     sortDataByDate,
+    convertParameterDateToDDMMYYYY,
     formatDateToDDMMYYYY
   };
 };

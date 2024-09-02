@@ -23,6 +23,8 @@ import {
   IonText,
   IonImg,
   IonSearchbar,
+  IonDatetime,
+  IonPopover,
 } from "@ionic/react";
 import { calendar, camera, close, image, informationCircle, informationCircleOutline, trash } from "ionicons/icons";
 import {
@@ -42,14 +44,14 @@ import { useUIUtilities } from "../../hooks/useUIUtilities";
 import { messageManager } from "../../components/MassageManager";
 import { Camera, CameraResultType, CameraSource } from "@capacitor/camera";
 import ValidationMessage from "../../components/ValidationMessageProps";
+import { format } from 'date-fns';
 interface ExpenseParams extends RouteComponentProps<{ expenseId: string }> { }
 
 const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const navigation = useIonRouter();
   const session = useSessionManager();
-  const [expenseDate, setExpenseDate] = useState<string>(
-    new Date().toISOString().substring(0, 10)
-  );
+  const [expenseDate, setExpenseDate] = useState<string>();
+
   const [matter, setMatter] = useState<MatterModel | null>(null);
   const [amount, setAmount] = useState<number>(0);
   const [description, setDescription] = useState<string>("");
@@ -67,7 +69,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const [caption, setCaption] = useState("Create Expense");
   const [expenseId, setExpenseId] = useState<Number>(0);
   const [matterId, setMatterId] = useState<Number>(0);
-  const { getCurrentDateAsYYYYMMDD, convertDateToYYYYMMDD } = useUIUtilities();
+  const { getCurrentDateAsYYYYMMDD, convertDateToYYYYMMDD,getCurrentDate} = useUIUtilities();
   const [busy, setBusy] = useState<boolean>(false);
   const [expenseReceiptDoc, setExpenseReceiptDoc] = useState<File[]>([]);
   const [documentLength,setDocumentLength]=useState<number>(0);
@@ -80,9 +82,9 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const displayApprover = session.user?.DisplayExpenseApprover;
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
   const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays
-  
+   const [isOpen, setOpenDate] = useState(false);
   useEffect(() => {
-    validateForm();
+    validateForm(); 
     console.log(matterId)
   }, [expenseCategoryId, matterId, amount, description,ApproverId,expenseReceiptDoc,expenseDate,billRequired]);
 
@@ -96,7 +98,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const formData = new FormData();
   formData.append("ExpenseId", expenseId.toString());
   formData.append("Amount", amount.toString());
-  formData.append("Date", expenseDate);
+  formData.append("Date", expenseDate!);
   formData.append("Description", description);
   formData.append("CategoryId", expenseCategoryId.toString());
   formData.append("MatterId", matterId.toString());
@@ -109,8 +111,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   expenseReceiptDoc.forEach((file: File) => {
     formData.append("FileToUpload", file);
   });
-
-  console.log("FormData being sent:", Array.from(formData.entries()));
+ 
 
   try {
     setBusy(true);
@@ -150,8 +151,8 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   //Set the data of expense for update page
   const setExpenseData = (expense: ExpenseModel) => {
     const expDate = expense.Date
-      ? convertDateToYYYYMMDD(expense.Date)
-      : getCurrentDateAsYYYYMMDD();
+      ? expense.Date 
+      : getCurrentDate();
     setExpenseId(expense.ExpenseId);
     setExpenseDate(expDate);
     setMatterCode(expense.MatterCode);
@@ -196,7 +197,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       setValidationMessage ("A receipt must be attached for this category to continue.");
       isValid = false;
     }
-    if (description.trim() === "") {
+    if (description.length <= 0) {
       setValidationMessage ("Description is required!");
       isValid = false;
     }
@@ -307,6 +308,17 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
       
 
   }
+  const formatDateToDDMMYYYY = (isoString: string): string => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-GB'); 
+  };
+
+  const handleDateChange = (value: string) => {
+    const formattedDate = formatDateToDDMMYYYY(value);
+    setExpenseDate(formattedDate);
+    setOpenDate(false);
+    console.log("exp:",expenseDate)
+  };
 
   return (
     <IonPage>
@@ -327,7 +339,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
 
           <IonTitle>{caption}</IonTitle>
          
-        </IonToolbar>
+        </IonToolbar> 
        
       </IonHeader>
       <IonLoading
@@ -348,21 +360,29 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
 
-         <IonItem>
-      <IonLabel position="stacked">Date</IonLabel>
+    <IonItem>
+    <IonLabel position="stacked">Date</IonLabel>
       <IonInput
-        type="date"
-        value={expenseDate}
-        defaultValue={expenseDate}
-        onIonChange={(e) => setExpenseDate(e.detail.value!)}
-        max={getMaxDate()}
-        min={getMinDate()}
-        
-      >
-       
-      </IonInput>
-    </IonItem>
+        type="text"
+        value={expenseDate || ''}
+        onFocus={() => setOpenDate(true)}
+        placeholder="Select Date"
+        readonly
+      />
 
+      {isOpen && (
+        <IonDatetime
+          value={convertDateToYYYYMMDD(expenseDate!)}
+          presentation="date"
+          locale="en-GB"
+          max={getMaxDate()}
+          min={getMinDate()}
+          onIonChange={(e) => handleDateChange(e.detail.value as string)}
+        />
+      )}
+</IonItem>
+
+       
         <IonItem>
           <IonLabel position="stacked">Select Category </IonLabel>
           <IonSelect 
@@ -378,6 +398,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
               <IonSelectOption
                 key={expCategory.Value}
                 value={expCategory.Value}
+                
               >
                 {expCategory.Text}
               </IonSelectOption>

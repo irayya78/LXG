@@ -43,13 +43,13 @@ import ValidationMessage from '../../components/ValidationMessageProps';
 interface TimesheetParams extends RouteComponentProps<{ trackingId: string; date: string }> {}
 const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const {
-    convertParameterDateToYYYYMMDD,
+    getCurrentDate,
     convertDateToYYYYMMDD,
     getCurrentDateAsYYYYMMDD,
     convertToDDMMYYYYWithoutSeparator,
     convertToYYYYMMDD,
     getTimeAsHHMM,getDateToDisplay,convertTimeTo24HoursFormat,
-    convertToMinutes,getTimeDifferenceBetweenFromAndToTime
+    convertToMinutes,getTimeDifferenceBetweenFromAndToTime,addSeperatorToMMDDYYYDateString
   } = useUIUtilities();
   const{showAlertMessage,showToastMessage}=messageManager();
   const session = useSessionManager();
@@ -69,7 +69,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const [busy, setBusy] = useState<boolean>(false);
   const [description, setDescription] = useState<string>("");
   const [caption, setCaption] = useState<string>("Time-Entry");
-  const [trackingDate, setTrackingDate] = useState<string>(getCurrentDateAsYYYYMMDD);
+  const [trackingDate, setTrackingDate] = useState<string>(getCurrentDate);
   const [matterTaskId, setMatterTaskId] = useState<number>(0);
   const [parentId, setParentId] = useState<number>(0);
   const [suppressSearch, setSuppressSearch] = useState<boolean>(false);
@@ -94,7 +94,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
   const getTimeInterval =session.user?.TimerTimeInterval;
   const minuteInterval = getTimeInterval ? getTimeInterval : '00,15,30,45';
   const isAnyPickerOpen = showFromTimePicker || showToTimePicker || showTotalHoursPicker || showBillableHoursPicker;
-  
+  const [isOpen, setOpenDate] = useState(false);
   useEffect(() => {
     if (isCaptureFromTimeToTime) {
       calculateAndSetTotalHours(fromTime, toTime);
@@ -113,19 +113,19 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
   console.log("renderTime",);
   //resting state's after saving the time
-  const resetForm = () => {
+  const resetForm = async() => {
     setMatterCode("");
     setMatters([]);
     setTasksOnMatter([]);
     setTask("");
-    setBillable(false);
+    setBillable(session.user?.DefaultTimeEntryAsBillable ?? false);
     setFromTime('00:00');
     setToTime('00:00');
     setTotalHours('00:00');
     setBillableHours('00:00');
     setNonBillableHours('00:00');
     setDescription("");
-    setTrackingDate(getCurrentDateAsYYYYMMDD);
+    setTrackingDate('');
     setMatterTaskId(0);
     setTrackingId(0);
     setMatterId(0);
@@ -170,17 +170,12 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
  //When we are entering this View
   useIonViewDidEnter(() => {
-    const paramTrackingId = Number(match.params.trackingId);
-    
- 
     (async () => {
-      console.log('id',paramTrackingId)
-    
+      const paramTrackingId = Number(match.params.trackingId);
       if (paramTrackingId > 0) {
         setBusy(true)
         setCaption("Update TimeSheet");
        await setTimesheetData(paramTrackingId);
-       
       }
       try {
         await inView();
@@ -197,10 +192,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     
   },[]);
 
-  //when will Leave Reset the States
-  useIonViewWillLeave(() => {
-   resetForm();
-  });
+
 
 
   const inView=async()=>{
@@ -213,7 +205,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
     if (match.params.date) {
       
-      setTrackingDate(convertParameterDateToYYYYMMDD(match.params.date));
+      setTrackingDate(addSeperatorToMMDDYYYDateString(match.params.date));
      
     } 
 
@@ -274,7 +266,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     setTimeExceeds24Hours(false)
     setBusy(true)
 
-    const dateToDisplay = getDateToDisplay(trackingDate)
+    const dateToDisplay = trackingDate
     const fTime = session.user?.CaptureFromAndToTime ? convertTimeTo24HoursFormat(fromTime) : "00:00:00"
     const tTime = session.user?.CaptureFromAndToTime ? convertTimeTo24HoursFormat(toTime) : "00:00:00"
 
@@ -300,9 +292,8 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
         TimeTrackingActivityName:"",
         ParentId:parentId
     }
-
     const isSuccess = await saveTimesheet(timesheetObj)
-    setBusy(false)
+   
 
 
     if(!isSuccess){
@@ -311,9 +302,10 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
 
     }else{
+       await resetForm();
       navigation.push(`/layout/timesheet/${convertToDDMMYYYYWithoutSeparator(dateToDisplay)}`);;
     }
-
+    setBusy(false)
   }
 
   
@@ -328,7 +320,7 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
     setMatterCode(timesheet.MatterCode);
     setMatterId(timesheet.MatterId);
     setBillable(timesheet.IsBillable);
-    setTrackingDate(convertDateToYYYYMMDD(timesheet.TrackingDate));
+    setTrackingDate(timesheet.TrackingDate);
     setDescription(timesheet.Description);
     setNonBillableHours(timesheet.NonBillableHour);
     setBackTodate(convertToDDMMYYYYWithoutSeparator(timesheet.TrackingDate));
@@ -425,6 +417,18 @@ const handelTotalTimeChange=(totalHours:string)=>{
   setBillableHours(totalHours)
 
 }
+   
+const formatDateToDDMMYYYY = (isoString: string): string => {
+  const date = new Date(isoString);
+  return date.toLocaleDateString('en-GB'); 
+};
+
+const handleDateChange = (value: string) => {
+  const formattedDate = formatDateToDDMMYYYY(value);
+  setTrackingDate(formattedDate);
+  setOpenDate(false);
+  
+};
 
 const setMinAndMaxDate =  () =>{
   if(session.user?.TimeSheetLockSelectedDay&&session.user?.TimeSheetLockSelectedDay>0){
@@ -476,7 +480,7 @@ const setMinAndMaxDate =  () =>{
 
         <MatterList matters={matters} matterClick={handleSelectMatter} />
 
-        <IonItem>
+        {/* <IonItem>
           <IonLabel position="stacked">Date</IonLabel>
           <IonInput
             value={trackingDate}
@@ -486,7 +490,31 @@ const setMinAndMaxDate =  () =>{
             min={minDate}
             onIonChange={(e) => setTrackingDate(e.detail.value as string)}
           />
-        </IonItem>
+        </IonItem> */}
+
+  <IonItem >
+    <IonLabel position="stacked">Date</IonLabel>
+      <IonInput
+        type="text"
+        value={trackingDate}
+        onFocus={() => setOpenDate(true)}
+        placeholder="Select Date"
+        readonly
+        defaultValue={trackingDate}
+      />
+
+      {isOpen && (
+        <IonDatetime
+          value={ convertDateToYYYYMMDD(trackingDate)}
+          presentation="date"
+          locale="en-GB"
+          max={maxDate}
+          min={minDate}
+          defaultValue={trackingDate}
+          onIonChange={(e) => handleDateChange(e.detail.value as string)}
+        />
+      )}
+</IonItem>
 
         <IonItem>
           <IonLabel position="stacked">Billable?</IonLabel>

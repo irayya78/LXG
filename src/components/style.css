@@ -74,7 +74,7 @@
    padding: 1px;
   color:#ffffff;}
 
-.billable-hours, .exp-reimbursed{color: green; font-size: small; font-weight: 600;}
+.billable-hours, .exp-reimbursed{color: green; font-size: x-small; font-weight: 600;}
 .nonbillable-hours, 
 .exp-balance
 {color: 
@@ -759,4 +759,7 @@ margin: 8px;
 
 .actionBtn{
   height: 38px;
+}
+.list-icons{
+  margin-top: 1px;
 }

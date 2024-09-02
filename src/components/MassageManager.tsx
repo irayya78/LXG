@@ -1,6 +1,7 @@
 // messageManager.tsx
 
 import { IonToast, IonAlert } from '@ionic/react';
+import { thumbsUp } from 'ionicons/icons';
 import { createRoot } from 'react-dom/client';
 
 export function messageManager() {
@@ -66,7 +67,7 @@ export function messageManager() {
     root.render(alert);
   };
 
-  const showTopToastMessage = (message: string, duration: number = 2000) => {
+  const showTopToastMessage = (message: string, duration: number = 3000) => {
     const toastElement = document.createElement('div');
     document.body.appendChild(toastElement);
     const root = createRoot(toastElement);
@@ -76,6 +77,7 @@ export function messageManager() {
         isOpen={true}
         message={message}
         duration={duration}
+        icon={thumbsUp}
         position="top"
         cssClass="top-toast" // Custom CSS class for top toast styling
         onDidDismiss={() => {

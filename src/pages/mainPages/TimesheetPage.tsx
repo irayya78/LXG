@@ -232,7 +232,7 @@ const onDeleteTimesheet =async()=>{
            <IonLabel slot='start' className="font-bold">#Rec:{timeEntriesList.length}</IonLabel>
        
             
-             <IonLabel slot='end'  className=" ">Total: <span className="font-bold total-exp">{totalHours} Hrs</span> | B: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
+             <IonLabel slot='end'  className="">Total: <span className="font-bold total-exp">{totalHours} Hrs</span> | B: <span className="billable-hours">{billableHours} ({percentBillable}%)</span> | NB: <span className="nonbillable-hours">{nonBillable} ({percentNonBillable}%)</span> </IonLabel>
       
 
      </IonToolbar>

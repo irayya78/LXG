@@ -177,7 +177,7 @@ const ExpensePage: React.FC = () => {
                 <IonToolbar color="none" className="nobottomborder filterBar">
                 
                 <IonLabel slot="start" class="">
-                 <IonLabel><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Rei: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
+                 <IonLabel><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Reimbursed: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
                </IonLabel>
                   <IonButtons slot='end' className='btns'>
                         <IonButton style={{}} onClick={() => setShowFilterAlert(true)} className="filterButton" color=""  slot="end" >

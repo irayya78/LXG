@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { IonBackButton, IonButton, IonButtons, IonContent, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonMenu, IonMenuButton, IonPage, IonPopover, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from '@ionic/react';
+import { IonBackButton, IonButton, IonButtons, IonContent, IonDatetime, IonHeader, IonIcon, IonInput, IonItem, IonLabel, IonList, IonLoading, IonMenu, IonMenuButton, IonPage, IonPopover, IonSelect, IonSelectOption, IonText, IonTextarea, IonTitle, IonToolbar, useIonRouter, useIonViewDidEnter } from '@ionic/react';
 import { LeaveModel,UserModel,DropDownItem, } from '../../types/types';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { RouteComponentProps } from 'react-router';
@@ -13,7 +13,7 @@ import { messageManager } from '../../components/MassageManager';
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
 const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
-  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,sortDataByDate,convertToYYYYMMDD}=useUIUtilities();
+  const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,getCurrentDate,convertToYYYYMMDD}=useUIUtilities();
   const [leaveId, setLeaveId] = useState<Number>(0);
   const [leaveTypeId, setLeaveTypeId] = useState<number>(0);
   const { getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList,getLeaves,getSummary} = useLeaveManagement();
@@ -40,8 +40,8 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const { showToastMessage } = messageManager();
   const [maxDayAllowed,setMaxDayAllowed]=useState<string>("")
   const [minDayAllowed,setMinDayAllowed]=useState<string>("")
- 
-
+  const [isOpen, setOpenDate] = useState(false);
+  const [isOpenToDate, setOpenToDate] = useState(false);
   useEffect(() => {
     validateForm();
   }, [leaveTypeId,description,toDate,fromDate,ApproverId]);
@@ -89,11 +89,11 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
    const setLeaveData= async(lev: LeaveModel) => {
 
     const fromDate = lev.FromDate
-    ? convertDateToYYYYMMDD(lev.FromDate)
-    : getCurrentDateAsYYYYMMDD();
+    ? lev.FromDate
+    : getCurrentDate();
     const toDate = lev.ToDate
-    ? convertDateToYYYYMMDD(lev.ToDate)
-    : getCurrentDateAsYYYYMMDD();
+    ? lev.ToDate
+    : getCurrentDate();
     setLeaveId(lev.LeaveId)
     setLeaveTypes(lev.LeaveTypeCollection)
     setLeaveTypeId(Number(lev.LeaveTypeId))
@@ -185,18 +185,18 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
 
   }
 
-  const handleFromDate = async (date : string) => {
-    setFromDate(date)
-    await fetchLeaveCount(date,toDate,fromSessionId,toSessionId)
-  }
+  // const handleFromDate = async (date : string) => {
+  //   setFromDate(date)
+  //   await fetchLeaveCount(date,toDate,fromSessionId,toSessionId)
+  // }
   const handleFromSessionId = async (fromsessionId : number) => {
     setFromSessionId(fromsessionId)
     await fetchLeaveCount(fromDate,toDate,fromsessionId,toSessionId)   
   }
-  const handleToDate = async (date : string) => {
-    setToDate(date)
-    await fetchLeaveCount(fromDate,date,fromSessionId,toSessionId) 
-  }
+  // const handleToDate = async (date : string) => {
+  //   setToDate(date)
+  //   await fetchLeaveCount(fromDate,date,fromSessionId,toSessionId) 
+  // }
   const handleToSessionId = async (tosessionId : number) => {
     setToSessionId(tosessionId)
     await fetchLeaveCount(fromDate,toDate,fromSessionId,tosessionId) 
@@ -254,7 +254,23 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
     const autoDescription = `Requesting to grant ${leaveCount} day(s) of ${leaveTypeName}.`;
     setDescription(autoDescription);
   }
+  const formatDateToDDMMYYYY = (isoString: string): string => {
+    const date = new Date(isoString);
+    return date.toLocaleDateString('en-GB'); 
+  };
 
+  const handleFromDateChange = async (date: string) => {
+    await fetchLeaveCount(date,toDate,fromSessionId,toSessionId)
+    const formattedDate = formatDateToDDMMYYYY(date);
+    setFromDate(formattedDate);
+    setOpenDate(false);
+  };
+  const handleToDateChange = async(date: string) => {
+    await fetchLeaveCount(fromDate,date,fromSessionId,toSessionId) 
+    const formattedDate = formatDateToDDMMYYYY(date);
+    setToDate(formattedDate);
+    setOpenToDate(false);
+  };
 
   return (
     <IonPage>
@@ -307,7 +323,28 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
 
         {/* From Date Input */}
         <IonItem>
-          <IonLabel position="stacked">From Date</IonLabel>
+      <IonLabel position="stacked"> From Date</IonLabel>
+      <IonInput
+        type="text"
+        value={fromDate || ''}
+        onFocus={() => setOpenDate(true)}
+        placeholder="Select Date"
+        readonly
+      />
+
+      {isOpen && (
+        <IonDatetime
+          value={convertDateToYYYYMMDD(fromDate!)}
+          presentation="date"
+          locale="en-GB"
+          max={maxDayAllowed}
+          min={minDayAllowed}
+          onIonChange={(e) => handleFromDateChange(e.detail.value as string)}
+        />
+      )}
+</IonItem>
+        <IonItem>
+          {/* <IonLabel position="stacked">From Date</IonLabel>
           <IonInput
             type="date"
             value={fromDate}
@@ -317,7 +354,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             min={minDayAllowed}
             max={maxDayAllowed}
           >
-          </IonInput>
+          </IonInput> */}
 
           <IonSelect
             value={fromSessionId}
@@ -336,8 +373,30 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
           </IonSelect>
         </IonItem>
 
+      
         <IonItem>
-          <IonLabel position="stacked">To Date</IonLabel>
+      <IonLabel position="stacked"> To Date</IonLabel>
+      <IonInput
+        type="text"
+        value={toDate || ''}
+        onFocus={() => setOpenToDate(true)}
+        placeholder="Select Date"
+        readonly
+      />
+
+      {isOpenToDate && (
+        <IonDatetime
+          value={convertDateToYYYYMMDD(toDate!)}
+          presentation="date"
+          locale="en-GB"
+          max={maxDayAllowed}
+          min={minDayAllowed}
+          onIonChange={(e) => handleToDateChange(e.detail.value as string)}
+        />
+      )}
+</IonItem>
+<IonItem>
+          {/* <IonLabel position="stacked">To Date</IonLabel>
           <IonInput
             type="date"
             value={toDate}
@@ -345,7 +404,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             onIonChange={(e) => handleToDate(e.detail.value as string)}
             max={maxDayAllowed}
             min={minDayAllowed}
-          />
+          /> */}
 
           <IonSelect
             value={toSessionId}
@@ -363,7 +422,6 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             ))}
           </IonSelect>
         </IonItem>
-
         <IonItem>
           <IonLabel position="stacked">#Leave(s)</IonLabel>
           <IonInput value={leaveCount as number} readonly></IonInput>

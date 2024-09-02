@@ -2,7 +2,7 @@
 import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions, 
     IonItemSliding, IonLabel, IonList, IonText } from '@ionic/react';
   import React from 'react';
-  import {briefcaseOutline,chevronForwardOutline, informationCircleOutline, pencil,  personOutline, pricetag, trash,} from 'ionicons/icons';
+  import {briefcaseOutline,chevronForwardOutline, informationCircleOutline, pencil,  personCircleOutline,  personOutline, pricetag, trash,} from 'ionicons/icons';
   import { TimesheetModel } from '../../types/types';
   
   const TimesheetList: React.FC<{timeEntries: TimesheetModel[]; 
@@ -39,12 +39,12 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                <IonItem key={timeEntry.TrackingId.toString()} onClick={() => handleViewTimesheet(timeEntry)}>
                 <IonLabel>
                 <span className="matter-Code-font">
-                <IonIcon icon={briefcaseOutline}/>
+                <IonIcon className='list-icons' icon={briefcaseOutline}/>
                   &nbsp;{timeEntry.MatterCode} | {timeEntry.MatterTitle}
                </span>
-               <h2 className="small-font ellipsis"> <IonIcon icon={personOutline}></IonIcon> {timeEntry.ContactName}</h2>
+               <h2 className="small-font ellipsis"> <IonIcon className='list-icons' icon={personCircleOutline}></IonIcon> {timeEntry.ContactName}</h2>
                
-                <span className="ellipsis" ><IonIcon icon={informationCircleOutline}/>{timeEntry.Description}</span>  
+                <span className="ellipsis" ><IonIcon  className='list-icons' icon={informationCircleOutline}/>{timeEntry.Description}</span>  
                 </IonLabel>
                   <IonText className="time-text" slot="end" > 
                   
