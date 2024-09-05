@@ -11,7 +11,6 @@ import ValidationMessage from '../../components/ValidationMessageProps';
 import { messageManager } from '../../components/MassageManager';
 
 interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
-
 const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,getCurrentDate,convertToYYYYMMDD}=useUIUtilities();
   const [leaveId, setLeaveId] = useState<number>(0);
