@@ -11,10 +11,11 @@ import './layout.css';
 import NewExpense from '../../pages/expense/ExpenseForm';
 import ViewExpense from '../../pages/expense/ViewExpense';
 import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
-import ApplyLeave from '../../pages/leave/ApplyLeave';
 import LeavePage from '../../pages/mainPages/LeavePage';
 import ApprovalList from '../../pages/approver/ApprovalList';
 import ViewApprove from '../../pages/approver/ViewApprove';
+import ApplyLeave from '../../pages/leave/ApplyLeave';
+
 
 
 const Layout: React.FC = () => {
@@ -36,9 +37,9 @@ const Layout: React.FC = () => {
           <Route path="/layout/expense/create" component={NewExpense} exact />
           <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
-          <Route path="/layout/Leave" component={LeavePage} exact />
-          <Route path="/layout/Leave/create" component={ApplyLeave} exact />
-          <Route path="/layout/Leave/edit/:leaveId" component={ApplyLeave} exact/>
+          <Route path="/layout/leave" component={LeavePage} exact />
+          <Route path="/layout/leave/create" component={ApplyLeave} exact />
+          <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
           <Route path="/layout/dashboard/view-approvals" component={ApprovalList} exact/>
           <Route path="/layout/dashboard/approval/view/:type/:id" component={ViewApprove} exact/>
           <Redirect exact from="/layout" to="/layout/dashboard" />
