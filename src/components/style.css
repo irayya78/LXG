@@ -34,7 +34,6 @@
     max-width: 100%; 
     font-size: small;
     color: gray;
-    vertical-align: middle;
   }
 
   ion-fab-button[data-desc] {
@@ -807,9 +806,6 @@ margin: 8px;
   line-height: 20px;
   vertical-align: middle;
  
-}
-.second-span{
-  color: none;
 }
 
 ion-segment-button {
