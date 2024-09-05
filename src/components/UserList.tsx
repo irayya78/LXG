@@ -8,9 +8,10 @@ import { messageManager } from './MassageManager';
 interface UserListProps {
   users: UserModel[];
   onUsersSelect: (selectedUsers: UserModel[]) => void;
+  taggedUsers:any[];
 }
 
-const UserList: React.FC<UserListProps> = ({ users, onUsersSelect }) => {
+const UserList: React.FC<UserListProps> = ({ users, onUsersSelect ,taggedUsers}) => {
   const [searchTerm, setSearchTerm] = useState('');
   const [selectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
   const session = useSessionManager();
@@ -23,9 +24,15 @@ const UserList: React.FC<UserListProps> = ({ users, onUsersSelect }) => {
         : [...prevSelectedUsers, user]
     );
   };
+useEffect(()=>{
+  setSelectedUsers(taggedUsers);
+  console.log("all tagged users",taggedUsers)
+},[])
 
   useEffect(() => {
     onUsersSelect(selectedUsers);
+    
+    console.log("selected users",taggedUsers)
   }, [selectedUsers, onUsersSelect]);
 
   const filteredUsers = users.filter((user) =>

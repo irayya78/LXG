@@ -20,7 +20,7 @@ import {
     useIonViewDidEnter,
   } from '@ionic/react';
   import { trashOutline, pencilOutline, personAddOutline, closeCircleOutline, pricetagSharp, pricetagsOutline, pricetagOutline, backspace, arrowBackSharp, arrowBack, closeSharp } from 'ionicons/icons';
-  import React, { useState } from 'react';
+  import React, { useEffect, useState } from 'react';
   import { TimesheetModel, UserModel } from '../../types/types';
   import { useTimesheetManagement } from '../../hooks/useTimesheetManagement';
   import { messageManager } from '../../components/MassageManager';
@@ -43,7 +43,7 @@ import {
     const [busy, setBusy] = useState<boolean>(false);
     const [userSearch, setUserSearch] = useState<string>("");
     const [users, setUsers] = useState<UserModel[]>([]);
-    const [tagedUsers, setTagedUsers] = useState<UserModel[]>([]);
+    const [tagedUsers, setTagedUsers] = useState<any[]>([]);
     const [showUserSearch, setShowUserSearch] = useState<boolean>(false);
     const { searchUsers } = useExpenseManagement();
     const [selectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
@@ -53,13 +53,18 @@ import {
       const fetchTimeEntries = async () => {
         setBusy(true);
         const timeEntry: TimesheetModel = await getTimesheetByTrackingId(Number(match.params.trackingId));
+       setTagedUsers(timeEntry.TaggedUsersArray)
+        console.log(timeEntry.TaggedUsersArray)
+        console.log(tagedUsers);
         setTimesheet(timeEntry);
         setBusy(false);
       };
   
       fetchTimeEntries();
     });
-  
+    useEffect(() => {
+      console.log("Updated tagedUsers:", tagedUsers);
+  }, [tagedUsers]);
     // Edit the Time Entry
     const editRecord = async () => {
       const canEditOrDelete = await canEditOrDeleteTimesheet(timesheet);
@@ -269,7 +274,7 @@ import {
                 ></IonInput>
               </IonItem>
       
-              <UserList users={users} onUsersSelect={setSelectedUsers} />
+              <UserList users={users} onUsersSelect={setSelectedUsers} taggedUsers={tagedUsers} />
             </IonContent>
           </IonModal>
           </div>

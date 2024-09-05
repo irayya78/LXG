@@ -146,8 +146,9 @@ const getTimesheetByTrackingId = async  (trackingId: Number): Promise<any>  => {
 
   
     const resp = await axiosInstance.get("/GetTimesheetByTrackingId/" +trackingId)
-
+    console.log("resp raw one",resp)
     const tsReturn = getTimesheetObject(resp.data)
+    console.log("resp raw on2e",tsReturn)
     return tsReturn;
 };
 
@@ -224,7 +225,8 @@ const getTimesheetObject =   (timeEntry: any): any  => {
         InvoiceId:timeEntry.invoiceId,
         MatterActivityName: timeEntry.matterActivity != null ? timeEntry.matterActivity.activityName : "",
         TimeTrackingActivityName: timeEntry.timeTrackingActivities != null ? timeEntry.timeTrackingActivities.timeTrackingActivityName : "",
-        ParentId:timeEntry.parentId
+        ParentId:timeEntry.parentId,
+        TaggedUsersArray:timeEntry.timesheetDescription!=null ?timeEntry.timesheetDescription:[]
     } 
 
     return timeObj
@@ -256,7 +258,8 @@ const getBlankTimesheetObject =   (): TimesheetModel  => {
          InvoiceId:0,
          MatterActivityName: "",
          TimeTrackingActivityName: "",
-         ParentId:0
+         ParentId:0,
+         TaggedUsersArray:[]
      } 
 
      return timeObj
