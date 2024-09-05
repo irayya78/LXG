@@ -71,7 +71,7 @@ const  ApprovalList: React.FC = () => {
                             
                             <IonText className="total-time time-text" slot="end"> {approval.Description}</IonText>
 
-                          
+            
                             <IonLabel className="list-spans">
                                 <div className='row'>
                                 <span className="matter-code-font"><IonIcon className="icon-align"icon={approval.Type === 'Exp' ?  walletOutline: calendarOutline}/>&nbsp;{approval.Type}</span>
