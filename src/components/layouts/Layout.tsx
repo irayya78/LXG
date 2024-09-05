@@ -36,9 +36,9 @@ const Layout: React.FC = () => {
           <Route path="/layout/expense/create" component={NewExpense} exact />
           <Route path="/layout/expense/update/:expenseId" component={NewExpense} exact />
           <Route path="/layout/expense/view/:expenseId" component={ViewExpense} exact />
-          <Route path="/layout/leave" component={LeavePage} exact />
-          <Route path="/layout/leave/create" component={ApplyLeave} exact />
-          <Route path="/layout/leave/edit/:leaveId" component={ApplyLeave} exact/>
+          <Route path="/layout/Leave" component={LeavePage} exact />
+          <Route path="/layout/Leave/create" component={ApplyLeave} exact />
+          <Route path="/layout/Leave/edit/:leaveId" component={ApplyLeave} exact/>
           <Route path="/layout/dashboard/view-approvals" component={ApprovalList} exact/>
           <Route path="/layout/dashboard/approval/view/:type/:id" component={ViewApprove} exact/>
           <Redirect exact from="/layout" to="/layout/dashboard" />
