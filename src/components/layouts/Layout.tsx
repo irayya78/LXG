@@ -14,7 +14,8 @@ import ViewTimeEntry from '../../pages/timesheet/ViewTimeEntry';
 import LeavePage from '../../pages/mainPages/LeavePage';
 import ApprovalList from '../../pages/approver/ApprovalList';
 import ViewApprove from '../../pages/approver/ViewApprove';
-import ApplyLeave from '../../pages/leave/ApplyLeave';
+import ApplyLeave from '../../pages/Leave/ApplyLeave';
+
 
 
 
