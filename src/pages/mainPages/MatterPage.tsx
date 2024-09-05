@@ -42,26 +42,34 @@ const MatterPage: React.FC = () => {
         <IonLabel slot='start' className="font-bold">#Rec:{matters.length}</IonLabel>
         </IonToolbar>
       </IonHeader>
-      <IonContent style={{marginTop:"60px"}}className='page-content'>
+      <IonContent>
       <CommonPullToRefresh onRefresh={getMatters}>
         <IonList>
           {matters.map((matter: MatterModel,index) => (
             <IonItem key={index}>
                  <IonText className="time-text" slot="end">
                                         <p className="total-time">{(matter.Status)}</p>
-                                    </IonText> 
-              <IonLabel className="ion-text-wrap">
-               <span  className="matter-Code-font">
-               <IonIcon icon={briefcaseOutline}/>
-               &nbsp;  {matter.MatterCode} | {matter.MatterTitle}
-                  </span>
-                <h5 className="work-done-desc">
-                 <IonIcon icon={calendarOutline}/> {matter.OpenDate} | {matter.PracticeArea}
-                </h5>
-               
-                <h2 className="small-font ellipsis"><IonIcon icon={personCircleOutline}/>&nbsp;{matter.ClientName}</h2>
-              </IonLabel>
+                  </IonText> 
+                  <IonLabel className="list-spans">
+  <div className="row">
+    <span className="matter-Code-font">
+      <IonIcon className="icon-align" icon={briefcaseOutline} />
+      &nbsp;{matter.MatterCode} | {matter.MatterTitle}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={calendarOutline} />
+      &nbsp;{matter.OpenDate} | {matter.PracticeArea}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={personCircleOutline} />
+      &nbsp;{matter.ClientName}
+    </span>
+  </div>
+</IonLabel>
+
             </IonItem>
+
+
           ))}
         </IonList>
         <IonLoading
@@ -72,7 +80,6 @@ const MatterPage: React.FC = () => {
       </CommonPullToRefresh>
       </IonContent>
      
-                 <FabMenu />
       
     </IonPage>
   );

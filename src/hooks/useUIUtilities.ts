@@ -209,21 +209,19 @@ const convertToDDMMYYYYWithoutSeparator = (dateValue: string) =>{
   const dateAsDDMMYYYY = dd + mm + tmpArray[2]
   return dateAsDDMMYYYY
 } 
-// const convertToDDMMYYYYWithoutSeparator = (parameterDate: string): string => {
-//   // Ensure parameterDate is in 'DDMMYYYY' format
-//   if (parameterDate.length !== 8) {
-//     throw new Error('Parameter date must be in DDMMYYYY format.');
-//   }
+const getCurrentDateWithDay = () => {
+  const date = new Date();
 
-//   const day = parameterDate.substring(0, 2);
-//   const month = parameterDate.substring(2, 4);
-//   const year = parameterDate.substring(4, 8);
+  const day = date.toLocaleDateString('en-IN', { weekday: 'long', timeZone: 'Asia/Kolkata' });
 
-//   // Format as 'DDMMYYYY' without any separators
-//   const dtDDMMYYYYWithoutSeparator = `${day}${month}${year}`;
+  const dayOfMonth = date.getDate();
+  const month = date.toLocaleDateString('en-IN', { month: 'long', timeZone: 'Asia/Kolkata' });
+  const year = date.getFullYear();
+  const currentDate = `${day}, ${dayOfMonth} ${month} ${year}`;
+  return currentDate;
+};
 
-//   return dtDDMMYYYYWithoutSeparator;
-// };
+
 
 
 //For Timesheet Date in per
@@ -436,6 +434,7 @@ function convertToDateFormat(input: string): string {
     convertToYYYYMMDD,
     sortDataByDate,
     convertParameterDateToDDMMYYYY,
+    getCurrentDateWithDay,
     formatDateToDDMMYYYY
   };
 };

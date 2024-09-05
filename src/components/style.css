@@ -34,7 +34,7 @@
     max-width: 100%; 
     font-size: small;
     color: gray;
-    
+    vertical-align: middle;
   }
 
   ion-fab-button[data-desc] {
@@ -396,7 +396,7 @@ margin: 8px;
 }
 .btninlinemarg{margin-inline-start: 0px;}
 .Billable-nonbillable-hrs{font-size: x-small; color: gray; text-align: right;}
-.Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 5px 0px 0px;}
+.Billable-nonbillable-hrs span:first-child{color: green;  padding:0px 3px 0px 0px;}
 .Billable-nonbillable-hrs span:last-child{color:red; padding:0px 0px 0px 5px;}
 
 .work-done-desc{font-size: small!important; color:rgb(46, 46, 46)!important; }
@@ -451,8 +451,9 @@ margin: 8px;
   height: 4vmax;
   background: linear-gradient(180deg, #FFFFFF, #D7E2FF )!important;
   border-bottom: 1px solid #88A6F3;
- font-size: small;
+ font-size:small;
  color: black;
+ padding: 0px 3px;
 
 }
 .font-bold{
@@ -476,6 +477,7 @@ margin: 8px;
   background:#3880ff;
   color: #fff;
   margin-right: -10px;
+  border-radius: 2px;
  
  
 }
@@ -501,7 +503,6 @@ margin: 8px;
 .total-exp{
   color: #3880ff;
   font-size: x-small;
-  font-weight: 600;
 }
 
 .text-center{
@@ -536,18 +537,24 @@ margin: 8px;
   font-size: 20px;
   margin-bottom: -6px;;
  }
+.chart-in-card{
+    margin-top: 12px;
+    position: absolute;
+    text-align: left;
+     right: 0px;
+    background-size: 100%;
+    height: 90px;
+    width: 100px;
+}
 .bgIcon{
   position: absolute;
-  bottom: -5px;
   text-align: left;
-    right: 0px;
-    background-size: 100%;
-  width: 80px;
-  padding-right: 6px;
-  z-index: 90;
-  
+   right: 0px;
+  background-size: 100%;
+  height: 90px;
+  width: 100px;
+  opacity: 0.2;
 }
-
 
 .button-group ion-button {
   flex: 1;
@@ -609,7 +616,7 @@ margin: 8px;
   align-content: center;
   padding: 10px;
   margin: 1px;  
-  font-weight:500;
+  font-weight:700 !important;
   line-height: 25px !important;
   z-index: 100;
   vertical-align: top !important;
@@ -619,29 +626,37 @@ margin: 8px;
 
   
 .card-labels {
-  font-size: 11px;
+
+  font-size: 15px;
   overflow: hidden;
   white-space: nowrap;   
   text-overflow: ellipsis; 
   font-weight: bolder;
+  margin-left: 10px;
+  width: 155px;
+  font-weight:600;
+  line-height: 30px;
 }
 
 .dashboard-card {
-  height: 130px;
+  height: 150px;
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   border: 1.5px solid #e4e4e4 !important;
-  border-radius: 12px;
-  margin: 9px !important;
-  box-shadow:none !important;
+  border-radius: 8px;
+  box-shadow: none !important;
   transition: box-shadow 0.2s ease-in-out, transform 0.2s ease-in-out;
+  width: 90%;
+  margin: 8px auto !important;
+  
 }
 
 .card-icon{
-  font-size:16px ;
-  margin-right: 3px;
+  font-size:20px ;
+  margin-right: 5px;
   color: #3880ff;
+  margin-left: 10px;
  
 }
 
@@ -649,18 +664,19 @@ margin: 8px;
 .dashboard-card-title {
   display: flex;
   align-items: center;
-  font-size: 1rem; 
-  border-bottom: 1.8px solid #ccc;
+ background-color: #eeeeee !important;
   padding:8px 5px;
-   font-weight: bold;
+   font-weight:bolder;
    padding-left: 15px;
    white-space: nowrap; 
   overflow: hidden;       
   text-overflow: ellipsis;
   padding-left: 2px;
-  font-size: 0.8rem;
+  font-size: 1rem;
 
 }
+
+
 
 .billable-time{
   color: #36A2EB ; font-weight: bolder; font-size:small;
@@ -689,7 +705,6 @@ margin: 8px;
 
 }
 .chart-data span.total{ 
-  padding-left: 100px!important;
   overflow: hidden;  
   white-space: nowrap;   
   text-overflow: ellipsis; 
@@ -700,18 +715,15 @@ margin: 8px;
   .dashboard-card {
     margin: 6px 0;
     padding: 0px;
-    border-radius: 10px;
+    border-radius: 8px;
   }
-
+ 
   .card-content {
     line-height: 20px;
     padding: 5px;
     font-size: 0.8rem;
   }
 
-  .card-labels {
-    font-size: 10px;
-  }
 
   .total, .billable-time, .non-billable-time {
     font-size: 0.80rem;
@@ -721,6 +733,31 @@ margin: 8px;
 
 }
 
+
+@media (max-width: 320px) {
+ 
+  .dashboard-card {
+    margin: 6px 0;
+    padding: 0px;
+    border-radius: 8px;
+  }
+
+  .card-content {
+    line-height: 20px;
+    padding: 5px;
+    font-size: 0.8rem;
+  }
+.card-labels{
+  width: 120px;
+}
+
+  .total, .billable-time, .non-billable-time {
+    font-size: 0.80rem;
+   
+  }
+
+
+}
 .menuBtn{
   display:  flex;
   flex-direction: column;
@@ -760,6 +797,24 @@ margin: 8px;
 .actionBtn{
   height: 38px;
 }
-.list-icons{
-  margin-top: 1px;
+
+
+.icon-align {
+  vertical-align: middle; 
+}
+
+.list-spans {
+  line-height: 20px;
+  vertical-align: middle;
+ 
+}
+.second-span{
+  color: none;
+}
+
+ion-segment-button {
+  --indicator-color: transparent !important;
+  --indicator-color-checked: transparent !important;
+ 
+
 }

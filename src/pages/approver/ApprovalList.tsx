@@ -4,7 +4,7 @@ import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useApprovalManagement from '../../hooks/useApprovalManagement';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { NotificationModel } from '../../types/types';
-import { calendar, calendarOutline, cash, cashOutline,chevronForwardOutline, personCircleOutline } from 'ionicons/icons';
+import { calendar, calendarOutline, cash, cashOutline,chevronForwardOutline, personCircleOutline, walletOutline } from 'ionicons/icons';
 
 const  ApprovalList: React.FC = () => {
     const [isLoading, setIsLoading] = useState<boolean>(false);
@@ -49,11 +49,11 @@ const  ApprovalList: React.FC = () => {
                     </IonButtons>
                     <IonTitle>Approvals</IonTitle>
                 </IonToolbar>
-                <IonToolbar color="none" className="nobottomborder filterBar">
+                <IonToolbar color="none" className="filterBar">
                     <IonLabel slot="start">
                         <IonLabel><span className="font-bold">#Rec: {approvals.length}</span> | 
-                            Leaves:&nbsp;<span>{leaveCount}</span>&nbsp;|
-                            Expense:&nbsp;<span>{expenseCount}</span>&nbsp;
+                           <IonLabel color=''> Leaves:&nbsp;<span>{leaveCount}</span>&nbsp;</IonLabel>|
+                           <IonLabel color=''> Expense:&nbsp;<span>{expenseCount}</span>&nbsp;</IonLabel>
                         </IonLabel>
                     </IonLabel>
                 </IonToolbar>
@@ -67,17 +67,17 @@ const  ApprovalList: React.FC = () => {
                         
                     {approvals && approvals.map((approval: NotificationModel)=>(
                         
-                        <IonItem className='ion-text-wrap ligthGreen' key={approval.Id.toString()} button  onClick={() => viewApprove(approval.Id,approval.Type)}>
+                        <IonItem key={approval.Id.toString()} button  onClick={() => viewApprove(approval.Id,approval.Type)}>
                             
                             <IonText className="total-time time-text" slot="end"> {approval.Description}</IonText>
 
-                            
-                            <IonLabel className="ion-text-wrap">
-                                <span className="font-bold action-item"><IonIcon   icon={approval.Type === 'Exp' ?  cashOutline: calendarOutline}/> {approval.Type}</span>
-                                <span className="work-done-desc"> {formatDateToDDMMYYYY(approval.Date)}</span>
-                                <br/>
-                                <span className="work-done-desc"><IonIcon icon={personCircleOutline}/> {approval.Name}</span>
-                                
+                          
+                            <IonLabel className="list-spans">
+                                <div className='row'>
+                                <span className="matter-code-font"><IonIcon className="icon-align"icon={approval.Type === 'Exp' ?  walletOutline: calendarOutline}/>&nbsp;{approval.Type}</span>
+                                <span className="ellipsis"> <IonIcon className="icon-align" icon={calendarOutline}/>&nbsp;{formatDateToDDMMYYYY(approval.Date)}</span>
+                                <span className="ellipsis"><IonIcon  className="icon-align" icon={personCircleOutline}/> {approval.Name}</span>
+                                </div>
                             </IonLabel>
                             {isIos ? null : <IonIcon className="action-item" icon={chevronForwardOutline} slot="end" />}
                         </IonItem>

@@ -51,7 +51,7 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
             MatterId: element.matterId,
             PracticeAreaId:element.practiceAreaId !=null ?element.practiceAreaId : 0,
             MatterCode: element.matterCode,
-            OpenDate: element.openDate != null ? element.openDate : "01/01/2021",
+            OpenDate: element.openDate != null ? element.openDate : "",
             PracticeArea: element.practiceAreaName != null ?element.practiceAreaName : "PracticeArea Not define",
             Status: element.statusName != null ?element.statusName : "None",
             MatterTitle: element.matterTitle,
@@ -60,7 +60,7 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
             PracticeAreas: element.practiceAreas,
             SubPracticeAreas: element.subPracticeAreas,
             BusinessUnits: element.businessUnits,
-            
+            TimeEntryTypeId:element.timeEntryTypeId !==null ?element.timeEntryTypeId:0
             
         }    
     
@@ -81,7 +81,8 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
         MatterStatuses: [],
         PracticeAreas: [],
         SubPracticeAreas: [],
-        BusinessUnits:[]
+        BusinessUnits:[],
+        TimeEntryTypeId:0
     }   
 
      return Obj
@@ -90,7 +91,7 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
 const searchMatters = async  (searchField: string): Promise<MatterModel[]>  => {
 
     const resp = await axiosInstance.get("/SearchMatter/" + session.user?.CustomerId + "/" + session.user?.UserId + "/" + searchField)
-    console.log(JSON.stringify(resp))
+    console.log(resp)
     if(resp.data != null && resp.data.length  > 0){   
         
         const matters: MatterModel[] = [];
@@ -109,7 +110,9 @@ const searchMatters = async  (searchField: string): Promise<MatterModel[]>  => {
                 MatterStatuses: element.matterStatuses !== null ? element.matterStatuses : [] ,
                 PracticeAreas: element.practiceAreas,
                 SubPracticeAreas: element.subPracticeAreas,
-                BusinessUnits: element.businessUnits
+                BusinessUnits: element.businessUnits,
+                TimeEntryTypeId:element.timeEntryTypeId !==null ?element.timeEntryTypeId:0
+
             } )
         });
 

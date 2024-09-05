@@ -41,15 +41,7 @@ import DynamicChartModal from "../charts/DynamicChart";
 const DashboardPage: React.FC = () => {
   const session = useSessionManager();
   const navigation = useIonRouter();
-
-console.log("render")
-  const {
-    convertDecimalToHHMMFormat,
-    convertHHMMFormatToDecimal,
-    formatNumber,
-    getCurrentDateAsString,
-    connvertDateToMMMDDYYYY
-  } = useUIUtilities();
+  const {getCurrentDateWithDay}=useUIUtilities();
   const { getUserDashboardData1,getGreeting } = useDashboardManagement();
   const [currentDate, setCurrentDate] = useState<any>("");
   const [busy, setBusy] = useState<boolean>(false);
@@ -62,13 +54,17 @@ console.log("render")
   useIonViewDidEnter(() => {
     (async () => {
     
-      setCurrentDate(connvertDateToMMMDDYYYY(getCurrentDateAsString()))
+      setCurrentDate(getCurrentDateWithDay)
       setBusy(true)
      await  renderDashboardData();
     setBusy(false)
     })();
   });
- 
+
+
+  
+
+  
  
  const renderDashboardData = async () => {
     const dashboardData1:DashboardModel[] = await getUserDashboardData1()
@@ -104,10 +100,11 @@ console.log("render")
         <IonGrid>
           <IonRow>
           {dashboardData.map((data, index) => (
-            <IonCol size="6" key={index}>
+            <IonCol size="12" key={index}>
             <DashboardWidgets
                 key={index}
                 title={data.name}
+                chartData={data}
                 isClickAble={data.isClickAble}
                 bgicon={data.cardIconURL}   
                 content={data.content} 

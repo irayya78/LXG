@@ -110,13 +110,13 @@ const useLeaveManagement = () => {
     const getLeaveStatusColor = (leaveStatusId: number) => {
         switch (leaveStatusId) {
           case 1:
-            return 'orange'
+            return 'warning'
           case 2:
-            return 'green';
+            return 'success';
           case 3:
-            return 'red';
+            return 'danger';
           default:
-            return 'grey'; 
+            return 'dark'; 
         }
       };
 

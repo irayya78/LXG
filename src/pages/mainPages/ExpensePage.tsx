@@ -14,7 +14,7 @@ import useExpenseManagement from '../../hooks/useExpenseManagement';
 import { useSessionManager } from '../../sessionManager/SessionManager';
 import { DropDownItem, ExpenseIconType, ExpenseModel } from '../../types/types';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
-import { add, briefcase, briefcaseOutline, calendarOutline, cash, cashOutline, chevronForwardOutline, closeCircleOutline, fileTrayStacked, filter, filterCircle, funnel, funnelOutline, funnelSharp, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
+import { add, briefcase, briefcaseOutline, calendarOutline, cash, cashOutline, chevronForwardOutline, closeCircleOutline, fileTrayStacked, filter, filterCircle, funnel, funnelOutline, funnelSharp, informationCircleOutline, pencil, personCircleOutline, trash, trashOutline } from 'ionicons/icons';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import FabMenu from '../../components/layouts/FabIcon';
 import { messageManager } from '../../components/MassageManager';
@@ -164,6 +164,7 @@ const ExpensePage: React.FC = () => {
       }
   
 
+
     return (
         <IonPage>
           
@@ -177,7 +178,7 @@ const ExpensePage: React.FC = () => {
                 <IonToolbar color="none" className="nobottomborder filterBar">
                 
                 <IonLabel slot="start" class="">
-                 <IonLabel><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Reimbursed: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
+                 <IonLabel><span className="font-bold">#Rec: {expenses.length}</span> | Total: <span className="font-bold total-exp">{totalAmount}</span> | Reim: <span className="billable-hours">{reimbursedAmount} ({percentReimbursedAmount}%)</span> </IonLabel>
                </IonLabel>
                   <IonButtons slot='end' className='btns'>
                         <IonButton style={{}} onClick={() => setShowFilterAlert(true)} className="filterButton" color=""  slot="end" >
@@ -198,16 +199,23 @@ const ExpensePage: React.FC = () => {
                         return (
                             <IonItemSliding key={expense.ExpenseId.toString()}>
                                 <IonItem key={expense.ExpenseId?.toString()} button onClick={() => viewExpense(expense.ExpenseId)}>
-                                    <IonLabel className="ion-text-wrap">
-                                        <span className="matter-Code-font">
-                                            <IonIcon color={color} icon={icon} />&nbsp;
-                                            {expense.MatterCode} | {expense.MatterTitle}
-                                        </span>
-                                        <span className="work-done-desc">
-                                            <IonIcon icon={calendarOutline} /> {expense.Date} - {expense.ExpenseCategory} {expense.PaymentId>0 ?<small  className ="billable-hours">-PAID</small>:null}
-                                        </span>
-                                        <h2 className="small-font ellipsis"><IonIcon icon={personCircleOutline} />&nbsp;{expense.Client}</h2>
-                                    </IonLabel>
+<IonLabel className="list-spans">
+  <div className="row">
+    <span className="matter-Code-font">
+      <IonIcon className="icon-align" color={color} icon={icon} />
+      &nbsp;{expense.MatterCode} | {expense.MatterTitle}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={calendarOutline} />
+      &nbsp;{expense.Date} - {expense.ExpenseCategory} {expense.PaymentId > 0 ? <small className="billable-hours">-PAID</small> : null}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={personCircleOutline} />
+      &nbsp;{expense.Client}
+    </span>
+  </div>
+</IonLabel>
+
                                     <IonText className="time-text" slot="end">
                                         <p className="total-time">{expense.AmountToDisplay}</p>
                                     </IonText>
@@ -253,7 +261,12 @@ const ExpensePage: React.FC = () => {
                </CommonPullToRefresh>
             </IonContent>
         
-          <FabMenu/>
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton routerLink="/layout/expense/create">
+          <IonIcon icon={add} />
+         </IonFabButton>
+
+          </IonFab>
             <IonAlert
                         isOpen={showAlert}
                         onDidDismiss={() => setShowAlert(false)}

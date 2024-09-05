@@ -232,6 +232,12 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
 
 //After Matter Selection
   const handleSelectMatter = async (selectedMatter: MatterModel) => {
+    
+    if(selectedMatter.TimeEntryTypeId!==0&&selectedMatter.TimeEntryTypeId===2){
+      setBillable(false)
+    }else{
+      setBillable(true)
+    }
     setMatterCode(selectedMatter.MatterCode);
     setMatters([]);
     setSuppressSearch(true);

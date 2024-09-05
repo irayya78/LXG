@@ -14,7 +14,7 @@ interface LeaveParams extends RouteComponentProps<{ leaveId: string }> { }
 
 const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const {getCurrentDateAsYYYYMMDD,convertDateToYYYYMMDD,getCurrentDate,convertToYYYYMMDD}=useUIUtilities();
-  const [leaveId, setLeaveId] = useState<Number>(0);
+  const [leaveId, setLeaveId] = useState<number>(0);
   const [leaveTypeId, setLeaveTypeId] = useState<number>(0);
   const { getBlankLeaveObject,getLeave,saveLeave,getLeaveCount,getHolidayList,getLeaves,getSummary} = useLeaveManagement();
   const [leaveTypes, setLeaveTypes] = useState<DropDownItem[]>([]);
@@ -42,6 +42,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   const [minDayAllowed,setMinDayAllowed]=useState<string>("")
   const [isOpen, setOpenDate] = useState(false);
   const [isOpenToDate, setOpenToDate] = useState(false);
+  const [showAutoDescription,setShowAutoDescription]=useState<boolean>(false)
   useEffect(() => {
     validateForm();
   }, [leaveTypeId,description,toDate,fromDate,ApproverId]);
@@ -54,8 +55,11 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
       if(paramLeaveId>0){  
         setIsLoading(true);     
         setCaption("Update Leave");    
+       
+        
       } else {
         paramLeaveId = 0;
+        setShowAutoDescription(true)
       }
      
       leave = await getLeave(paramLeaveId);
@@ -249,10 +253,11 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
   };
 
   const setAutoDescription = (leaveTypeId: number, leaveCount: Number) => {
+    if(!showAutoDescription) return false
     const selectedLeaveType = leaveTypes.find(leave => leave.Value === leaveTypeId);
     const leaveTypeName = selectedLeaveType?.Text || "Leave";
     const autoDescription = `Requesting to grant ${leaveCount} day(s) of ${leaveTypeName}.`;
-    setDescription(autoDescription);
+      setDescription(autoDescription);
   }
   const formatDateToDDMMYYYY = (isoString: string): string => {
     const date = new Date(isoString);
@@ -307,7 +312,7 @@ const  ApplyLeave: React.FC<LeaveParams> = ({match}) => {
             okText="OK"
             cancelText="Cancel"
             onIonChange={(e) => { setLeaveTypeId(e.detail.value); 
-              setAutoDescription(e.detail.value, leaveCount);  // Automatically update the description when leave type changes
+            setAutoDescription(e.detail.value, leaveCount) 
             }}
           >
             {leaveTypes.map((leave) => (

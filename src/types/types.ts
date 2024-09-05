@@ -59,6 +59,7 @@ export interface MatterModel{
   Status:string,
   MatterTitle: string,
   ClientName: string,
+  TimeEntryTypeId:number
   MatterStatuses:DropDownItem[],
   PracticeAreas:DropDownItem[],
   SubPracticeAreas:DropDownItem[],

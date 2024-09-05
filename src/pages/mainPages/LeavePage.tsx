@@ -5,13 +5,15 @@ import {
     useIonViewDidEnter,
     IonButtons,
     IonMenuButton,
-    IonMenu
+    IonMenu,
+    IonFab,
+    IonFabButton
   } from '@ionic/react';
 import MyProfileHeader from '../../components/MyProfileHeader';
 import CommonPullToRefresh from '../../components/CommonPullToRefreshProps';
 import useLeaveManagement from '../../hooks/useLeaveManagement';
 import { HolidayListModel, LeaveModel } from '../../types/types';
-import { calendar, calendarClear, calendarNumber, calendarNumberOutline, calendarOutline, checkmarkCircle, flag, flame, happySharp, informationCircleOutline, leaf, leafOutline, leafSharp, moonSharp, pencil, snowOutline, starSharp, sunnySharp, trash } from 'ionicons/icons';
+import { add, calendar, calendarClear, calendarNumber, calendarNumberOutline, calendarOutline, checkmarkCircle, chevronForwardOutline, flag, flame, happySharp, informationCircleOutline, leaf, leafOutline, leafSharp, moonSharp, pencil, snowOutline, starSharp, sunnySharp, trash } from 'ionicons/icons';
 import FabMenu from '../../components/layouts/FabIcon';
 import { useUIUtilities } from '../../hooks/useUIUtilities';
 import { isPlatform } from '@ionic/react';
@@ -119,11 +121,11 @@ const LeavePage: React.FC = () => {
                         
                     </IonLabel>
                     <IonButtons slot='end' className='menuBtn'>
-                    <IonMenuButton><IonIcon size='small' color='warning' className="customMenuBtn" icon={calendar}></IonIcon></IonMenuButton>
+                    <IonMenuButton><IonIcon size='small' color='dark' className="customMenuBtn" icon={calendar}></IonIcon></IonMenuButton>
                     </IonButtons>
                   
                 </IonToolbar>
-               
+                
             </IonHeader>
             
             <IonContent id="content-1">
@@ -134,22 +136,31 @@ const LeavePage: React.FC = () => {
                         {leaves && leaves.map((leave: LeaveModel)=>(
                         <IonItemSliding key={leave.LeaveId.toString()}>
                             
-                           <IonItem className='ion-text-wrap' key={leave.LeaveId.toString()}> 
+                           <IonItem className='' key={leave.LeaveId.toString()} onClick={() => editLeaveByLeaveId(leave)}> 
                                 
                                 <IonButton className="time-text" fill="clear" slot="end">
                                     <IonText className="total-time" slot="end">{`${leave.LeaveCount.toFixed(1)}`}</IonText> 
                                    
                                 </IonButton>  
-                               <IonIcon className="action-item" icon={pencil} slot="end" onClick={() => editLeaveByLeaveId(leave)}/>
+                               <IonIcon className="action-item" icon={chevronForwardOutline} slot="end"/>
 
-                                <IonLabel className="ion-text-wrap">
-                                
-                                    <span className="font-bold action-item"><IonIcon icon={checkmarkCircle} style={{ color: getLeaveStatusColor(leave.LeaveStatusId as number) }} />&nbsp;{leave.LeaveType.leaveTypeName}</span>&nbsp;-&nbsp;
-                                    <span className="work-done-desc">{leave.LeaveTransactionType}</span>
-                                     <br/>                               
-                                    <span className="work-done-desc"> <IonIcon icon={calendarOutline}/>&nbsp;{leave.LeaveFromDateToToDate}</span><br/>
-                                    <span className="small-font ellipsis"><IonIcon icon={informationCircleOutline}/>&nbsp;{leave.Description}</span> 
-                                </IonLabel>
+                               <IonLabel className="ion-text-wrap">
+  <div className="row">
+    <span className="matter-Code-font">
+      <IonIcon className="icon-align" icon={checkmarkCircle} color={getLeaveStatusColor(leave.LeaveStatusId as number)} />
+      &nbsp;{leave.LeaveType.leaveTypeName}-<small>{leave.LeaveTransactionType}</small>
+    </span>
+    
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={calendarOutline}/>&nbsp;{leave.LeaveFromDateToToDate}
+    </span>
+    <span className="ellipsis">
+      <IonIcon icon={informationCircleOutline} />
+      &nbsp;{leave.Description}
+    </span>
+  </div>
+ 
+</IonLabel>
 
                             </IonItem>
                             <IonItemOptions onClick={() => editLeaveByLeaveId(leave)} side="start">
@@ -195,7 +206,12 @@ const LeavePage: React.FC = () => {
                     </CommonPullToRefresh>                 
             </IonContent>
             
-            <FabMenu />
+            <IonFab vertical="bottom" horizontal="end" slot="fixed">
+          <IonFabButton routerLink="/layout/leave/create">
+          <IonIcon icon={add} />
+         </IonFabButton>
+
+          </IonFab>
             <IonMenu maxEdgeStart={20} side="end" menuId="holidayMenu" contentId="content-1" type="overlay">
                 <IonHeader>
                     <IonToolbar color="primary">

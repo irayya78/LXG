@@ -142,7 +142,9 @@ const session =useSessionManager();
           </div>
          
         </IonItem>
+        <FabMenu/>  
       </IonContent>
+    
     </IonModal>
   );
 };

@@ -37,17 +37,24 @@ import {  IonButton, IonIcon, IonItem, IonItemOption, IonItemOptions,
                 
                 <IonItemSliding key={timeEntry.TrackingId.toString()}>
                <IonItem key={timeEntry.TrackingId.toString()} onClick={() => handleViewTimesheet(timeEntry)}>
-                <IonLabel>
-                <span className="matter-Code-font">
-                <IonIcon className='list-icons' icon={briefcaseOutline}/>
-                  &nbsp;{timeEntry.MatterCode} | {timeEntry.MatterTitle}
-               </span>
-               <h2 className="small-font ellipsis"> <IonIcon className='list-icons' icon={personCircleOutline}></IonIcon> {timeEntry.ContactName}</h2>
-               
-                <span className="ellipsis" ><IonIcon  className='list-icons' icon={informationCircleOutline}/>{timeEntry.Description}</span>  
-                </IonLabel>
+               <IonLabel className="list-spans">
+  <div className="row">
+    <span className="matter-Code-font">
+      <IonIcon className="icon-align" icon={briefcaseOutline} />
+      &nbsp;{timeEntry.MatterCode} | {timeEntry.MatterTitle}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={personCircleOutline} />
+      &nbsp;{timeEntry.ContactName}
+    </span>
+    <span className="ellipsis">
+      <IonIcon className="icon-align" icon={informationCircleOutline} />
+      &nbsp;{timeEntry.Description}
+    </span>
+  </div>
+</IonLabel>
+
                   <IonText className="time-text" slot="end" > 
-                  
                     <p className="total-time">  <small>   {timeEntry.ParentId > 0 && (
                   <IonIcon icon={pricetag} className={getIconColor(timeEntry.ParentId, timeEntry.TrackingId)} />
                      )}</small>{timeEntry.TrackedTime}  </p>

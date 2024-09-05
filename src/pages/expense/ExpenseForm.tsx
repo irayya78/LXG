@@ -83,6 +83,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   const allowFutureDatesExpenses =session.user?.AllowFutureDateForExpenseSubmission;
   const allowBackDatesExpense=session.user?.BackDatedExpenseEntryAllowedDays
    const [isOpen, setOpenDate] = useState(false);
+   const [showAutoDescription,setShowAutoDescription]=useState<boolean>(false)
   useEffect(() => {
     validateForm(); 
     console.log(matterId)
@@ -138,6 +139,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
         setCaption("Update Expense");
       } else {
         paramExpenseId = 0;
+        setShowAutoDescription(true)
       }
 
       exp = await getExpense(paramExpenseId);
@@ -231,6 +233,7 @@ const NewExpense: React.FC<ExpenseParams> = ({ match }) => {
   };
 
   const setDescriptionForCategories = (categoryId: number) => {
+    if(!showAutoDescription) return false;
     const selectedCategory = expenseCategories.find(
       (cat) => cat.Value === categoryId
     );
