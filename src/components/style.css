@@ -143,8 +143,9 @@
   padding: 10px;
 }
 .logout-button {
-  width: 100%;
-  margin-top: 20px;
+ 
+  width: 50%;
+  border-radius: 5px;
 }
 .modal-content {
   display: flex;
@@ -436,8 +437,9 @@ margin: 8px;
   padding: 10px;
 }
 .logout-button {
-  width: 100%;
-  margin-top: 20px;
+  display: flex;
+  margin-top: 50px;
+  justify-content: center;
 }
 
 

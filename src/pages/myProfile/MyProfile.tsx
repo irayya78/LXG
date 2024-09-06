@@ -84,14 +84,16 @@ const Logout = () => {
               <IonToggle checked={autoLogin} onIonChange={toggleAutoLogin} />
             </IonItem>
           </IonList>
-          <div className="logout-button">
-            <IonButton expand="block" onClick={Logout}>
-              <IonIcon icon={logOutOutline} slot="start" />
+         
+           
+          <IonButton className="logout-button" slot='center' onClick={Logout}>
+              <IonIcon  icon={logOutOutline} slot="start" />
               Logout
             </IonButton>
-          </div>
         </div>
+        
       </IonContent>
+   
       <Footer />
     </IonPage>
   );

@@ -10,7 +10,7 @@ import LoginLogo from './LoginLogo';
 const ForgotPasswordPage: React.FC = () => {
 
   const { isValidUser } = useManageUser();
-  const [email, setEmail] = useState('');
+  const [email, setEmail] = useState<string>('');
   const [isEmailValid, setIsEmailValid] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
   const [showLoader, setShowLoader] = useState<boolean>(false); // State for the loader
@@ -59,8 +59,11 @@ const ForgotPasswordPage: React.FC = () => {
         <IonInput
           value={email}
           placeholder="Email"
-          onIonInput={(e: CustomEvent) => setEmail(e.detail.value)}
+          onIonInput={(e: any) => setEmail(e.detail.value as string)}
           type="email"
+            autocomplete="off"  // Disable autocomplete
+            autocorrect="off"   // Disable autocorrect
+             autocapitalize="off" // Disable auto-capitalization
           style={{ borderBottom: "1px solid #3880ff", transition: "border-color 0.3s"}}
         />
         <IonIcon icon={mailOpen} />

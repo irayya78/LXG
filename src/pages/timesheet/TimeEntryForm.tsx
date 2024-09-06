@@ -296,7 +296,8 @@ const TimeEntryForm: React.FC<TimesheetParams> = ({ match }) => {
         InvoiceId:0,
         MatterActivityName: "",
         TimeTrackingActivityName:"",
-        ParentId:parentId
+        ParentId:parentId,
+        TaggedUsersArray:[]
     }
     const isSuccess = await saveTimesheet(timesheetObj)
    
