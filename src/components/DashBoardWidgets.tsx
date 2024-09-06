@@ -22,13 +22,16 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title,chartData, conte
     const expenseMatch = html.match(/Expenses : <span style="color:blue">(\d+)<\/span>/);
     const expenseCount = expenseMatch ? parseInt(expenseMatch[1], 10) : 0; 
     const totalCount = leaveCount + expenseCount;
+   
     return { leaveCount, expenseCount, totalCount };
+
   };
   
 
   let counts;
   if (title === 'My Approvals' && htmlData) {
     counts = extractCounts(htmlData);
+    console.log("counts",counts)
   }
 
   const getIconForCard=(title:string)=>{
@@ -43,8 +46,8 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title,chartData, conte
 
 
   }
-  function doNothing(){
-    console.log("Clicked")
+  if (title === 'My Approvals' &&!htmlData) {
+    return false;
   }
  return(
   
@@ -64,29 +67,27 @@ const DashboardWidgets: React.FC<DashboardCardProps> = ({ title,chartData, conte
         <div key={index} dangerouslySetInnerHTML={{ __html: content }} />
       ))}
         
-   {title === 'My Approvals' && counts && (
-    <>
-       <div style={{ display: 'flex', flexDirection: 'column',}}>
-       <div style={{ display: 'flex', alignItems: 'center' }}>
-         <span className="card-labels">Total Approvals:</span>
-         <span className="total">{counts.totalCount}</span>
-       </div>
-       <div style={{ display: 'flex', alignItems: 'center' }}>
-         <span className="card-labels">Leaves Approvals:</span>
-         <span className="billable-time">{counts.leaveCount}</span>
-       </div>
-       <div style={{ display: 'flex', alignItems: 'center' }}>
-         <span className="card-labels">Expense Approvals:</span>
-         <span className="non-billable-time">{counts.expenseCount}</span>
-       </div>
-       
-     </div>
-     <div className='bgIcon'>
-      <img  src={bgicon} alt=''></img>
-     </div>
-     </>
-    
- )}
+        {title === 'My Approvals' && counts && counts.totalCount > 0 && (
+          <>
+            <div style={{ display: 'flex', flexDirection: 'column', }}>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span className="card-labels">Total Approvals:</span>
+                <span className="total">{counts.totalCount}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span className="card-labels">Leaves Approvals:</span>
+                <span className="billable-time">{counts.leaveCount}</span>
+              </div>
+              <div style={{ display: 'flex', alignItems: 'center' }}>
+                <span className="card-labels">Expense Approvals:</span>
+                <span className="non-billable-time">{counts.expenseCount}</span>
+              </div>
+            </div>
+            <div className='bgIcon'>
+              <img src={bgicon} alt='' />
+            </div>
+          </>
+        )}
      
     
        

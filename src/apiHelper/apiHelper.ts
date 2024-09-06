@@ -1,6 +1,6 @@
 const getApiBaseUrl = () => {
 
-  const isProduction=true;
+  const isProduction=false;
   if (isProduction) {
     return 'https://lx2.legalxgen.com/api/lxservices';
   }

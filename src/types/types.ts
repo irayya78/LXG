@@ -95,7 +95,7 @@ export interface TimesheetModel{
   TimeTrackingActivityName: string,
   MatterActivityName: string
   ParentId:number,
-  TaggedUsersArray:[]
+  TaggedUsersArray:UserModel[]
 }
 export interface ExpenseModel{
   ExpenseId : number,

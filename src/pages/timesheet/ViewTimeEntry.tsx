@@ -43,7 +43,8 @@ import {
     const [busy, setBusy] = useState<boolean>(false);
     const [userSearch, setUserSearch] = useState<string>("");
     const [users, setUsers] = useState<UserModel[]>([]);
-    const [tagedUsers, setTagedUsers] = useState<any[]>([]);
+    const[existingTaggedUsers,setExistingTaggedUsers]=useState<any[]>([])
+    const [tagedUsers, setTagedUsers] = useState<UserModel[]>([]);
     const [showUserSearch, setShowUserSearch] = useState<boolean>(false);
     const { searchUsers } = useExpenseManagement();
     const [selectedUsers, setSelectedUsers] = useState<UserModel[]>([]);
@@ -53,17 +54,15 @@ import {
       const fetchTimeEntries = async () => {
         setBusy(true);
         const timeEntry: TimesheetModel = await getTimesheetByTrackingId(Number(match.params.trackingId));
-       setTagedUsers(timeEntry.TaggedUsersArray)
-        console.log(timeEntry.TaggedUsersArray)
-        console.log(tagedUsers);
         setTimesheet(timeEntry);
+        setExistingTaggedUsers(timeEntry.TaggedUsersArray)
         setBusy(false);
       };
   
       fetchTimeEntries();
     });
     useEffect(() => {
-      console.log("Updated tagedUsers:", tagedUsers);
+      console.log("existingTaggedUsers tagedUsers:", existingTaggedUsers);
   }, [tagedUsers]);
     // Edit the Time Entry
     const editRecord = async () => {
@@ -143,7 +142,7 @@ import {
           <IonToolbar color="secondary">
             <IonButtons slot="start">
             <IonButton fill='clear'
-      onClick={(e)=>{
+      onClick={()=>{
         navigation.push(`/layout/timesheet/${convertToDDMMYYYYWithoutSeparator(timesheet.TrackingDate)}`,"none","pop")
       }}
       style={{ 
@@ -261,12 +260,12 @@ import {
 
                
                 
-                <IonTitle>Tag Users</IonTitle>
+                <IonTitle>Tag Other's</IonTitle>
               </IonToolbar>
             </IonHeader>
             <IonContent>
               <IonItem>
-                <IonLabel position="stacked">Tag Users</IonLabel>
+                <IonLabel position="stacked">Add Users</IonLabel>
                 <IonInput
                   value={userSearch}
                   placeholder="Search for users to Tag..."
@@ -274,7 +273,7 @@ import {
                 ></IonInput>
               </IonItem>
       
-              <UserList users={users} onUsersSelect={setSelectedUsers} taggedUsers={tagedUsers} />
+              <UserList users={users} onUsersSelect={setSelectedUsers} existingTaggedUsers={existingTaggedUsers} />
             </IonContent>
           </IonModal>
           </div>

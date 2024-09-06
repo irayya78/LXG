@@ -91,7 +91,7 @@ const getRecentMatters = async  () : Promise<MatterModel[]> => {
 const searchMatters = async  (searchField: string): Promise<MatterModel[]>  => {
 
     const resp = await axiosInstance.get("/SearchMatter/" + session.user?.CustomerId + "/" + session.user?.UserId + "/" + searchField)
-    console.log(resp)
+   
     if(resp.data != null && resp.data.length  > 0){   
         
         const matters: MatterModel[] = [];

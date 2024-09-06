@@ -475,7 +475,6 @@ margin: 8px;
   border-bottom: none !important;
   background:#3880ff;
   color: #fff;
-  margin-right: -10px;
   border-radius: 2px;
  
  
@@ -552,7 +551,7 @@ margin: 8px;
   background-size: 100%;
   height: 90px;
   width: 100px;
-  opacity: 0.2;
+  
 }
 
 .button-group ion-button {
@@ -807,7 +806,15 @@ margin: 8px;
   vertical-align: middle;
  
 }
+.tagged-users-list{
 
+
+  margin-top: 30px;
+ 
+}
+.disabled{
+  color: #ccc !important;
+}
 ion-segment-button {
   --indicator-color: transparent !important;
   --indicator-color-checked: transparent !important;

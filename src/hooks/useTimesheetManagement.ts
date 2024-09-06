@@ -1,3 +1,4 @@
+import { UserModel } from './../types/types';
 import axiosInstance from "../apiHelper/axiosInstance";
 import { messageManager } from "../components/MassageManager";
 import { useSessionManager } from "../sessionManager/SessionManager";
@@ -226,7 +227,9 @@ const getTimesheetObject =   (timeEntry: any): any  => {
         MatterActivityName: timeEntry.matterActivity != null ? timeEntry.matterActivity.activityName : "",
         TimeTrackingActivityName: timeEntry.timeTrackingActivities != null ? timeEntry.timeTrackingActivities.timeTrackingActivityName : "",
         ParentId:timeEntry.parentId,
-        TaggedUsersArray:timeEntry.timesheetDescription!=null ?timeEntry.timesheetDescription:[]
+        TaggedUsersArray: timeEntry.timesheetDescription != null 
+        ? timeEntry.timesheetDescription.map((description: any) => description.user || {})
+        : []
     } 
 
     return timeObj
@@ -259,7 +262,6 @@ const getBlankTimesheetObject =   (): TimesheetModel  => {
          MatterActivityName: "",
          TimeTrackingActivityName: "",
          ParentId:0,
-         TaggedUsersArray:[]
      } 
 
      return timeObj
