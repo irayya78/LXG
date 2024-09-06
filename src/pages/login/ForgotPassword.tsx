@@ -38,7 +38,9 @@ const ForgotPasswordPage: React.FC = () => {
       setShowLoader(false); // Hide loader when validation ends (success or error)
     }
   };
-
+const handelEmail=(email:any)=>{
+ setEmail(email)
+}
   return (
     <IonPage>
       <IonHeader>
@@ -59,7 +61,7 @@ const ForgotPasswordPage: React.FC = () => {
         <IonInput
           value={email}
           placeholder="Email"
-          onIonInput={(e: any) => setEmail(e.detail.value as string)}
+          onIonInput={(e: any) => handelEmail(e.detail.value as string)}
           type="email"
             autocomplete="off"  // Disable autocomplete
             autocorrect="off"   // Disable autocorrect
