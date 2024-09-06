@@ -745,10 +745,10 @@ margin: 8px;
   .card-content {
     line-height: 20px;
     padding: 5px;
-    font-size: 0.8rem;
+    font-size: 0.5rem;
   }
 .card-labels{
-  width: 120px;
+  width: 80px;
 }
 
   .total, .billable-time, .non-billable-time {
