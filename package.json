@@ -9,7 +9,9 @@
     "preview": "vite preview",
     "test.e2e": "cypress run",
     "test.unit": "vitest",
-    "lint": "eslint"
+    "lint": "eslint",
+    "ionic:serve": "vite"
+   
   },
   "dependencies": {
     "@capacitor/android": "^6.0.0",

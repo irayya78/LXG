@@ -1,8 +1,8 @@
 import { CapacitorConfig } from '@capacitor/cli';
 
 const config: CapacitorConfig = {
-  appId: 'com.legalxgen.app',
-  appName: 'Legalxgen mobile',
+  appId: 'app.lgxapp.com',
+  appName: 'LXG',
   webDir: 'dist',
   server: {
     androidScheme: 'https'
