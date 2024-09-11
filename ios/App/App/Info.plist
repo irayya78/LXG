@@ -10,6 +10,8 @@
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>We need your location to provide location-based services.</string>
 
+<key>CFBundleIconName</key>
+<string>AppIcon</string>
 
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
