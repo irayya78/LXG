@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
 <plist version="1.0">
-<dict><key>NSPhotoLibraryUsageDescription</key>
+<dict>
+<key>NSPhotoLibraryUsageDescription</key>
 <string>We need access to your photo library to allow you to upload and share photos.</string>
 
 <key>NSCameraUsageDescription</key>
@@ -9,14 +10,10 @@
 
 <key>NSLocationWhenInUseUsageDescription</key>
 <string>We need your location to provide location-based services.</string>
-
-<key>CFBundleIconName</key>
-<string>AppIcon</string>
-
 	<key>CFBundleDevelopmentRegion</key>
 	<string>en</string>
 	<key>CFBundleDisplayName</key>
-	<string>LXG</string>
+        <string>LXG</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
