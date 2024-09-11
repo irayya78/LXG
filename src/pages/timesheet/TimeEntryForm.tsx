@@ -476,12 +476,12 @@ const setMinAndMaxDate =  () =>{
    
       <div className="form-container">
         <IonItem className=''>
-
-          <IonSearchbar className='matter-search-bar'
+        <IonLabel position="stacked">Select Matter</IonLabel>
+          <IonInput className='matter-search-bar'
             value={matterCode}
             placeholder="Search your matter here..."
             onIonInput={(e: any) => searchMatter(e.detail.value)}
-          ></IonSearchbar>
+          ></IonInput>
 
         </IonItem>
 

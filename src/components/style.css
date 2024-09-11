@@ -734,7 +734,7 @@ margin: 8px;
 }
 
 
-@media (max-width: 320px) {
+@media (max-width: 380px) {
  
   .dashboard-card {
     margin: 6px 0;
@@ -748,7 +748,7 @@ margin: 8px;
     font-size: 0.5rem;
   }
 .card-labels{
-  width: 80px;
+  width: 100px;
 }
 
   .total, .billable-time, .non-billable-time {
