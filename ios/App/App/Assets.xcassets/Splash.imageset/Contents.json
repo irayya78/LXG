@@ -1,12 +1,12 @@
 {
   "images" : [
     {
-      "filename" : "splash-2732x2732-2.png",
+      "filename" : "splash-2732x2732-1 1.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "splash-2732x2732-1.png",
+      "filename" : "splash-2732x2732-2 1.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
@@ -16,12 +16,12 @@
       "scale" : "3x"
     },
     {
-      "filename" : "l.png",
+      "filename" : "splash-2732x2732-2.png",
       "idiom" : "ipad",
       "scale" : "1x"
     },
     {
-      "filename" : "oo.png",
+      "filename" : "splash-2732x2732-1.png",
       "idiom" : "ipad",
       "scale" : "2x"
     },
