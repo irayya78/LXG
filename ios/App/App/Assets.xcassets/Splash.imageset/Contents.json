@@ -1,26 +1,27 @@
 {
   "images" : [
     {
-      "filename" : "76.png",
+      "filename" : "splash-2732x2732-2.png",
       "idiom" : "iphone",
       "scale" : "1x"
     },
     {
-      "filename" : "50.png",
+      "filename" : "splash-2732x2732-1.png",
       "idiom" : "iphone",
       "scale" : "2x"
     },
     {
-      "filename" : "60.png",
+      "filename" : "splash-2732x2732-3.png",
       "idiom" : "iphone",
       "scale" : "3x"
     },
     {
-      "filename" : "splash-2732x2732-2.png",
+      "filename" : "l.png",
       "idiom" : "ipad",
       "scale" : "1x"
     },
     {
+      "filename" : "oo.png",
       "idiom" : "ipad",
       "scale" : "2x"
     },
@@ -30,7 +31,6 @@
       "subtype" : "mac-catalyst"
     },
     {
-      "filename" : "splash-2732x2732-1.png",
       "idiom" : "ipad",
       "scale" : "2x",
       "subtype" : "mac-catalyst"
