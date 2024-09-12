@@ -382,6 +382,7 @@
 				ASSETCATALOG_COMPILER_INCLUDE_ALL_APPICON_ASSETS = YES;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 7.0.4;
+				DEVELOPMENT_TEAM = LEE7D4VL43;
 				INFOPLIST_FILE = App/Info.plist;
 				INFOPLIST_KEY_CFBundleDisplayName = lxg;
 				INFOPLIST_KEY_LSApplicationCategoryType = "public.app-category.business";
