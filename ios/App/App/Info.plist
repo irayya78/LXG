@@ -28,6 +28,9 @@
 	<string>We need your location to provide location-based services.</string>
 	<key>NSPhotoLibraryUsageDescription</key>
 	<string>We need access to your photo library to allow you to upload and share photos.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need access to save photos to your photo library.</string>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen.storyboard</string>
 	<key>UIMainStoryboardFile</key>
