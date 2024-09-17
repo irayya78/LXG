@@ -22,18 +22,14 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSCameraUsageDescription</key>
+	<string>Legalxgen requires access to your camera to help you easily capture and upload photos of receipts while submitting expenses. This streamlines the process and ensures accurate record-keeping for your time and billing activities.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-<string>We need access to your location to provide location-based services, such as tracking your work location for time entries and generating location-specific reports.</string>
-
-<key>NSPhotoLibraryAddUsageDescription</key>
-<string>We need access to save photos to your photo library so you can manage and organize images directly from your gallery, including saving receipts and documents for expense tracking.</string>
-
-<key>NSPhotoLibraryUsageDescription</key>
-<string>We need access to your photo library to let you upload and select photos from your gallery. This helps you attach photos of receipts or documents to your time entries and expenses for better record-keeping.</string>
-
-<key>NSCameraUsageDescription</key>
-<string>We need access to your camera to allow you to take photos directly within the app. For example, you can capture receipts and other documents for attaching to your expense reports, facilitating easier expense tracking.</string>
-
+	<string>We need your location to provide location-based services.</string>
+	<key>NSPhotoLibraryAddUsageDescription</key>
+	<string>Legalxgen requires access to your photo library to save copies of expense receipts that you capture. This allows you to keep a record of your submissions for future reference.</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>Legalxgen requires access to your photo library so you can easily upload existing receipts while submitting expenses. This ensures a smooth and accurate expense submission process.ß<string>
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
