@@ -22,14 +22,18 @@
 	<string>$(CURRENT_PROJECT_VERSION)</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
-	<key>NSCameraUsageDescription</key>
-	<string>We need access to your camera to take photos and videos.</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string>We need your location to provide location-based services.</string>
-	<key>NSPhotoLibraryAddUsageDescription</key>
-	<string>We need access to save photos to your photo library.</string>
-	<key>NSPhotoLibraryUsageDescription</key>
-	<string>We need access to your photo library to allow you to upload and share photos.</string>
+<string>We need access to your location to provide location-based services, such as tracking your work location for time entries and generating location-specific reports.</string>
+
+<key>NSPhotoLibraryAddUsageDescription</key>
+<string>We need access to save photos to your photo library so you can manage and organize images directly from your gallery, including saving receipts and documents for expense tracking.</string>
+
+<key>NSPhotoLibraryUsageDescription</key>
+<string>We need access to your photo library to let you upload and select photos from your gallery. This helps you attach photos of receipts or documents to your time entries and expenses for better record-keeping.</string>
+
+<key>NSCameraUsageDescription</key>
+<string>We need access to your camera to allow you to take photos directly within the app. For example, you can capture receipts and other documents for attaching to your expense reports, facilitating easier expense tracking.</string>
+
 	<key>UILaunchStoryboardName</key>
 	<string>LaunchScreen</string>
 	<key>UIMainStoryboardFile</key>
